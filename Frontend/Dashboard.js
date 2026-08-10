@@ -63,6 +63,23 @@ const amenities = document.querySelector("#amenities");
 const description = document.querySelector("#description");
 
 
+let view = async (id) => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
+            method: "GET"
+        })
+        const data = await response.json()
+        console.log(data)
+        if (!response.ok) {
+            throw new Error(data.message || "Failed to fetch listing");
+        }
+
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 let Stats = async () => {
     try {
 
@@ -279,11 +296,109 @@ let getItem = async () => {
 
             viewBtn.appendChild(viewSvg);
 
-            viewBtn.addEventListener("click", async(e)=>{
+            viewBtn.addEventListener("click", async (e) => {
                 e.preventDefault();
-                window.location.href = "details.html"
 
-            })
+                try {
+
+                    // Modal
+                    const modalView = document.getElementById("modal-view");
+
+                    if (!modalView) {
+                        throw new Error("View modal not found");
+                    }
+
+                    // Open modal
+                    modalView.classList.add("active");
+                    document.body.style.overflow = "hidden";
+
+
+                    // Get listing by ID
+                    const result = await view(listing._id);
+
+                    const room = result.data;
+
+                    console.log("Selected listing:", room);
+
+
+                    // Status
+                    document.querySelector("#badge").textContent =
+                        `${room.status} Listing`;
+
+
+                    // Image
+                    document.querySelector(".view-hero-image").src =
+                        room.image;
+
+
+                    // Property type
+                    document.querySelector(".view-property-type").textContent =
+                        room.propertyType;
+
+
+                    // Property name
+                    document.querySelector(".view-title").textContent =
+                        room.name;
+
+
+                    // Location
+                    document.querySelector(".view-location-text").textContent =
+                        room.location;
+
+
+                    // Price
+                    document.querySelector(".view-price-amount").textContent =
+                        `$${room.pricePerNight}`;
+
+
+                    // Guests
+                    document.querySelector("#Guests").textContent =
+                        `${room.guests} Guests`;
+
+
+                    // Beds
+                    document.querySelector("#Beds").textContent =
+                        `${room.beds} Beds`;
+
+
+                    // Bedrooms
+                    document.querySelector(".bedrooms").textContent =
+                        `${room.bedrooms} Bedrooms`;
+
+
+                    // Bathrooms
+                    document.querySelector(".bathrooms").textContent =
+                        `${room.bathrooms} Bathrooms`;
+
+
+                    // Description
+                    document.querySelector("#view-description").textContent =
+                        room.description;
+
+                    // Amenities
+                    const amenitiesContainer =
+                        document.querySelector("#view-amenities");
+
+                    amenitiesContainer.innerHTML = "";
+
+                    room.amenities.forEach(function (amenity) {
+
+                        const div = document.createElement("div");
+
+                        div.className = "spec-pill";
+
+                        div.textContent = amenity;
+
+                        amenitiesContainer.appendChild(div);
+
+                    });
+
+                } catch (error) {
+
+                    console.error("Failed to load listing:", error);
+
+                }
+            });
 
 
             // Update
@@ -436,6 +551,9 @@ let getItem = async () => {
 
 }
 
+
+
+
 let Delete = async (id) => {
     try {
         const response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
@@ -544,3 +662,4 @@ if (updateForm) {
 
 Stats();
 getItem();
+
