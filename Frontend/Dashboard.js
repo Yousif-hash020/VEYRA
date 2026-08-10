@@ -279,6 +279,12 @@ let getItem = async () => {
 
             viewBtn.appendChild(viewSvg);
 
+            viewBtn.addEventListener("click", async(e)=>{
+                e.preventDefault();
+                window.location.href = "details.html"
+
+            })
+
 
             // Update
             const updateBtn = document.createElement("a");
@@ -396,7 +402,6 @@ let getItem = async () => {
             deleteBtn.addEventListener("click", async (e) => {
                 e.preventDefault();
                 await Delete(listing._id);
-                console.log("deletebtn clicked");
             });
 
             deleteBtn.appendChild(deleteSvg);
@@ -502,7 +507,7 @@ form.addEventListener("submit", async (e) => {
 
 });
 
-// Update form submit handler
+
 const updateForm = document.getElementById("form-update-listing");
 if (updateForm) {
     updateForm.addEventListener("submit", async (e) => {
