@@ -63,22 +63,36 @@ const amenities = document.querySelector("#amenities");
 const description = document.querySelector("#description");
 
 
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!token || !user || user.role !== "host") {
+    window.location.href = "/Frontend/auth.html";
+}
+
 let view = async (id) => {
     try {
+        const token = localStorage.getItem("token");
+
         const response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
-            method: "GET"
-        })
-        const data = await response.json()
-       
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
         if (!response.ok) {
             throw new Error(data.message || "Failed to fetch listing");
         }
 
         return data;
+
     } catch (error) {
         throw error;
     }
-}
+};
 
 let Stats = async () => {
     try {
@@ -88,10 +102,18 @@ let Stats = async () => {
         let booked = document.querySelector("#Booked");
         let unava = document.querySelector("#Unavailable");
 
-        const response = await fetch("http://localhost:5000/api/rooms");
+        const token = localStorage.getItem("token");
 
+        const response = await fetch(
+            "http://localhost:5000/api/host/properties",
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
         const data = await response.json();
-
         const avail = data.data.filter(function (listing) {
             return listing.status === "Available";
         }).length;
@@ -116,13 +138,21 @@ let Stats = async () => {
 
 let upDate = async (id, updatedData) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(updatedData)
-        });
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            `http://localhost:5000/api/rooms/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(updatedData)
+            }
+        );
+
 
         const data = await response.json();
         if (!response.ok) {
@@ -134,17 +164,32 @@ let upDate = async (id, updatedData) => {
     } catch (error) {
         console.error(error)
     }
-}
+};
+
 let getItem = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/rooms", {
-            method: "GET"
-        });
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "/Frontend/auth.html";
+            return;
+        }
+
+        const response = await fetch(
+            "http://localhost:5000/api/host/properties",
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Api Error : ", errorData);
-            return
+            console.error("API Error:", errorData);
+            return;
         }
 
         const data = await response.json();
@@ -317,7 +362,7 @@ let getItem = async () => {
 
                     const room = result.data;
 
-                   
+
 
 
                     // Status
@@ -547,16 +592,22 @@ let getItem = async () => {
     }
 
 
-}
-
-
-
+};
 
 let Delete = async (id) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
-            method: "DELETE",
-        });
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            `http://localhost:5000/api/rooms/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -564,15 +615,15 @@ let Delete = async (id) => {
             return;
         }
 
-        const data = await response.json();
+        await response.json();
+
         await getItem();
         await Stats();
+
     } catch (error) {
         console.error("Delete request failed:", error);
     }
-
-}
-
+};
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -593,13 +644,21 @@ form.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await fetch("http://localhost:5000/api/rooms", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(listing)
-        });
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            "http://localhost:5000/api/rooms",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify(listing)
+            }
+        );
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -618,10 +677,9 @@ form.addEventListener("submit", async (e) => {
         form.reset();
     } catch (error) {
         console.error("Network / server request failed:", error);
-    }
+    };
 
-});
-
+},);
 
 const updateForm = document.getElementById("form-update-listing");
 if (updateForm) {
@@ -654,6 +712,39 @@ if (updateForm) {
         }
         await getItem();
         await Stats();
+    });
+};
+
+
+let logoutbtn = document.querySelector(".logout-item");
+if (logoutbtn) {
+    logoutbtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        let token = localStorage.getItem("token");
+
+        try {
+
+            const response = await fetch("http://localhost:5000/api/auth/logout", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                console.error("Logout failed:", data);
+            }
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        console.log("Logged out successfully.");
+        window.location.href = "/Frontend/auth.html";
     });
 }
 

@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 
 /**
+ * NOTE ON EXISTING DATA:
+ * As of the initial ownership migration, there is 1 room document in MongoDB
+ * that has no owner (created before ownership was implemented).
+ * That document is NOT deleted — it is simply orphaned.
+ * To resolve it, manually assign it to a host via a migration script or
+ * the MongoDB Atlas UI.  All rooms created after this change will have an owner.
+ */
+
+/**
  * Room Schema Definition
  * Represents property listings matching frontend form fields.
  */
@@ -76,6 +85,16 @@ const roomSchema = new mongoose.Schema(
         message: '{VALUE} is not a valid status'
       },
       default: 'Available'
+    },
+
+    // ── Resource Ownership ────────────────────────────────────────────────────
+    // Every room belongs to exactly one Host.
+    // This field is ALWAYS set from req.user.userId (the verified JWT).
+    // It is NEVER accepted from req.body — the controller strips it out.
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Room must have an owner']
     }
   },
   {

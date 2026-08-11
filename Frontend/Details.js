@@ -1,5 +1,6 @@
-let detail = document.querySelector(".details");
+//* let detail = document.querySelector(".details");
 
+/*
 let details = async()=>{
     const response = await fetch("http://localhost:5000/api/rooms/", {
         method:"GET",
@@ -10,3 +11,4 @@ let details = async()=>{
 }
 
 details();
+*/
