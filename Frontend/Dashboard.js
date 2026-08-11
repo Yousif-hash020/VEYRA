@@ -69,7 +69,7 @@ let view = async (id) => {
             method: "GET"
         })
         const data = await response.json()
-        console.log(data)
+       
         if (!response.ok) {
             throw new Error(data.message || "Failed to fetch listing");
         }
@@ -129,7 +129,6 @@ let upDate = async (id, updatedData) => {
             console.error("field to update data :", data);
             return
         }
-        console.log("update succeesul");
 
         await Stats();
     } catch (error) {
@@ -318,13 +317,12 @@ let getItem = async () => {
 
                     const room = result.data;
 
-                    console.log("Selected listing:", room);
+                   
 
 
                     // Status
                     document.querySelector("#badge").textContent =
                         `${room.status} Listing`;
-
 
                     // Image
                     document.querySelector(".view-hero-image").src =
@@ -567,7 +565,6 @@ let Delete = async (id) => {
         }
 
         const data = await response.json();
-        console.log("Room deleted:", data);
         await getItem();
         await Stats();
     } catch (error) {
