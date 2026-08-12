@@ -1,0 +1,143 @@
+/* ==========================================================================
+   VEYRA SIDEBAR & RESPONSIVE DRAWER STYLES
+   ========================================================================== */
+
+/* 1. Backdrop Overlay for Mobile Drawer */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(20, 33, 61, 0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+body.sidebar-open .sidebar-backdrop,
+.sidebar-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 2. Hamburger Button (Hidden by default on Desktop) */
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-light-border, #E2E8F0);
+  background-color: var(--color-white, #FFFFFF);
+  color: var(--color-deep-navy, #14213D);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.hamburger-btn:hover {
+  background-color: var(--color-off-white, #F8FAFC);
+  color: var(--color-royal-blue, #2563EB);
+  border-color: var(--color-royal-blue, #2563EB);
+}
+
+/* 3. Sidebar Close Button (Cross) inside Drawer Header (Hidden by default on Desktop) */
+.sidebar-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--color-light-border, #E2E8F0);
+  background-color: var(--color-off-white, #F8FAFC);
+  color: var(--color-slate-dark, #475569);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+  background-color: #FEE2E2;
+  color: #DC2626;
+  border-color: #FCA5A5;
+}
+
+/* 4. Sidebar Header Flex Layout */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 5. Responsive Breakpoints (≤ 992px Tablet & Mobile) */
+@media (max-width: 992px) {
+  .hamburger-btn {
+    display: flex !important;
+  }
+
+  .sidebar-close-btn {
+    display: flex !important;
+  }
+
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 270px !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 1000 !important;
+    background-color: var(--color-white, #FFFFFF) !important;
+    box-shadow: 0 0 35px rgba(20, 33, 61, 0.25) !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .sidebar.open,
+  body.sidebar-open .sidebar {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+  }
+
+  .main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .brand-text,
+  .nav-label,
+  .nav-section-label,
+  .brand-tag {
+    display: flex !important;
+  }
+
+  .nav-section-label {
+    display: block !important;
+  }
+
+  .sidebar-nav {
+    flex-direction: column !important;
+    padding: 1.25rem 1rem !important;
+    gap: 0.35rem !important;
+    overflow-y: auto !important;
+    flex-grow: 1 !important;
+  }
+
+  .nav-item {
+    justify-content: flex-start !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  .sidebar-footer {
+    display: block !important;
+    padding: 1rem !important;
+    border-top: 1px solid var(--color-light-border, #E2E8F0) !important;
+  }
+}

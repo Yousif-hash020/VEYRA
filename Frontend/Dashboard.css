@@ -492,12 +492,15 @@ img {
 .stat-card-total::before {
   background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%);
 }
+
 .stat-card-available::before {
   background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
 }
+
 .stat-card-booked::before {
   background: linear-gradient(90deg, #F59E0B 0%, #FBBF24 100%);
 }
+
 .stat-card-unavailable::before {
   background: linear-gradient(90deg, #F43F5E 0%, #FB7185 100%);
 }
@@ -823,10 +826,13 @@ img {
 }
 
 @keyframes badge-pulse-green {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
   }
+
   50% {
     transform: scale(1.15);
     box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
@@ -1516,44 +1522,6 @@ img {
 
 /* --- Laptop / Large Tablet (≤ 1199px) --- */
 @media (max-width: 1199px) {
-  .sidebar {
-    width: 80px;
-  }
-
-  .main-wrapper {
-    margin-left: 80px;
-  }
-
-  .brand-text,
-  .nav-label,
-  .nav-section-label,
-  .brand-tag {
-    display: none;
-  }
-
-  .sidebar-header {
-    padding: 1.5rem 0.5rem;
-    justify-content: center;
-  }
-
-  .brand-logo {
-    justify-content: center;
-  }
-
-  .sidebar-nav {
-    padding: 1rem 0.5rem;
-    align-items: center;
-  }
-
-  .nav-item {
-    padding: 0.75rem;
-    justify-content: center;
-  }
-
-  .nav-item.active::before {
-    display: none;
-  }
-
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1602,67 +1570,9 @@ img {
 
 /* --- Mobile / Small Tablet (≤ 767px) --- */
 @media (max-width: 767px) {
-  .app-layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    border-right: none;
-    border-bottom: 1px solid var(--color-light-border);
-  }
-
   .main-wrapper {
     margin-left: 0;
     min-height: auto;
-  }
-
-  .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.85rem 1rem;
-  }
-
-  .brand-text {
-    display: flex;
-  }
-
-  .sidebar-nav {
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 0.5rem 0.75rem;
-    gap: 0.35rem;
-    flex-grow: 0;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .sidebar-nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .nav-section-label {
-    display: none;
-  }
-
-  .nav-item {
-    padding: 0.5rem 0.75rem;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .nav-label {
-    display: inline;
-  }
-
-  .nav-item.active::before {
-    display: none;
-  }
-
-  .sidebar-footer {
-    display: none;
   }
 
   .top-navbar {
