@@ -594,6 +594,7 @@ let getItem = async () => {
 
 };
 
+
 let Delete = async (id) => {
     try {
 
@@ -732,7 +733,9 @@ const getUser = async () => {
     const data = await response.json();
 
     userName.textContent = data.user.name;
+    userName.style.textTransform = 'capitalize' 
     userRole.textContent = data.user.role;
+    userRole.style.textTransform = 'capitalize'
 }
 
 getUser();

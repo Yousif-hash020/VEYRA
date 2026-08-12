@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEYRA — Discover handpicked cabins, villas, apartments and unique stays across Pakistan's most breathtaking destinations.">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D5C4E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9 22 9 12 15 12 15 22'/%3E%3C/svg%3E">
+  <title>VEYRA | Discover Stays</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="guest-dashboard.css">
+</head>
+
+<body>
+
+  <!-- ── CSS-only mobile nav toggle ──────────────────────────────────────── -->
+  <input type="checkbox" id="navToggle" class="nav-toggle-input" aria-hidden="true">
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       TOP NAVBAR
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <header class="navbar" id="mainNavbar">
+    <div class="navbar-inner">
+
+      <!-- Brand -->
+      <a href="guest-dashboard.html" class="nav-brand" aria-label="VEYRA — Go to homepage">
+        <svg class="nav-brand-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-brand-name">VEYRA</span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="guest-dashboard.html" class="nav-link active" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+          <span>Explore</span>
+        </a>
+
+        <a href="#search-bar" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <span>Search</span>
+        </a>
+
+        <a href="#filter-row" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+            <line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+          <span>Filter</span>
+        </a>
+
+        <a href="guest-my-bookings.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>My Bookings</span>
+        </a>
+
+        <a href="guest-profile.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="nav-actions">
+        <a href="guest-profile.html" class="nav-avatar-link" title="Ahmed Khan — My Profile">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80"
+            alt="Ahmed Khan" class="nav-avatar" width="36" height="36">
+          <span class="nav-status-dot" aria-hidden="true"></span>
+        </a>
+
+        <a href="../auth.html" class="nav-logout" aria-label="Log out of VEYRA">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Logout</span>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <label for="navToggle" class="hamburger-btn" aria-label="Toggle navigation menu">
+        <span class="ham-lines" aria-hidden="true">
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+        </span>
+      </label>
+
+    </div><!-- /navbar-inner -->
+
+    <!-- Mobile Drawer -->
+    <nav class="mobile-drawer" aria-label="Mobile navigation">
+      <div class="mobile-drawer-inner">
+        <a href="guest-dashboard.html" class="mobile-link active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+          Explore
+        </a>
+        <a href="#search-bar" class="mobile-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          Search
+        </a>
+        <a href="#filter-row" class="mobile-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/>
+            <line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+          Filter
+        </a>
+        <a href="guest-my-bookings.html" class="mobile-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          My Bookings
+        </a>
+        <a href="guest-profile.html" class="mobile-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Profile
+        </a>
+        <div class="mobile-divider" aria-hidden="true"></div>
+        <a href="../auth.html" class="mobile-link danger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </a>
+      </div>
+    </nav>
+  </header><!-- /navbar -->
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- ── DISCOVERY SECTION ─────────────────────────────────────────────── -->
+    <section class="discovery-section" aria-labelledby="discovery-title">
+      <div class="discovery-container">
+
+        <!-- Header -->
+        <div class="discovery-head">
+          <div class="discovery-text">
+            <p class="discovery-eyebrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+              </svg>
+              Curated For You
+            </p>
+            <h1 class="discovery-title" id="discovery-title">
+              Top <em>Recommendations</em>
+            </h1>
+            <p class="discovery-sub">Handpicked stays for your next escape.</p>
+          </div>
+
+          <div class="discovery-meta">
+            <span class="results-count">24 properties found</span>
+            <div class="sort-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/>
+                <line x1="4" y1="18" x2="10" y2="18"/>
+              </svg>
+              <select class="sort-select" aria-label="Sort properties by">
+                <option value="recommended">Recommended</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="newest">Newest First</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SEARCH BAR ──────────────────────────────────────────────── -->
+        <form class="search-bar" id="search-bar" action="guest-dashboard.html" method="get"
+          role="search" aria-label="Search for properties">
+
+          <!-- Destination -->
+          <div class="search-group">
+            <span class="search-field-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <div class="search-field-body">
+              <label class="search-label" for="search-dest">Destination</label>
+              <input type="text" id="search-dest" name="location" class="search-input"
+                placeholder="Hunza, Murree, Skardu…" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="search-divider" aria-hidden="true"></div>
+
+          <!-- Check-in -->
+          <div class="search-group">
+            <span class="search-field-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </span>
+            <div class="search-field-body">
+              <label class="search-label" for="search-checkin">Check-in</label>
+              <input type="date" id="search-checkin" name="checkin" class="search-input">
+            </div>
+          </div>
+
+          <div class="search-divider" aria-hidden="true"></div>
+
+          <!-- Check-out -->
+          <div class="search-group">
+            <span class="search-field-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </span>
+            <div class="search-field-body">
+              <label class="search-label" for="search-checkout">Check-out</label>
+              <input type="date" id="search-checkout" name="checkout" class="search-input">
+            </div>
+          </div>
+
+          <div class="search-divider" aria-hidden="true"></div>
+
+          <!-- Guests -->
+          <div class="search-group">
+            <span class="search-field-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </span>
+            <div class="search-field-body">
+              <label class="search-label" for="search-guests">Guests</label>
+              <select id="search-guests" name="guests" class="search-input search-select"
+                aria-label="Number of guests">
+                <option value="">Add guests</option>
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+                <option value="5">5 Guests</option>
+                <option value="6">6+ Guests</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="search-submit" id="search-submit-btn" aria-label="Search properties">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            Search
+          </button>
+
+        </form>
+
+        <!-- ── FILTER ROW ────────────────────────────────────────────────── -->
+        <div class="filter-row" id="filter-row" role="group" aria-label="Filter properties">
+
+          <div class="filter-chips">
+
+            <!-- Property Type -->
+            <div class="filter-chip">
+              <span class="chip-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </span>
+              <select class="chip-select" id="filter-type" name="type" aria-label="Property type filter">
+                <option value="">Property Type</option>
+                <option value="cabin">Cabin</option>
+                <option value="villa">Villa</option>
+                <option value="apartment">Apartment</option>
+                <option value="chalet">Chalet</option>
+                <option value="penthouse">Penthouse</option>
+                <option value="lodge">Lodge</option>
+              </select>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-chip">
+              <span class="chip-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <select class="chip-select" id="filter-price" name="price" aria-label="Price range filter">
+                <option value="">Price Range</option>
+                <option value="budget">Under PKR 10,000</option>
+                <option value="mid">PKR 10k – 25k</option>
+                <option value="premium">PKR 25k – 50k</option>
+                <option value="luxury">Above PKR 50,000</option>
+              </select>
+            </div>
+
+            <!-- Guests -->
+            <div class="filter-chip">
+              <span class="chip-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
+              <select class="chip-select" id="filter-guests" name="guests_filter" aria-label="Guests filter">
+                <option value="">Guests</option>
+                <option value="1-2">1 – 2</option>
+                <option value="3-4">3 – 4</option>
+                <option value="5-6">5 – 6</option>
+                <option value="7+">7+</option>
+              </select>
+            </div>
+
+            <!-- Bedrooms -->
+            <div class="filter-chip">
+              <span class="chip-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/>
+                  <path d="M2 17h20"/><path d="M6 8v9"/>
+                </svg>
+              </span>
+              <select class="chip-select" id="filter-beds" name="beds" aria-label="Bedrooms filter">
+                <option value="">Bedrooms</option>
+                <option value="1">1 Bedroom</option>
+                <option value="2">2 Bedrooms</option>
+                <option value="3">3 Bedrooms</option>
+                <option value="4+">4+ Bedrooms</option>
+              </select>
+            </div>
+
+            <!-- Amenities -->
+            <div class="filter-chip">
+              <span class="chip-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+              </span>
+              <select class="chip-select" id="filter-amenities" name="amenity" aria-label="Amenities filter">
+                <option value="">Amenities</option>
+                <option value="wifi">WiFi</option>
+                <option value="pool">Swimming Pool</option>
+                <option value="fireplace">Fireplace</option>
+                <option value="mountain-view">Mountain View</option>
+                <option value="parking">Free Parking</option>
+                <option value="kitchen">Full Kitchen</option>
+              </select>
+            </div>
+
+            <!-- Rating -->
+            <div class="filter-chip">
+              <span class="chip-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </span>
+              <select class="chip-select" id="filter-rating" name="rating" aria-label="Minimum rating filter">
+                <option value="">Rating</option>
+                <option value="any">Any Rating</option>
+                <option value="4.5">4.5 and above</option>
+                <option value="4.0">4.0 and above</option>
+                <option value="3.5">3.5 and above</option>
+              </select>
+            </div>
+
+          </div><!-- /filter-chips -->
+
+          <!-- Clear Filters -->
+          <button type="button" class="clear-btn" id="clear-filters-btn" aria-label="Clear all filters">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Clear Filters
+          </button>
+
+        </div><!-- /filter-row -->
+
+      </div><!-- /discovery-container -->
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         PROPERTIES — MASONRY GRID
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <section class="properties-section" aria-labelledby="properties-heading">
+      <h2 id="properties-heading" class="visually-hidden">Property Listings</h2>
+
+      <div class="masonry-container">
+        <div class="masonry-grid" id="masonry-grid">
+
+          <!-- CARD 1 -->
+          <a href="guest-property-detail.html?id=1" class="prop-card card-tall"
+            aria-label="Luxury Mountain Cabin, Nathia Gali — PKR 18,500 per night, rating 4.9">
+            <div class="prop-img-wrap">
+              <img src="../images/luxury_mountain_cabin.png"
+                alt="Luxury mountain cabin surrounded by pine forest in Nathia Gali"
+                class="prop-img" width="600" height="800" loading="eager">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge" aria-label="Property type: Cabin">Cabin</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn saved" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.9 <span class="overlay-reviews">(127 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 18,500<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Luxury Mountain Cabin</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Nathia Gali, KPK
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.9
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 2 -->
+          <a href="guest-property-detail.html?id=2" class="prop-card card-medium"
+            aria-label="Hunza Valley Chalet, Hunza — PKR 24,000 per night, rating 4.8">
+            <div class="prop-img-wrap">
+              <img src="../images/hunza_valley_chalet.png"
+                alt="Traditional chalet overlooking Hunza Valley with snow-capped peaks"
+                class="prop-img" width="600" height="480" loading="lazy">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge">Chalet</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.8 <span class="overlay-reviews">(89 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 24,000<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Hunza Valley Chalet</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Hunza, Gilgit-Baltistan
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.8
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 3 -->
+          <a href="guest-property-detail.html?id=4" class="prop-card card-compact"
+            aria-label="Islamabad Penthouse, Islamabad — PKR 35,000 per night, rating 4.6">
+            <div class="prop-img-wrap">
+              <img src="../images/islamabad_penthouse.png"
+                alt="Modern penthouse with panoramic city views over Islamabad"
+                class="prop-img" width="600" height="360" loading="lazy">
+              <span class="avail-badge booked" aria-label="Currently booked">
+                <span class="avail-dot" aria-hidden="true"></span>Booked
+              </span>
+              <span class="prop-badge">Penthouse</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.6 <span class="overlay-reviews">(214 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 35,000<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Islamabad Penthouse</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Islamabad, ICT
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.6
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 4 -->
+          <a href="guest-property-detail.html?id=3" class="prop-card card-tall"
+            aria-label="Skardu Lake Villa, Skardu — PKR 42,000 per night, rating 4.7">
+            <div class="prop-img-wrap">
+              <img src="../images/skardu_lake_villa.png"
+                alt="Lakeside villa with crystal-clear lake and Karakoram mountains in Skardu"
+                class="prop-img" width="600" height="800" loading="lazy">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge">Villa</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn saved" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.7 <span class="overlay-reviews">(53 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 42,000<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Skardu Lake Villa</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Skardu, Gilgit-Baltistan
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.7
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 5 -->
+          <a href="guest-property-detail.html?id=5" class="prop-card card-medium"
+            aria-label="Murree Pine Retreat, Murree — PKR 12,000 per night, rating 4.5">
+            <div class="prop-img-wrap">
+              <img src="../images/destination_murree.png"
+                alt="Cozy pine retreat nestled among dense forests in Murree hills"
+                class="prop-img" width="600" height="480" loading="lazy">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge">Cabin</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn saved" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.5 <span class="overlay-reviews">(76 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 12,000<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Murree Pine Retreat</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Murree, Punjab
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.5
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 6 -->
+          <a href="guest-property-detail.html?id=6" class="prop-card card-tall"
+            aria-label="Nathia Gali Forest Lodge, KPK — PKR 28,500 per night, rating 4.8">
+            <div class="prop-img-wrap">
+              <img src="../images/destination_nathia_gali.png"
+                alt="Forest lodge engulfed by mist and towering pines in Nathia Gali"
+                class="prop-img" width="600" height="800" loading="lazy">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge">Lodge</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.8 <span class="overlay-reviews">(102 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 28,500<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Nathia Gali Forest Lodge</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Nathia Gali, KPK
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.8
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 7 -->
+          <a href="guest-property-detail.html?id=7" class="prop-card card-compact"
+            aria-label="Veyra Escape Villa — PKR 55,000 per night, rating 5.0">
+            <div class="prop-img-wrap">
+              <img src="../images/veyra_hero_bg.png"
+                alt="Exclusive private villa with dramatic mountain panorama"
+                class="prop-img" width="600" height="360" loading="lazy">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge">Villa</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    5.0 <span class="overlay-reviews">(18 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 55,000<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Veyra Escape Villa</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Swat Valley, KPK
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                5.0
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 8 -->
+          <a href="guest-property-detail.html?id=8" class="prop-card card-medium"
+            aria-label="Swat Valley Hideaway, Swat — PKR 16,500 per night, rating 4.7">
+            <div class="prop-img-wrap">
+              <img src="../images/luxury_mountain_cabin.png"
+                alt="Secluded hideaway cabin with breathtaking Swat Valley mountain views"
+                class="prop-img" width="600" height="450" loading="lazy">
+              <span class="avail-badge available" aria-label="Available">
+                <span class="avail-dot" aria-hidden="true"></span>Available
+              </span>
+              <span class="prop-badge">Cabin</span>
+              <div class="prop-overlay" aria-hidden="true">
+                <div class="overlay-top">
+                  <span class="view-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Property
+                  </span>
+                  <button class="wish-btn" type="button" tabindex="-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="overlay-bottom">
+                  <div class="overlay-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                      fill="#D4B860" stroke="#D4B860" stroke-width="1">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.7 <span class="overlay-reviews">(41 reviews)</span>
+                  </div>
+                  <div class="overlay-price">PKR 16,500<span class="price-per">/night</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-foot-main">
+                <h3 class="prop-name">Swat Valley Hideaway</h3>
+                <span class="prop-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Swat Valley, KPK
+                </span>
+              </div>
+              <div class="prop-foot-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="#C4A040" stroke="#C4A040" stroke-width="1" aria-hidden="true">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                4.7
+              </div>
+            </div>
+          </a>
+
+        </div><!-- /masonry-grid -->
+
+        <!-- Load More -->
+        <div class="load-more-wrap">
+          <button type="button" class="load-more-btn" id="load-more-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            Explore More Properties
+          </button>
+        </div>
+
+      </div><!-- /masonry-container -->
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg class="footer-brand-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="footer-wordmark">VEYRA</span>
+        <span class="footer-tagline">— Discover Pakistan's finest stays</span>
+      </div>
+      <p class="footer-copy">&copy; 2026 VEYRA. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Visually hidden utility class -->
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+
+</body>
+</html>

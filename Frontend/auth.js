@@ -224,7 +224,7 @@ login_form.addEventListener('submit', async (e) => {
 
   if (userData.user.role === "guest") {
 
-    window.location.href = "/Frontend/details.html";
+    window.location.href = "/Frontend/guest-dashboard.html";
 
   } else if (userData.user.role === "host") {
 

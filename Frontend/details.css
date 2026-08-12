@@ -1,0 +1,32 @@
+.property-card {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.property-info h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.owner {
+    margin: 0 0 14px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.price {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.price span {
+    font-size: 13px;
+    font-weight: 400;
+    color: #6b7280;
+}

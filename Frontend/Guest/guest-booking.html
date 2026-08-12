@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEYRA Booking — Complete your stay reservation for Luxury Mountain Cabin in Nathia Gali securely.">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D5C4E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9 22 9 12 15 12 15 22'/%3E%3C/svg%3E">
+  <title>VEYRA | Confirm & Reserve Stay</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Booking Checkout CSS -->
+  <link rel="stylesheet" href="guest-booking.css">
+</head>
+
+<body>
+
+  <!-- CSS-only mobile nav toggle -->
+  <input type="checkbox" id="navToggle" class="nav-toggle-input" aria-hidden="true">
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       TOP NAVBAR
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <header class="navbar" id="mainNavbar">
+    <div class="navbar-inner">
+
+      <!-- Brand -->
+      <a href="guest-dashboard.html" class="nav-brand" aria-label="VEYRA — Go to homepage">
+        <svg class="nav-brand-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-brand-name">VEYRA</span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="guest-dashboard.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+          <span>Explore</span>
+        </a>
+
+        <a href="guest-dashboard.html#search-bar" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <span>Search</span>
+        </a>
+
+        <a href="guest-dashboard.html#filter-row" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+            <line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+          <span>Filter</span>
+        </a>
+
+        <a href="guest-my-bookings.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>My Bookings</span>
+        </a>
+
+        <a href="guest-profile.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="nav-actions">
+        <a href="guest-profile.html" class="nav-avatar-link" title="Ahmed Khan — My Profile">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80"
+            alt="Ahmed Khan" class="nav-avatar" width="36" height="36">
+        </a>
+
+        <a href="../auth.html" class="nav-logout" aria-label="Log out of VEYRA">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Logout</span>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <label for="navToggle" class="hamburger-btn" aria-label="Toggle navigation menu">
+        <span class="ham-lines" aria-hidden="true">
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+        </span>
+      </label>
+
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       MAIN CHECKOUT CONTAINER
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <main class="booking-main" id="main-content">
+
+    <!-- Page Header & Stepper -->
+    <div class="booking-page-header">
+      <a href="guest-property-detail.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to Property Details
+      </a>
+
+      <div class="booking-title-row">
+        <h1 class="booking-page-title">Confirm & Reserve Stay</h1>
+
+        <!-- 3-Step Stepper -->
+        <div class="stepper-wrap">
+          <div class="step-item completed">
+            <span class="step-num">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>1. Dates</span>
+          </div>
+          <span class="step-sep">/</span>
+          <div class="step-item active">
+            <span class="step-num">2</span>
+            <span>2. Guest Details & Payment</span>
+          </div>
+          <span class="step-sep">/</span>
+          <div class="step-item">
+            <span class="step-num">3</span>
+            <span>3. Confirmation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Grid Split -->
+    <div class="booking-grid">
+
+      <!-- LEFT COLUMN: Forms -->
+      <div class="booking-left-col">
+
+        <!-- 1. Trip Summary Box -->
+        <section class="checkout-card">
+          <div class="card-sec-head">
+            <h2 class="card-sec-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Your Trip Details
+            </h2>
+            <a href="guest-property-detail.html#availability-section" class="edit-btn">Edit Trip</a>
+          </div>
+
+          <div class="trip-summary-grid">
+            <div class="trip-sum-item">
+              <span class="trip-sum-label">Dates</span>
+              <span class="trip-sum-val">Aug 14 – Aug 17, 2026</span>
+              <span class="trip-sum-sub">3 Nights stay</span>
+            </div>
+            <div class="trip-sum-item">
+              <span class="trip-sum-label">Guests</span>
+              <span class="trip-sum-val">2 Guests</span>
+              <span class="trip-sum-sub">1 Bedroom Cabin</span>
+            </div>
+            <div class="trip-sum-item">
+              <span class="trip-sum-label">Check-in Time</span>
+              <span class="trip-sum-val">2:00 PM – 8:00 PM</span>
+              <span class="trip-sum-sub">Self check-in with keypad</span>
+            </div>
+            <div class="trip-sum-item">
+              <span class="trip-sum-label">Check-out Time</span>
+              <span class="trip-sum-val">11:00 AM Sharp</span>
+              <span class="trip-sum-sub">Standard check-out</span>
+            </div>
+          </div>
+
+          <!-- Free cancellation policy banner -->
+          <div class="policy-banner">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <strong>Free Cancellation Guarantee:</strong> Cancel up to 48 hours before check-in (Aug 12, 2:00 PM) for a 100% full refund with no cancellation fees.
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Guest Details Form -->
+        <section class="checkout-card">
+          <div class="card-sec-head">
+            <h2 class="card-sec-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Guest Contact Information
+            </h2>
+          </div>
+
+          <form action="guest-profile.html" method="get">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="guest-fname">First Name</label>
+                <input type="text" id="guest-fname" class="form-control" value="Ahmed" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="guest-lname">Last Name</label>
+                <input type="text" id="guest-lname" class="form-control" value="Khan" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="guest-email">Email Address (for confirmation)</label>
+                <input type="email" id="guest-email" class="form-control" value="ahmed.khan@example.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="guest-phone">Phone Number</label>
+                <input type="tel" id="guest-phone" class="form-control" value="+92 300 1234567" required>
+              </div>
+              <div class="form-group full">
+                <label class="form-label" for="cnic-num">CNIC / Passport Number (Identity Verification)</label>
+                <input type="text" id="cnic-num" class="form-control" placeholder="61101-1234567-1" required>
+              </div>
+              <div class="form-group full">
+                <label class="form-label" for="special-req">Special Requests or Arrival Notes (Optional)</label>
+                <textarea id="special-req" class="form-control" rows="3" placeholder="Estimated arrival time, dietary requests, etc."></textarea>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- 3. Payment Method Selection -->
+        <section class="checkout-card">
+          <div class="card-sec-head">
+            <h2 class="card-sec-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Payment Method
+            </h2>
+          </div>
+
+          <!-- Payment Tabs -->
+          <div class="payment-tabs-grid">
+            <div>
+              <input type="radio" id="pay-card" name="payment_method" class="payment-tab-input" checked>
+              <label for="pay-card" class="payment-tab-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                Credit / Debit Card
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" id="pay-wallet" name="payment_method" class="payment-tab-input">
+              <label for="pay-wallet" class="payment-tab-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
+                EasyPaisa / JazzCash
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" id="pay-bank" name="payment_method" class="payment-tab-input">
+              <label for="pay-bank" class="payment-tab-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="21" x2="21" y2="21"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7 12 2"/></svg>
+                Direct Bank Transfer
+              </label>
+            </div>
+          </div>
+
+          <!-- Card Form Inputs -->
+          <div class="form-grid-2" style="margin-top:12px;">
+            <div class="form-group full">
+              <label class="form-label" for="card-num">Card Number</label>
+              <input type="text" id="card-num" class="form-control" placeholder="4242 •••• •••• 4242">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="card-expiry">Expiration Date</label>
+              <input type="text" id="card-expiry" class="form-control" placeholder="MM / YY">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="card-cvv">Security Code (CVV)</label>
+              <input type="text" id="card-cvv" class="form-control" placeholder="123">
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="card-name">Cardholder Full Name</label>
+              <input type="text" id="card-name" class="form-control" value="Ahmed Khan">
+            </div>
+          </div>
+
+          <!-- Terms Checkbox & CTA -->
+          <div style="display:flex; flex-direction:column; gap:18px; margin-top:12px;">
+            <label class="terms-checkbox-wrap">
+              <input type="checkbox" required checked>
+              <span>I agree to the <strong>VEYRA House Rules</strong>, <strong>Cancellation Policy</strong>, and <strong>Guest Terms of Service</strong>.</span>
+            </label>
+
+            <a href="guest-my-bookings.html" class="checkout-submit-btn" id="confirm-booking-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Confirm & Pay PKR 63,200
+            </a>
+
+            <div class="ssl-security-note">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              256-bit Bank Grade SSL Encrypted Checkout
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /booking-left-col -->
+
+      <!-- RIGHT COLUMN: Reservation Summary Card -->
+      <div class="booking-right-col">
+        <div class="summary-sticky-card">
+
+          <!-- Mini Property Header -->
+          <div class="summary-prop-head">
+            <img src="../images/luxury_mountain_cabin.png" alt="Luxury Mountain Cabin" class="summary-prop-img">
+            <div class="summary-prop-text">
+              <h3 class="summary-prop-title">Luxury Mountain Cabin</h3>
+              <span class="summary-prop-loc">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Nathia Gali, KPK
+              </span>
+              <div class="summary-prop-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#C4A040" stroke="#C4A040" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                4.9 (127 reviews)
+              </div>
+            </div>
+          </div>
+
+          <!-- Price Calculation -->
+          <div class="price-breakdown-box">
+            <h4 style="font-size:15px; font-weight:700; color:var(--ch-900);">Price Summary</h4>
+            <div class="price-row">
+              <span>PKR 18,500 × 3 nights</span>
+              <span>PKR 55,500</span>
+            </div>
+            <div class="price-row">
+              <span>Cleaning & Preparation fee</span>
+              <span>PKR 3,500</span>
+            </div>
+            <div class="price-row">
+              <span>VEYRA Service fee</span>
+              <span>PKR 4,200</span>
+            </div>
+            <div class="price-row total-row">
+              <span>Total Price</span>
+              <span>PKR 63,200</span>
+            </div>
+          </div>
+
+          <!-- Protection Card -->
+          <div class="cover-protection-box">
+            <div class="cover-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="cover-text">
+              <span class="cover-title">VEYRA Guest Cover Included</span>
+              <span class="cover-desc">Includes booking protection against host cancellation, listing inaccuracies, and 24/7 hotline support.</span>
+            </div>
+          </div>
+
+        </div><!-- /summary-sticky-card -->
+      </div><!-- /booking-right-col -->
+
+    </div><!-- /booking-grid -->
+
+  </main>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg class="footer-brand-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="footer-wordmark">VEYRA</span>
+        <span class="footer-tagline">— Discover Pakistan's finest stays</span>
+      </div>
+      <p class="footer-copy">&copy; 2026 VEYRA. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
