@@ -24,7 +24,7 @@ const roomSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Property type is required'],
       enum: {
-        values: ['Apartment', 'House', 'Villa', 'Hotel Room'],
+        values: ['Apartment', 'House', 'Villa', 'Hotel Room', 'Cabin', 'Chalet', 'Penthouse', 'Lodge'],
         message: '{VALUE} is not a valid property type'
       }
     },

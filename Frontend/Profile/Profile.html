@@ -43,7 +43,8 @@
           </div>
         </a>
         <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close sidebar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -95,7 +96,8 @@
       <!-- Top Navbar Header -->
       <header class="top-navbar">
         <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -138,190 +140,201 @@
       <!-- Profile Page Main Body -->
       <main class="content-body profile-page-content">
 
-        <!-- Profile Overview Card -->
-        <section class="profile-card profile-overview-card">
-          <div class="avatar-section">
-            <div class="avatar-wrapper">
-              <img src="images/avatar.png" alt="Jane Doe Profile Photo" class="profile-avatar-large"
-                id="display-avatar-img">
-              <button type="button" class="avatar-camera-btn" id="btn-camera-photo" aria-label="Change photo"
-                title="Change Photo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- 1. PROFILE HEADER / HERO CARD -->
+        <section class="profile-card profile-hero-card">
+          <div class="profile-hero-banner">
+            <div class="hero-banner-accent"></div>
+            <span class="hero-host-tag">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Verified VEYRA Host
+            </span>
+          </div>
+
+          <div class="profile-hero-body">
+            <!-- Avatar Section -->
+            <div class="avatar-hero-container">
+              <div class="avatar-wrapper-hero">
+                <img src="images/avatar.png" alt="Host Profile Photo" class="profile-avatar-large"
+                  id="display-avatar-img">
+                <button type="button" class="avatar-camera-btn" id="btn-camera-photo" aria-label="Change photo"
+                  title="Change Photo">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                </button>
+              </div>
+              <button type="button" class="btn btn-outline btn-change-photo" id="btn-change-photo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                   <circle cx="12" cy="13" r="4" />
                 </svg>
+                Change Photo
               </button>
             </div>
-            <button type="button" class="btn btn-outline btn-change-photo" id="btn-change-photo">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                <circle cx="12" cy="13" r="4" />
-              </svg>
-              Change Photo
-            </button>
-          </div>
 
-          <div class="user-meta-summary">
-            <div class="user-name-row">
-              <h2 class="user-display-name" id="display-user-name"></h2>
-              <div class="profile-badge-group">
-                <span class="profile-badge profile-badge--role" id="display-badge-role"></span>
-                <span class="profile-badge profile-badge--status">Active</span>
+            <!-- Meta Details Section -->
+            <div class="user-hero-meta">
+              <div class="hero-identity-row">
+                <div class="name-title-group">
+                  <h2 class="user-display-name" id="display-user-name"></h2>
+                  <div class="profile-badge-group">
+                    <span class="profile-badge profile-badge--role" id="display-badge-role"></span>
+                    <span class="profile-badge profile-badge--status">
+                      <span class="status-pulse-dot"></span>
+                      Active
+                    </span>
+                  </div>
+                </div>
               </div>
+
+              <div class="hero-details-pills">
+                <span class="hero-detail-pill" title="Email Address">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                  <span id="display-user-email"></span>
+                </span>
+                <span class="hero-detail-pill" title="City / Location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  <span id="header-user-city"></span>
+                </span>
+              </div>
+
+              <p class="hero-bio-snippet" id="header-user-bio"></p>
             </div>
-            <p class="user-display-email" id="display-user-email"></p>
           </div>
         </section>
 
-        <!-- Main Form & Account Info Grid -->
-        <div class="profile-sections-grid">
-
-          <!-- Personal Information Section -->
-          <section class="profile-card section-card" id="personal-info-card">
-            <div class="section-card-header">
-              <div>
-                <h3 class="section-card-title">Personal Information</h3>
-                <p class="section-card-subtitle">Your public account identity and details</p>
-              </div>
-              <button type="button" class="btn btn-primary btn-edit-trigger" id="btn-edit-profile">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+        <!-- 2. PERSONAL INFORMATION CARD -->
+        <section class="profile-card section-card" id="personal-info-card">
+          <div class="section-card-header">
+            <div>
+              <h3 class="section-card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" style="vertical-align:-3px; margin-right:6px;">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
                 </svg>
-                Edit Profile
-              </button>
+                Personal Information
+              </h3>
+              <p class="section-card-subtitle">Your account identity, contact details, and host profile</p>
             </div>
+            <button type="button" class="btn btn-primary btn-edit-trigger" id="btn-edit-profile">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+              Edit Profile
+            </button>
+          </div>
 
-            <!-- DISPLAY MODE VIEW -->
-            <div class="profile-display-view" id="profile-display-mode">
-              <div class="display-row">
-                <div class="display-group">
-                  <span class="display-label">Full Name</span>
-                  <span class="display-value" id="info-full-name"></span>
-                </div>
-                <div class="display-group">
-                  <span class="display-label">Email Address</span>
-                  <span class="display-value" id="info-email-address"></span>
-                </div>
+          <!-- DISPLAY MODE VIEW -->
+          <div class="profile-display-view" id="profile-display-mode">
+            <!-- Row 1: Full Name | Email Address -->
+            <div class="display-row">
+              <div class="display-group">
+                <span class="display-label">Full Name</span>
+                <span class="display-value" id="info-full-name">Not provided</span>
               </div>
-
-              <div class="display-row">
-                <div class="display-group">
-                  <span class="display-label">Role</span>
-                  <span class="display-value" id="info-user-role"></span>
-                </div>
-                <div class="display-group">
-                  <span class="display-label">Mobile Number</span>
-                  <span class="display-value" id="info-mobile-number">+1 (555) 123-4567</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- EDIT MODE VIEW (FORM) -->
-            <form class="profile-form" id="profile-edit-form" style="display: none;">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="edit-full-name" class="form-label">Full Name</label>
-                  <input type="text" id="edit-full-name" class="form-input" placeholder="Enter full name" required>
-                </div>
-
-                <div class="form-group">
-                  <label for="edit-email-address" class="form-label">
-                    Email Address
-                  </label>
-                  <input type="email" id="edit-email-address" class="form-input">
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="edit-user-role" class="form-label">
-                    Role
-                  </label>
-                  <input type="text" id="edit-user-role" class="form-input">
-                </div>
-
-                <div class="form-group">
-                  <label for="edit-mobile-number" class="form-label">Mobile Number</label>
-                  <input type="tel" id="edit-mobile-number" class="form-input" placeholder="+1 (555) 000-0000">
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group span-full-width">
-                  <label for="edit-avatar-url" class="form-label">Profile Picture URL</label>
-                  <input type="text" id="edit-avatar-url" class="form-input"
-                    placeholder="images/avatar.png or image URL">
-                </div>
-              </div>
-
-              <div class="form-actions-row">
-                <button type="button" class="btn btn-outline" id="btn-cancel-edit">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="btn-save-edit">Save Changes</button>
-              </div>
-            </form>
-          </section>
-
-          <!-- Account Information Section -->
-          <section class="profile-card section-card">
-            <div class="section-card-header">
-              <div>
-                <h3 class="section-card-title">Account Information</h3>
-                <p class="section-card-subtitle">System status and membership details</p>
+              <div class="display-group">
+                <span class="display-label">Email Address</span>
+                <span class="display-value" id="info-email-address">Not provided</span>
               </div>
             </div>
 
-            <div class="account-info-list">
-              <div class="account-info-item">
-                <div class="info-label-group">
-                  <span class="info-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                      <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                  </span>
-                  <span class="info-title">Account Status</span>
-                </div>
-                <span class="profile-badge profile-badge--status">Active</span>
+            <!-- Row 2: Phone Number | Role -->
+            <div class="display-row">
+              <div class="display-group">
+                <span class="display-label">Phone Number</span>
+                <span class="display-value" id="info-mobile-number">Not provided</span>
               </div>
-
-              <div class="account-info-item">
-                <div class="info-label-group">
-                  <span class="info-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                      <line x1="16" y1="2" x2="16" y2="6" />
-                      <line x1="8" y1="2" x2="8" y2="6" />
-                      <line x1="3" y1="10" x2="21" y2="10" />
-                    </svg>
-                  </span>
-                  <span class="info-title">Member Since</span>
-                </div>
-                <span class="info-value">January 2024</span>
-              </div>
-
-              <div class="account-info-item">
-                <div class="info-label-group">
-                  <span class="info-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                  </span>
-                  <span class="info-title">Account Type</span>
-                </div>
-                <span class="info-value" id="account-type-value"></span>
+              <div class="display-group">
+                <span class="display-label">Role</span>
+                <span class="display-value" id="info-user-role">Not provided</span>
               </div>
             </div>
-          </section>
 
-        </div>
+            <!-- Row 3: City / Location | Bio -->
+            <div class="display-row">
+              <div class="display-group">
+                <span class="display-label">City / Location</span>
+                <span class="display-value" id="info-user-city">Not provided</span>
+              </div>
+              <div class="display-group">
+                <span class="display-label">Bio</span>
+                <span class="display-value" id="info-user-bio">Not provided</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- EDIT MODE VIEW (FORM) -->
+          <form class="profile-form" id="profile-edit-form" style="display: none;">
+            <!-- Hidden avatar URL input for JS API compatibility -->
+            <input type="hidden" id="edit-avatar-url">
+
+            <!-- Row 1: Full Name | Email Address -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="edit-full-name" class="form-label">Full Name</label>
+                <input type="text" id="edit-full-name" class="form-input" placeholder="Enter full name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="edit-email-address" class="form-label">
+                  Email Address <span class="readonly-tag">Read-only</span>
+                </label>
+                <input type="email" id="edit-email-address" class="form-input form-input-disabled" readonly disabled>
+              </div>
+            </div>
+
+            <!-- Row 2: Phone Number | Role -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="edit-mobile-number" class="form-label">Phone Number</label>
+                <input type="tel" id="edit-mobile-number" class="form-input" placeholder="+92 300 0000000">
+              </div>
+
+              <div class="form-group">
+                <label for="edit-user-role" class="form-label">
+                  Role <span class="readonly-tag">Read-only</span>
+                </label>
+                <input type="text" id="edit-user-role" class="form-input form-input-disabled" readonly disabled>
+              </div>
+            </div>
+
+            <!-- Row 3: City / Location | Bio -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="edit-city" class="form-label">City / Location</label>
+                <input type="text" id="edit-city" class="form-input" placeholder="e.g. Islamabad, Pakistan">
+              </div>
+
+              <div class="form-group">
+                <label for="edit-bio" class="form-label">Bio / Overview</label>
+                <textarea id="edit-bio" class="form-input" rows="2"
+                  placeholder="Tell us about yourself or your hosting experience..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions-row">
+              <button type="button" class="btn btn-outline" id="btn-cancel-edit">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="btn-save-edit">Save Changes</button>
+            </div>
+          </form>
+        </section>
 
       </main>
     </div>

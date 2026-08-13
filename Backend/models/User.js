@@ -39,6 +39,49 @@ const userSchema = new mongoose.Schema(
       },
       required: [true, 'Role is required'],
     },
+
+    // Optional profile fields for guests/hosts
+    phone: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+
+    avatar: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+
+    cnic: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+
+    city: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+
+    bio: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
+      },
+    ],
+
+    travelPreferences: {
+      stayStyle: { type: String, default: '' },
+      favoriteDestination: { type: String, default: '' },
+    },
   },
   {
     // Automatically add createdAt and updatedAt timestamps
@@ -82,6 +125,13 @@ userSchema.methods.toPublicJSON = function () {
     name: this.name,
     email: this.email,
     role: this.role,
+    phone: this.phone || '',
+    avatar: this.avatar || '',
+    cnic: this.cnic || '',
+    city: this.city || '',
+    bio: this.bio || '',
+    travelPreferences: this.travelPreferences || { stayStyle: '', favoriteDestination: '' },
+    wishlist: this.wishlist || [],
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };
