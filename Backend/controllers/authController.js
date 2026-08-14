@@ -290,10 +290,17 @@ const updateMe = async (req, res) => {
       });
     }
 
+    if (req.body.phone !== undefined) allowedUpdates.phone = req.body.phone.trim();
+    if (req.body.mobile !== undefined) allowedUpdates.phone = req.body.mobile.trim();
+    if (req.body.city !== undefined) allowedUpdates.city = req.body.city.trim();
+    if (req.body.avatar !== undefined) allowedUpdates.avatar = req.body.avatar.trim();
+    if (req.body.bio !== undefined) allowedUpdates.bio = req.body.bio.trim();
+    if (req.body.cnic !== undefined) allowedUpdates.cnic = req.body.cnic.trim();
+
     if (Object.keys(allowedUpdates).length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'No valid fields provided to update. You can update: name',
+        message: 'No valid fields provided to update. You can update: name, phone, city, avatar, bio, cnic',
       });
     }
 

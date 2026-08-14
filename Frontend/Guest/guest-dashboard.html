@@ -541,5 +541,55 @@
   </style>
 
   <script src="guest-dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkinInput = document.getElementById('search-checkin');
+      const checkoutInput = document.getElementById('search-checkout');
+
+      // Set min date to today for Check-in
+      const today = new Date().toISOString().split('T')[0];
+      if (checkinInput) {
+        checkinInput.min = today;
+        checkinInput.addEventListener('change', () => {
+          if (checkoutInput) {
+            checkoutInput.min = checkinInput.value || today;
+            if (checkoutInput.value && checkoutInput.value < checkinInput.value) {
+              checkoutInput.value = checkinInput.value;
+            }
+          }
+        });
+      }
+      if (checkoutInput) {
+        checkoutInput.min = today;
+      }
+
+      // Handle active states on filter chips
+      const chipSelects = document.querySelectorAll('.chip-select');
+      chipSelects.forEach(select => {
+        const chip = select.closest('.filter-chip');
+        select.addEventListener('change', () => {
+          if (select.value) {
+            chip.classList.add('active');
+          } else {
+            chip.classList.remove('active');
+          }
+        });
+      });
+
+      // Clear all filters button
+      const clearBtn = document.getElementById('clear-filters-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          const searchForm = document.getElementById('search-bar');
+          if (searchForm) searchForm.reset();
+          chipSelects.forEach(select => {
+            select.value = '';
+            const chip = select.closest('.filter-chip');
+            if (chip) chip.classList.remove('active');
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>

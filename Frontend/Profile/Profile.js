@@ -1,195 +1,178 @@
-let nav_name = document.querySelector(".user-name");
-let nav_role = document.querySelector(".user-role");
-let main_role = document.querySelector("#display-badge-role");
-let main_name = document.querySelector("#display-user-name");
-let main_email = document.querySelector("#display-user-email");
-let infoName = document.querySelector("#info-full-name");
-let infoEmail = document.querySelector("#info-email-address");
-let infoRole = document.querySelector("#info-user-role");
-let editbtn = document.querySelector("#btn-edit-profile");
-let form = document.querySelector("#profile-edit-form");
-let profileDetails = document.querySelector("#profile-display-mode");
 
+const API_BASE = "http://localhost:5000/api/auth/me";
 const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user") || "{}");
+const localUser = JSON.parse(localStorage.getItem("user") || "{}");
 
-if (!token || !user || user.role !== "host") {
+// Auth Guard: Ensure token exists and user is a host
+if (!token || !localUser || localUser.role !== "host") {
     window.location.href = "/Frontend/auth.html";
 }
 
-if (editbtn) {
-    editbtn.addEventListener("click", function () {
-        form.style.display = 'Block';
-        profileDetails.style.display = 'none';
-    });
-}
-
-const cancelBtn = document.querySelector("#btn-cancel-edit");
-if (cancelBtn) {
-    cancelBtn.addEventListener("click", function () {
-        form.style.display = 'none';
-        profileDetails.style.display = 'Block';
-    });
-}
-
-const photoBtns = [document.querySelector("#btn-change-photo"), document.querySelector("#btn-camera-photo")];
-photoBtns.forEach(btn => {
-    if (btn) {
-        btn.addEventListener("click", () => {
-            const avatarInput = document.querySelector("#edit-avatar-url");
-            const currentUrl = avatarInput ? avatarInput.value : "";
-            const newUrl = prompt("Enter Profile Picture Image URL:", currentUrl || "");
-            if (newUrl !== null && newUrl.trim() !== "") {
-                const cleanUrl = newUrl.trim();
-                if (avatarInput) avatarInput.value = cleanUrl;
-                
-                const displayImg = document.querySelector("#display-avatar-img");
-                if (displayImg) displayImg.src = cleanUrl;
-                const topbarImg = document.querySelector(".profile-avatar-topbar");
-                if (topbarImg) topbarImg.src = cleanUrl;
-
-                const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-                localStorage.setItem("user", JSON.stringify({ ...storedUser, avatar: cleanUrl }));
-            }
-        });
+// Helper to set text content cleanly
+const setText = (selector, text, fallback = "Not Provided") => {
+    const el = document.querySelector(selector);
+    if (el) {
+        el.textContent = (text && String(text).trim()) ? String(text).trim() : fallback;
     }
-});
+};
 
+// Helper to set input value
+const setVal = (selector, val) => {
+    const el = document.querySelector(selector);
+    if (el) {
+        el.value = val || "";
+    }
+};
+
+// Load & Render User Profile from Database
+async function loadProfile() {
+    try {
+        const response = await fetch(API_BASE, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await response.json();
+
+        if (!data.success || !data.user) {
+            console.error("Failed to load user profile:", data.message);
+            return;
+        }
+
+        const u = data.user;
+
+        // Persist fresh user object from DB to localStorage
+        localStorage.setItem("user", JSON.stringify(u));
+
+        // Update Names
+        setText("#display-user-name", u.name, "Host");
+        setText("#info-full-name", u.name, "Not provided");
+        setText(".user-name", u.name, "Host");
+        setText(".profile-name-topbar", u.name, "Host");
+
+        // Update Roles
+        setText("#display-badge-role", u.role, "host");
+        setText("#info-user-role", u.role, "host");
+        setText("#account-type-value", u.role, "host");
+        setText(".user-role", u.role, "host");
+        setText(".profile-role-topbar", u.role, "host");
+
+        // Update Emails
+        setText("#display-user-email", u.email, "Not provided");
+        setText("#info-email-address", u.email, "Not provided");
+
+        // Update Phone, City, Bio
+        setText("#info-mobile-number", u.phone, "Not provided");
+        setText("#info-user-city", u.city, "Not provided");
+        setText("#header-user-city", u.city, "Not provided");
+        setText("#info-user-bio", u.bio, "Not provided");
+        setText("#header-user-bio", u.bio, "Not provided");
+
+        // Update Avatars
+        const avatarSrc = (u.avatar && u.avatar.trim()) ? u.avatar.trim() : "images/avatar.png";
+        document.querySelectorAll("#display-avatar-img, .profile-avatar-topbar").forEach(img => {
+            img.src = avatarSrc;
+        });
+
+        // Pre-fill Edit Form Inputs
+        setVal("#edit-full-name", u.name);
+        setVal("#edit-email-address", u.email);
+        setVal("#edit-user-role", u.role);
+        setVal("#edit-mobile-number", u.phone);
+        setVal("#edit-city", u.city);
+        setVal("#edit-avatar-url", u.avatar);
+        setVal("#edit-bio", u.bio);
+
+    } catch (err) {
+        console.error("Error loading profile:", err);
+    }
+}
+
+// Edit Mode Toggle
+const editBtn = document.querySelector("#btn-edit-profile");
+const cancelBtn = document.querySelector("#btn-cancel-edit");
+const form = document.querySelector("#profile-edit-form");
+const displayView = document.querySelector("#profile-display-mode");
+
+if (editBtn) {
+    editBtn.addEventListener("click", () => {
+        if (form) form.style.display = "block";
+        if (displayView) displayView.style.display = "none";
+    });
+}
+
+if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+        if (form) form.style.display = "none";
+        if (displayView) displayView.style.display = "block";
+    });
+}
+
+// Profile Form Submit (Save Changes to Database)
 if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        try {
-            let uptname = document.querySelector("#edit-full-name") ? document.querySelector("#edit-full-name").value : "";
-            let uptnum = document.querySelector("#edit-mobile-number") ? document.querySelector("#edit-mobile-number").value : "";
-            let uptcity = document.querySelector("#edit-city") ? document.querySelector("#edit-city").value : "";
-            let uptavatar = document.querySelector("#edit-avatar-url") ? document.querySelector("#edit-avatar-url").value : "";
-            let uptbio = document.querySelector("#edit-bio") ? document.querySelector("#edit-bio").value : "";
+        const payload = {
+            name: document.querySelector("#edit-full-name")?.value || "",
+            phone: document.querySelector("#edit-mobile-number")?.value || "",
+            city: document.querySelector("#edit-city")?.value || "",
+            avatar: document.querySelector("#edit-avatar-url")?.value || "",
+            bio: document.querySelector("#edit-bio")?.value || ""
+        };
 
-            const response = await fetch("http://localhost:5000/api/auth/me", {
+        try {
+            const res = await fetch(API_BASE, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    name: uptname
-                })
+                body: JSON.stringify(payload)
             });
 
-            const data = await response.json();
-            
-            // Persist full profile updates locally
-            const updatedUser = {
-                ...(data.user || user),
-                phone: uptnum,
-                city: uptcity,
-                avatar: uptavatar,
-                bio: uptbio
-            };
-            localStorage.setItem("user", JSON.stringify(updatedUser));
+            const data = await res.json();
+            if (data.success && data.user) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+            }
 
-            form.style.display = 'none';
-            profileDetails.style.display = 'Block';
+            form.style.display = "none";
+            if (displayView) displayView.style.display = "block";
 
-            await USerProfile();
-
-        } catch (error) {
-            console.error(error);
+            // Reload & re-render profile directly from DB
+            await loadProfile();
+        } catch (err) {
+            console.error("Error updating profile:", err);
         }
     });
 }
 
-const USerProfile = async () => {
-    try {
-        let token = localStorage.getItem("token");
-        if (!token) {
-            window.location.href = "/Frontend/auth.html";
-            return;
-        }
-        const response = await fetch("http://localhost:5000/api/auth/me", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`
+// Change Photo Buttons
+const photoBtns = [document.querySelector("#btn-change-photo"), document.querySelector("#btn-camera-photo")];
+photoBtns.forEach(btn => {
+    if (btn) {
+        btn.addEventListener("click", async () => {
+            const currentUrl = document.querySelector("#edit-avatar-url")?.value || "";
+            const newUrl = prompt("Enter Profile Picture Image URL:", currentUrl);
+            if (newUrl !== null && newUrl.trim() !== "") {
+                try {
+                    const res = await fetch(API_BASE, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ avatar: newUrl.trim() })
+                    });
+                    const data = await res.json();
+                    if (data.success && data.user) {
+                        localStorage.setItem("user", JSON.stringify(data.user));
+                    }
+                    await loadProfile();
+                } catch (err) {
+                    console.error("Error updating avatar:", err);
+                }
             }
         });
-        const data = await response.json();
-        const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-        const currentUser = { ...data.user, ...storedUser };
-
-        if (nav_name) {
-            nav_name.textContent = currentUser.name;
-            nav_name.style.textTransform = "capitalize";
-        }
-        if (main_name) {
-            main_name.textContent = currentUser.name;
-            main_name.style.textTransform = "capitalize";
-        }
-        if (infoName) {
-            infoName.textContent = currentUser.name;
-            infoName.style.textTransform = "capitalize";
-        }
-        if (nav_role) {
-            nav_role.textContent = currentUser.role;
-            nav_role.style.textTransform = "capitalize";
-        }
-        if (main_role) {
-            main_role.textContent = currentUser.role;
-            main_role.style.textTransform = "capitalize";
-        }
-        if (infoRole) {
-            infoRole.textContent = currentUser.role;
-            infoRole.style.textTransform = "capitalize";
-        }
-        if (main_email) main_email.textContent = currentUser.email;
-        if (infoEmail) infoEmail.textContent = currentUser.email;
-
-        const accTypeValue = document.querySelector("#account-type-value");
-        if (accTypeValue) {
-            accTypeValue.textContent = currentUser.role;
-            accTypeValue.style.textTransform = 'capitalize';
-        }
-
-        // Clean fallback checker helper
-        const hasVal = (v) => v && typeof v === 'string' && v.trim() !== '' && v !== 'undefined' && v !== 'null';
-
-        const mobileEl = document.querySelector("#info-mobile-number");
-        if (mobileEl) mobileEl.textContent = hasVal(currentUser.phone) ? currentUser.phone.trim() : (hasVal(currentUser.mobile) ? currentUser.mobile.trim() : "Not provided");
-
-        const cityEl = document.querySelector("#info-user-city");
-        if (cityEl) cityEl.textContent = hasVal(currentUser.city) ? currentUser.city.trim() : "Not provided";
-
-        const headerCityEl = document.querySelector("#header-user-city");
-        if (headerCityEl) headerCityEl.textContent = hasVal(currentUser.city) ? currentUser.city.trim() : "Not provided";
-
-        const bioEl = document.querySelector("#info-user-bio");
-        if (bioEl) bioEl.textContent = hasVal(currentUser.bio) ? currentUser.bio.trim() : "Not provided";
-
-        const headerBioEl = document.querySelector("#header-user-bio");
-        if (headerBioEl) headerBioEl.textContent = hasVal(currentUser.bio) ? currentUser.bio.trim() : "Not provided";
-
-        const avatarUrlEl = document.querySelector("#info-avatar-url");
-        if (avatarUrlEl) avatarUrlEl.textContent = hasVal(currentUser.avatar) ? currentUser.avatar.trim() : "";
-
-        if (hasVal(currentUser.avatar)) {
-            const displayImg = document.querySelector("#display-avatar-img");
-            if (displayImg) displayImg.src = currentUser.avatar.trim();
-            const topbarImg = document.querySelector(".profile-avatar-topbar");
-            if (topbarImg) topbarImg.src = currentUser.avatar.trim();
-        }
-
-        // Pre-populate Edit Form
-        if (document.querySelector("#edit-full-name")) document.querySelector("#edit-full-name").value = currentUser.name || "";
-        if (document.querySelector("#edit-email-address")) document.querySelector("#edit-email-address").value = currentUser.email || "";
-        if (document.querySelector("#edit-user-role")) document.querySelector("#edit-user-role").value = currentUser.role || "";
-        if (document.querySelector("#edit-mobile-number")) document.querySelector("#edit-mobile-number").value = currentUser.phone || currentUser.mobile || "";
-        if (document.querySelector("#edit-city")) document.querySelector("#edit-city").value = currentUser.city || "";
-        if (document.querySelector("#edit-avatar-url")) document.querySelector("#edit-avatar-url").value = currentUser.avatar || "";
-        if (document.querySelector("#edit-bio")) document.querySelector("#edit-bio").value = currentUser.bio || "";
-
-    } catch (error) {
-        console.error(error);
     }
-};
+});
 
-USerProfile();
-
+// Initial Load
+loadProfile();

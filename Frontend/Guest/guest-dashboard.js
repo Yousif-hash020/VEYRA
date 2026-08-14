@@ -192,17 +192,7 @@ let GetRooms = async () => {
             );
 
 
-            // Reviews
-            const reviews = document.createElement("span");
-            reviews.className = "overlay-reviews";
-
-            reviews.textContent =
-                `(${room.reviewCount || 0} reviews)`;
-
-
-            overlayRating.appendChild(starSvg);
-            overlayRating.appendChild(ratingText);
-            overlayRating.appendChild(reviews);
+            
 
 
             // =========================
