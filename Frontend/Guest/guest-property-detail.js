@@ -8,10 +8,10 @@ if (!token || !user || user.role !== "guest") {
 
 let getDetails= async ()=>{
     try {
-        const response = await fetch("http://localhost:5000/api/guest/properties/:id", {
+        const response = await fetch("http://localhost:5000/api/guest/properties/", {
             method:"GET",
             headers:{
-                "Authorizzation": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             }
         });
 
@@ -22,3 +22,5 @@ let getDetails= async ()=>{
         console.error(error, "Error")
     }
 }
+
+getDetails();
