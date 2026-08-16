@@ -5,6 +5,7 @@ if (!token || !user || user.role !== "guest") {
     window.location.href = "/Frontend/auth.html";
 }
 
+
 let GetRooms = async () => {
     try {
         const token = localStorage.getItem("token");
@@ -31,12 +32,16 @@ let GetRooms = async () => {
             // =========================
             // CARD
             // =========================
-            const card = document.createElement("a");
+            const card = document.createElement("div");
 
             const cardType = cardTypes[index % cardTypes.length];
 
             card.className = `prop-card ${cardType}`;
-            card.href = `guest-property-detail.html?id=${room._id}`;
+
+
+            card.addEventListener("click", () => {
+                window.location.href = `guest-property-detail.html?id=${room._id}`;
+            });
 
             card.setAttribute(
                 "aria-label",
@@ -192,7 +197,7 @@ let GetRooms = async () => {
             );
 
 
-            
+
 
 
             // =========================
