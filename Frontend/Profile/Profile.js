@@ -39,9 +39,6 @@ async function loadProfile() {
 
         const u = data.user;
 
-        // Persist fresh user object from DB to localStorage
-        localStorage.setItem("user", JSON.stringify(u));
-
         // Update Names
         setText("#display-user-name", u.name, "Host");
         setText("#info-full-name", u.name, "Not provided");

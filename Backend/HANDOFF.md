@@ -91,10 +91,6 @@ All API responses follow a uniform JSON structure:
   "cnic": "61101-1234567-1",
   "city": "Islamabad, Pakistan",
   "bio": "Passionate mountain explorer and photography enthusiast.",
-  "travelPreferences": {
-    "stayStyle": "Mountain Cabin & Lodges",
-    "favoriteDestination": "Hunza Valley"
-  },
   "wishlist": ["66b1a2f3c4e5d6a7b8c9d0e1"],
   "createdAt": "2024-01-15T08:00:00.000Z",
   "updatedAt": "2026-08-13T12:00:00.000Z"
@@ -445,11 +441,7 @@ All API responses follow a uniform JSON structure:
   "cnic": "61101-1234567-1",
   "city": "Islamabad, Pakistan",
   "bio": "Mountain explorer & traveler",
-  "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde",
-  "travelPreferences": {
-    "stayStyle": "Mountain Cabin & Lodges",
-    "favoriteDestination": "Hunza Valley"
-  }
+  "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde"
 }
 ```
 
@@ -466,31 +458,6 @@ All API responses follow a uniform JSON structure:
     "phone": "+92 300 1234567",
     "city": "Islamabad, Pakistan"
   }
-}
-```
-
----
-
-### FEATURE: Change Password
-- **Method**: `PUT`
-- **Endpoint**: `/api/guest/change-password`
-- **Authentication**: Required (`Bearer <token>`)
-- **Role**: `guest`
-
-#### Request Body:
-```json
-{
-  "currentPassword": "OldPassword123!",
-  "newPassword": "NewPassword123!",
-  "confirmPassword": "NewPassword123!"
-}
-```
-
-#### Example Success Response (200 OK):
-```json
-{
-  "success": true,
-  "message": "Password updated successfully"
 }
 ```
 

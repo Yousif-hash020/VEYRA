@@ -94,7 +94,6 @@ app.get('/api', (req, res) => {
         bookingDetail: 'GET /api/guest/bookings/:id  [Protected: guest]',
         cancelBooking: 'PATCH /api/guest/bookings/:id/cancel  [Protected: guest]',
         updateProfile: 'PUT /api/guest/profile  [Protected: guest]',
-        changePassword: 'PUT /api/guest/change-password  [Protected: guest]',
         createReview: 'POST /api/guest/reviews  [Protected: guest]',
         getReviews: 'GET /api/guest/reviews/room/:roomId  [Public/Guest]',
       },

@@ -55,9 +55,7 @@ let getUser = async () => {
         );
 
         const data = await response.json();
-
-        console.log(data);
-
+        console.log(data)
         if (!response.ok) {
             console.error("Update failed:", data.message);
             return;
@@ -85,6 +83,7 @@ let getUser = async () => {
     } catch (error) {
         console.error("Error updating profile:", error);
     }
+
 }
 
 
@@ -111,9 +110,6 @@ let updateUser = async () => {
         );
 
         const data = await response.json();
-
-        console.log(data);
-
         if (!response.ok) {
             console.error("Update failed:", data.message);
             return;
@@ -132,5 +128,7 @@ btnsave.addEventListener("click", async (e) => {
     editform.style.display = 'none'
     displayform.style.display = 'block'
 });
+
+
 
 getUser();

@@ -301,21 +301,6 @@ async function runTests() {
       const updateProfileData = await updateProfileRes.json();
       console.log('Update Profile Status:', updateProfileRes.status, 'Phone:', updateProfileData.user.phone, 'City:', updateProfileData.user.city);
 
-      console.log('\n--- 18. GUEST PASSWORD CHANGE ---');
-      const changePassRes = await fetch(`${baseURL}/api/guest/change-password`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${guestToken}`,
-        },
-        body: JSON.stringify({
-          currentPassword: password,
-          newPassword: 'NewPassword123!',
-          confirmPassword: 'NewPassword123!',
-        }),
-      });
-      const changePassData = await changePassRes.json();
-      console.log('Change Password Status:', changePassRes.status, changePassData.message);
 
       console.log('\n--- 19. GUEST REVIEW CREATION & RETRIEVAL ---');
       const createReviewRes = await fetch(`${baseURL}/api/guest/reviews`, {

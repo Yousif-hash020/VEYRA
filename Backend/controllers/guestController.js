@@ -667,7 +667,7 @@ const cancelGuestBooking = async (req, res) => {
  */
 const updateGuestProfile = async (req, res) => {
   try {
-    const { name, phone, avatar, cnic, city, bio, travelPreferences } = req.body;
+    const { name, phone, avatar, cnic, city, bio } = req.body;
 
     // Prevent security escalations
     if (req.body.role !== undefined) {
@@ -687,7 +687,7 @@ const updateGuestProfile = async (req, res) => {
     if (req.body.password !== undefined) {
       return res.status(403).json({
         success: false,
-        message: 'Use the change-password endpoint to update your password.',
+        message: 'Password updates are not permitted through this endpoint.',
       });
     }
 
@@ -707,15 +707,6 @@ const updateGuestProfile = async (req, res) => {
     if (cnic !== undefined) updates.cnic = String(cnic).trim();
     if (city !== undefined) updates.city = String(city).trim();
     if (bio !== undefined) updates.bio = String(bio).trim();
-
-    if (travelPreferences && typeof travelPreferences === 'object') {
-      updates.travelPreferences = {
-        stayStyle: travelPreferences.stayStyle ? String(travelPreferences.stayStyle).trim() : '',
-        favoriteDestination: travelPreferences.favoriteDestination
-          ? String(travelPreferences.favoriteDestination).trim()
-          : '',
-      };
-    }
 
     const updatedUser = await User.findByIdAndUpdate(req.user.userId, updates, {
       new: true,
@@ -743,68 +734,7 @@ const updateGuestProfile = async (req, res) => {
   }
 };
 
-/**
- * @desc    Update guest security password
- * @route   PUT /api/guest/change-password
- * @access  Protected (Guest)
- */
-const changeGuestPassword = async (req, res) => {
-  try {
-    const { currentPassword, newPassword, confirmPassword } = req.body;
 
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide currentPassword, newPassword, and confirmPassword',
-      });
-    }
-
-    if (newPassword.length < 8) {
-      return res.status(400).json({
-        success: false,
-        message: 'New password must be at least 8 characters long',
-      });
-    }
-
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message: 'New password and confirm password do not match',
-      });
-    }
-
-    const user = await User.findById(req.user.userId).select('+password');
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found',
-      });
-    }
-
-    const isMatch = await user.matchPassword(currentPassword);
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: 'Incorrect current password',
-      });
-    }
-
-    // Set new password (pre-save hook will hash it automatically)
-    user.password = newPassword;
-    await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: 'Password updated successfully',
-    });
-  } catch (error) {
-    console.error('ChangeGuestPassword Error:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Server error while updating password',
-    });
-  }
-};
 
 // =============================================================================
 // REVIEWS & RATINGS
@@ -930,7 +860,6 @@ module.exports = {
   getGuestBookingById,
   cancelGuestBooking,
   updateGuestProfile,
-  changeGuestPassword,
   createReview,
   getRoomReviews,
 };

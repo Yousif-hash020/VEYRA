@@ -77,11 +77,6 @@ const userSchema = new mongoose.Schema(
         ref: 'Room',
       },
     ],
-
-    travelPreferences: {
-      stayStyle: { type: String, default: '' },
-      favoriteDestination: { type: String, default: '' },
-    },
   },
   {
     // Automatically add createdAt and updatedAt timestamps
@@ -130,7 +125,6 @@ userSchema.methods.toPublicJSON = function () {
     cnic: this.cnic || '',
     city: this.city || '',
     bio: this.bio || '',
-    travelPreferences: this.travelPreferences || { stayStyle: '', favoriteDestination: '' },
     wishlist: this.wishlist || [],
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

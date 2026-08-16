@@ -282,11 +282,11 @@ const updateMe = async (req, res) => {
       });
     }
 
-    // Prevent password changes through this route (needs dedicated change-password flow)
+    // Prevent password changes through this route
     if (req.body.password !== undefined) {
       return res.status(403).json({
         success: false,
-        message: 'Use the change-password endpoint to update your password.',
+        message: 'Password updates are not allowed through this endpoint.',
       });
     }
 

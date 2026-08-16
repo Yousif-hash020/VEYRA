@@ -15,7 +15,6 @@ const {
   getGuestBookingById,
   cancelGuestBooking,
   updateGuestProfile,
-  changeGuestPassword,
   createReview,
   getRoomReviews,
 } = require('../controllers/guestController');
@@ -57,9 +56,8 @@ router.get('/bookings', protect, authorizeRoles('guest'), getGuestBookings);
 router.get('/bookings/:id', protect, authorizeRoles('guest'), getGuestBookingById);
 router.patch('/bookings/:id/cancel', protect, authorizeRoles('guest'), cancelGuestBooking);
 
-// ── Profile & Password APIs ──────────────────────────────────────────────────
+// ── Profile APIs ─────────────────────────────────────────────────────────────
 router.put('/profile', protect, authorizeRoles('guest'), updateGuestProfile);
-router.put('/change-password', protect, authorizeRoles('guest'), changeGuestPassword);
 
 // ── Review Submission ────────────────────────────────────────────────────────
 router.post('/reviews', protect, authorizeRoles('guest'), createReview);
