@@ -1,3 +1,5 @@
+
+
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -28,8 +30,24 @@ let getDetails = async (id) => {
         document.querySelector(".property-title").textContent = data.data.name;
         document.querySelector(".rating").textContent = data.data.rating;
         document.querySelector(".meta-location").textContent = data.data.location;
-        document.querySelector(".meta-review-count").textContent = `${data.data.reviewCount}  verified reviews`;
+        document.querySelector(".description-text").textContent = data.data.description;
+        document.querySelector(".meta-review-count").textContent = `(${data.data.reviewCount}   verified reviews)`;
+        document.querySelector(".host-name").textContent = `Hosted by ${data.data.owner.name}`;
+        document.querySelector("#guest").textContent = `${data.data.guests} Guests`;
+        document.querySelector("#beds").textContent = `${data.data.beds} Beds`;
+        document.querySelector("#bath").textContent = `${data.data.bedrooms} Baths`;
+        document.querySelector("#bedrooms").textContent = `${data.data.bathrooms} Bedrooms`;
 
+          data.data.amenities.forEach(element => {
+            const amenitiescard = document.createElement('div');
+            amenitiescard.classList.add("amenity-card");
+            amenitiescard.textContent = element;
+
+            document.querySelector(".amenities-grid").appendChild(amenitiescard);
+        });
+
+
+      
     } catch (error) {
         console.error(error, "Error");
     }

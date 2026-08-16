@@ -254,7 +254,7 @@
               </svg>
             </div>
             <div class="spec-details">
-              <span class="spec-val">8 Guests</span>
+              <span class="spec-val" id="guest">8 Guests</span>
               <span class="spec-label">Capacity</span>
             </div>
           </div>
@@ -267,7 +267,7 @@
               </svg>
             </div>
             <div class="spec-details">
-              <span class="spec-val">4 Bedrooms</span>
+              <span class="spec-val" id="beds">4 Bedrooms</span>
               <span class="spec-label">King beds</span>
             </div>
           </div>
@@ -281,7 +281,7 @@
               </svg>
             </div>
             <div class="spec-details">
-              <span class="spec-val">3 Baths</span>
+              <span class="spec-val" id="bath">3 Baths</span>
               <span class="spec-label">Full luxury</span>
             </div>
           </div>
@@ -294,8 +294,8 @@
               </svg>
             </div>
             <div class="spec-details">
-              <span class="spec-val">Fireplace</span>
-              <span class="spec-label">Wood burning</span>
+              <span class="spec-val" id="bedrooms">Bedrooms</span>
+              <span class="spec-label">King beds</span>
             </div>
           </div>
         </div>
@@ -306,47 +306,13 @@
           <p class="description-text">
             Perched amidst ancient pine ridge forests at 2,200 meters altitude in Nathia Gali, this handcrafted timber cabin redefines mountain tranquility. Designed for discerning travelers, the retreat combines authentic cedar-wood architecture with modern Scandinavian minimalist luxury.
           </p>
-          <p class="description-text">
-            Savor morning espresso on the cantilevered wooden deck overlooking mist-shrouded Himalayan valleys, gather around the slate wood-burning fireplace in the double-height ceiling living room, or unwind under starlit nights in total privacy.
-          </p>
         </div>
 
         <!-- Amenities Grid -->
         <div class="section-block">
           <h2 class="section-title">What This Stay Offers</h2>
           <div class="amenities-grid">
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-              High-Speed Fiber WiFi
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-              Indoor Slate Fireplace
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-              Free On-site Parking (4 cars)
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
-              Unobstructed Mountain View
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              Chef's Gourmet Kitchen
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              24/7 Power Backup
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
-              Smart TV & Sound System
-            </div>
-            <div class="amenity-card">
-              <svg class="amenity-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Gated Security System
-            </div>
+            
           </div>
         </div>
 
