@@ -111,24 +111,30 @@ let loadWishlist = async () => {
 
         rooms.forEach((room, index) => {
             const card = document.createElement("a");
-            const cardType = cardTypes[index % cardTypes.length];
-            card.className = `prop-card ${cardType}`;
+            card.className = "prop-card";
             card.href = `guest-property-detail.html?id=${room._id}`;
-            card.setAttribute("aria-label", `${room.name}, ${room.location} — PKR ${room.pricePerNight} per night`);
+            card.setAttribute("aria-label", `${room.name || 'Property'}, ${room.location || ''} — PKR ${(room.pricePerNight || 0).toLocaleString()} per night`);
+
+            const fallbackImg = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80";
+            const mainImgSrc = (room.images && room.images.length > 0 && typeof room.images[0] === 'string')
+                ? room.images[0]
+                : (room.image || fallbackImg);
 
             const imgWrap = document.createElement("div");
             imgWrap.className = "prop-img-wrap";
 
             const img = document.createElement("img");
-            img.src = (room.images && room.images.length > 0) ? room.images[0] : room.image;
-            img.alt = room.name;
+            img.src = mainImgSrc;
+            img.alt = room.name || "Property photo";
             img.className = "prop-img";
-            img.width = 600;
-            img.height = cardType === "card-tall" ? 800 : 480;
             img.loading = index === 0 ? "eager" : "lazy";
+            img.onerror = function() {
+                this.onerror = null;
+                this.src = fallbackImg;
+            };
 
             const availBadge = document.createElement("span");
-            availBadge.className = "avail-badge available";
+            availBadge.className = `avail-badge ${room.status === 'Unavailable' ? 'booked' : 'available'}`;
             availBadge.innerHTML = `<span class="avail-dot" aria-hidden="true"></span>${room.status || "Available"}`;
 
             const propBadge = document.createElement("span");
@@ -145,13 +151,14 @@ let loadWishlist = async () => {
             wishBtn.className = "wish-btn saved active";
             wishBtn.type = "button";
             wishBtn.setAttribute("title", "Remove from Wishlist");
+            wishBtn.setAttribute("aria-label", "Remove from Wishlist");
 
             const heartSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             heartSvg.setAttribute("width", "16");
             heartSvg.setAttribute("height", "16");
             heartSvg.setAttribute("viewBox", "0 0 24 24");
-            heartSvg.setAttribute("fill", "currentColor");
-            heartSvg.setAttribute("stroke", "currentColor");
+            heartSvg.setAttribute("fill", "#0D5C4E");
+            heartSvg.setAttribute("stroke", "#0D5C4E");
             heartSvg.setAttribute("stroke-width", "1.5");
             const heartPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
             heartPath.setAttribute("d", "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z");
@@ -208,7 +215,7 @@ let loadWishlist = async () => {
 
             const overlayPrice = document.createElement("div");
             overlayPrice.className = "overlay-price";
-            overlayPrice.innerHTML = `PKR ${Number(room.pricePerNight).toLocaleString()}<span class="price-per">/night</span>`;
+            overlayPrice.innerHTML = `PKR ${Number(room.pricePerNight || 0).toLocaleString()}<span class="price-per">/night</span>`;
 
             overlayTop.appendChild(wishBtn);
             overlayBottom.appendChild(overlayRating);
@@ -220,10 +227,10 @@ let loadWishlist = async () => {
             propFoot.className = "prop-foot";
             propFoot.innerHTML = `
                 <div class="prop-foot-main">
-                    <h3 class="prop-name">${room.name}</h3>
+                    <h3 class="prop-name">${room.name || 'Retreat Stay'}</h3>
                     <span class="prop-location">
                         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        ${room.location}
+                        ${room.location || 'Pakistan'}
                     </span>
                 </div>
                 <div class="prop-foot-right">

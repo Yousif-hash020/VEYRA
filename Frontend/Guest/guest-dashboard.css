@@ -1776,17 +1776,20 @@ h3 {
   :root {
     --navbar-h: 60px;
   }
+  .nav-brand {
+    margin-right: auto !important;
+  }
   .nav-links {
-    display: none;
+    display: none !important;
   }
   .hamburger-btn {
-    display: flex;
+    display: flex !important;
   }
   .mobile-drawer {
-    display: block;
+    display: block !important;
   }
   .nav-logout {
-    display: none;
+    display: none !important;
   }
   .masonry-grid {
     columns: 2 200px;

@@ -51,15 +51,28 @@ function getAmenityIconSVG(amenityName) {
     return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
 }
 
-let getDetails = async (id) => {
-    try {
-        if (!id) {
-            console.error("No property ID provided in URL");
-            return;
-        }
+function showErrorState(title, description) {
+    const detailContent = document.getElementById("property-detail-container");
+    const errorContainer = document.getElementById("property-error-container");
+    if (detailContent) detailContent.style.display = "none";
+    if (errorContainer) {
+        errorContainer.style.display = "flex";
+        const titleEl = document.getElementById("property-error-title");
+        const descEl = document.getElementById("property-error-desc");
+        if (titleEl) titleEl.textContent = title;
+        if (descEl) descEl.textContent = description;
+    }
+}
 
+let getDetails = async (propertyId) => {
+    if (!propertyId || propertyId === "undefined" || propertyId === "null" || !propertyId.trim()) {
+        showErrorState("Property Not Found", "No valid property ID was provided in the link. Please return to Explore.");
+        return;
+    }
+
+    try {
         const response = await fetch(
-            `http://localhost:5000/api/guest/properties/${id}`,
+            `http://localhost:5000/api/guest/properties/${propertyId}`,
             {
                 method: "GET",
                 headers: {
@@ -69,11 +82,18 @@ let getDetails = async (id) => {
         );
 
         const data = await response.json();
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || "Failed to load property details");
+        if (!response.ok || !data.success || !data.data) {
+            showErrorState("Unable to Load Property", data.message || "We couldn't find the requested property or it is no longer available.");
+            return;
         }
 
         propertyData = data.data;
+
+        // Ensure property detail container is visible and error container hidden
+        const detailContainer = document.getElementById("property-detail-container");
+        const errorContainer = document.getElementById("property-error-container");
+        if (detailContainer) detailContainer.style.display = "block";
+        if (errorContainer) errorContainer.style.display = "none";
 
         // Helper for safe DOM text assignment
         const setText = (selector, val) => {
@@ -83,12 +103,12 @@ let getDetails = async (id) => {
 
         // Populate Header & Breadcrumb Details safely
         setText(".property-title", propertyData.name);
-        setText(".rating", propertyData.rating);
+        setText(".rating", propertyData.rating || "4.8");
         setText(".meta-location", propertyData.location);
-        setText(".description-text", propertyData.description);
-        setText(".side-rating", propertyData.rating);
-        setText(".guest-rating", `${propertyData.rating} ·`);
-        setText(".rating-score-num", propertyData.rating);
+        setText(".description-text", propertyData.description || "No description available for this retreat.");
+        setText(".side-rating", propertyData.rating || "4.8");
+        setText(".guest-rating", `${propertyData.rating || "4.8"} ·`);
+        setText(".rating-score-num", propertyData.rating || "4.8");
         
         const rCount = propertyData.reviewCount || 0;
         setText(".guest-reviews-count", `${rCount} ${rCount === 1 ? 'Guest Review' : 'Guest Reviews'}`);
@@ -125,8 +145,8 @@ let getDetails = async (id) => {
         const breadcrumbCurrent = document.querySelector(".breadcrumb-current");
         const breadcrumbItems = document.querySelectorAll(".breadcrumb-item");
         if (breadcrumbItems && breadcrumbItems.length > 1) {
-            breadcrumbItems[1].textContent = `${propertyData.location} Stays`;
-            breadcrumbItems[1].href = `guest-dashboard.html?location=${encodeURIComponent(propertyData.location)}`;
+            breadcrumbItems[1].textContent = `${propertyData.location || 'Explore'} Stays`;
+            breadcrumbItems[1].href = `guest-dashboard.html?location=${encodeURIComponent(propertyData.location || '')}`;
         }
         if (breadcrumbCurrent) breadcrumbCurrent.textContent = propertyData.name;
 
@@ -159,29 +179,44 @@ let getDetails = async (id) => {
         setText(".price-amount", `PKR ${priceVal}`);
         setText(".side-rating-count", `(${rCount})`);
 
-        // Render Property Photo Gallery Grid
+        // Dynamic Guests Selection Dropdown (capacity enforced)
+        const guestsSelect = document.getElementById("booking-guests");
+        if (guestsSelect) {
+            guestsSelect.innerHTML = "";
+            const maxCapacity = Math.max(1, propertyData.guests || 2);
+            for (let g = 1; g <= maxCapacity; g++) {
+                const opt = document.createElement("option");
+                opt.value = g;
+                opt.textContent = g === 1 ? "1 Guest" : `${g} Guests`;
+                if (g === Math.min(2, maxCapacity)) opt.selected = true;
+                guestsSelect.appendChild(opt);
+            }
+        }
+
+        // Render Property Photo Gallery Grid with Fallbacks
         const galleryGrid = document.querySelector("#galleryGrid");
         if (galleryGrid) {
-            const photos = (Array.isArray(propertyData.images) && propertyData.images.length > 0)
-                ? propertyData.images
-                : (propertyData.image ? [propertyData.image] : []);
-            
-            if (photos.length > 0) {
-                galleryGrid.innerHTML = "";
-                photos.slice(0, 5).forEach((pic, idx) => {
-                    const itemDiv = document.createElement("div");
-                    itemDiv.className = idx === 0 ? "gallery-item main-photo" : "gallery-item";
-                    itemDiv.innerHTML = `<img src="${pic}" alt="${propertyData.name} photo ${idx + 1}" class="gallery-img">`;
-                    galleryGrid.appendChild(itemDiv);
-                });
+            const fallbackImg = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80";
+            let photos = (Array.isArray(propertyData.images) && propertyData.images.length > 0)
+                ? propertyData.images.filter(p => p && typeof p === 'string')
+                : (propertyData.image ? [propertyData.image] : [fallbackImg]);
 
-                if (photos.length > 1) {
-                    const btn = document.createElement("button");
-                    btn.type = "button";
-                    btn.className = "gallery-overlay-btn";
-                    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> View All ${photos.length} Photos`;
-                    galleryGrid.appendChild(btn);
-                }
+            if (photos.length === 0) photos = [fallbackImg];
+
+            galleryGrid.innerHTML = "";
+            photos.slice(0, 5).forEach((pic, idx) => {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = idx === 0 ? "gallery-item main-photo" : "gallery-item";
+                itemDiv.innerHTML = `<img src="${pic}" alt="${propertyData.name || 'Property'} photo ${idx + 1}" class="gallery-img" onerror="this.onerror=null;this.src='${fallbackImg}';">`;
+                galleryGrid.appendChild(itemDiv);
+            });
+
+            if (photos.length > 1) {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "gallery-overlay-btn";
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> View All ${photos.length} Photos`;
+                galleryGrid.appendChild(btn);
             }
         }
 
@@ -976,9 +1011,39 @@ function initReviewModal(roomId) {
     }
 }
 
+function initShareButton() {
+    const shareBtn = document.getElementById("btn-share-property");
+    if (!shareBtn) return;
+
+    shareBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const shareData = {
+            title: propertyData ? propertyData.name : "VEYRA Property",
+            text: propertyData ? `Check out ${propertyData.name} on VEYRA` : "Discover stays on VEYRA",
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                // Share sheet closed
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                showVeyraToast("Property link copied to clipboard", "success");
+            } catch (err) {
+                showVeyraToast("Link: " + window.location.href, "success");
+            }
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initHeaderWishlist(id);
     initReviewModal(id);
+    initShareButton();
 });
 
 getDetails(id);

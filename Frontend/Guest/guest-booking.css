@@ -221,3 +221,110 @@ input, select, textarea { font-family: inherit; }
   .form-grid-2 { grid-template-columns: 1fr; }
   .trip-summary-grid { grid-template-columns: 1fr; }
 }
+
+/* Mobile Navigation Drawer & Toggle System */
+.nav-toggle-input {
+  display: none;
+}
+
+.nav-toggle-input:checked ~ .navbar .ham-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle-input:checked ~ .navbar .ham-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-toggle-input:checked ~ .navbar .ham-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.nav-toggle-input:checked ~ .navbar .mobile-drawer {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid #E5DFCE;
+  background: #ffffff;
+  color: #2C2C2E;
+  cursor: pointer;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.ham-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.ham-line {
+  display: block;
+  width: 18px;
+  height: 1.75px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-drawer {
+  position: absolute;
+  top: 66px;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-bottom: 1px solid #F2EEE5;
+  box-shadow: 0 8px 32px rgba(12, 12, 14, 0.10);
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 200;
+  display: none;
+}
+
+.mobile-drawer-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 10px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #48484A;
+}
+
+.mobile-link:hover,
+.mobile-link.active {
+  background: #F0FAF8;
+  color: #0D5C4E;
+}
+
+.mobile-divider {
+  height: 1px;
+  background: #F2EEE5;
+  margin: 6px 14px;
+}
+
+.mobile-link.danger {
+  color: #E05228;
+}
