@@ -141,35 +141,72 @@ if (form) {
     });
 }
 
-// Change Photo Buttons
+function compressHostAvatar(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = 300;
+                canvas.height = 300;
+                const ctx = canvas.getContext("2d");
+                const minSide = Math.min(img.width, img.height);
+                const sx = (img.width - minSide) / 2;
+                const sy = (img.height - minSide) / 2;
+                ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, 300, 300);
+                resolve(canvas.toDataURL("image/jpeg", 0.85));
+            };
+            img.onerror = () => resolve(e.target.result);
+            img.src = e.target.result;
+        };
+        reader.onerror = () => resolve("");
+        reader.readAsDataURL(file);
+    });
+}
+
+// Change Photo Buttons (File Upload & FileReader Base64 conversion)
+const hostFileInput = document.querySelector("#host-avatar-file-input");
 const photoBtns = [document.querySelector("#btn-change-photo"), document.querySelector("#btn-camera-photo")];
+
 photoBtns.forEach(btn => {
-    if (btn) {
-        btn.addEventListener("click", async () => {
-            const currentUrl = document.querySelector("#edit-avatar-url")?.value || "";
-            const newUrl = prompt("Enter Profile Picture Image URL:", currentUrl);
-            if (newUrl !== null && newUrl.trim() !== "") {
-                try {
-                    const res = await fetch(API_BASE, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ avatar: newUrl.trim() })
-                    });
-                    const data = await res.json();
-                    if (data.success && data.user) {
-                        localStorage.setItem("user", JSON.stringify(data.user));
-                    }
-                    await loadProfile();
-                } catch (err) {
-                    console.error("Error updating avatar:", err);
-                }
-            }
+    if (btn && hostFileInput) {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            hostFileInput.click();
         });
     }
 });
+
+if (hostFileInput) {
+    hostFileInput.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const base64Avatar = await compressHostAvatar(file);
+            if (!base64Avatar) return;
+
+            const res = await fetch(API_BASE, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ avatar: base64Avatar })
+            });
+
+            const data = await res.json();
+            if (data.success && data.user) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+            }
+            await loadProfile();
+        } catch (err) {
+            console.error("Error updating avatar:", err);
+        }
+        hostFileInput.value = "";
+    });
+}
 
 // Initial Load
 loadProfile();

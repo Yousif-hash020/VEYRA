@@ -35,6 +35,7 @@ const ALLOWED_ROOM_FIELDS = [
   'description',
   'amenities',
   'image',
+  'images',
   'status',
   'availableFrom',
   'availableTo',
@@ -140,27 +141,24 @@ const getRoomById = async (req, res) => {
 // =============================================================================
 const getHostProperties = async (req, res) => {
   try {
-    const rooms = await Room.find({ owner: req.user.userId }).sort({
-      createdAt: -1,
-    });
+    const rooms = await Room.find({ owner: req.user.userId })
+      .sort({ createdAt: -1 })
+      .lean();
 
-    const now = new Date();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Find all confirmed bookings for this host where checkIn <= now and checkOut > today
+    // Find all confirmed bookings for this host where checkOut > today (active or upcoming bookings)
     const activeBookings = await Booking.find({
       host: req.user.userId,
       status: 'Confirmed',
-      checkIn: { $lte: now },
       checkOut: { $gt: today },
-    });
+    }).select('room').lean();
 
     const bookedRoomIds = new Set(activeBookings.map((b) => b.room.toString()));
 
-    const roomsWithComputedStatus = rooms.map((room) => {
-      const roomObj = room.toObject();
-      if (roomObj.status !== 'Unavailable' && bookedRoomIds.has(roomObj._id.toString())) {
+    const roomsWithComputedStatus = rooms.map((roomObj) => {
+      if (roomObj.status !== 'Unavailable' && (bookedRoomIds.has(roomObj._id.toString()) || roomObj.status === 'Booked')) {
         roomObj.status = 'Booked';
       }
       return roomObj;
@@ -198,6 +196,19 @@ const createRoom = async (req, res) => {
     // Process amenities if provided
     if (allowedData.amenities) {
       allowedData.amenities = parseAmenities(allowedData.amenities);
+    }
+
+    // Process images (min 5, max 15) & primary image cover
+    if (allowedData.images && Array.isArray(allowedData.images)) {
+      if (allowedData.images.length < 5 || allowedData.images.length > 15) {
+        return res.status(400).json({
+          success: false,
+          message: `Validation failed: Property must have between 5 and 15 images. Provided: ${allowedData.images.length}`,
+        });
+      }
+      allowedData.image = allowedData.images[0];
+    } else if (allowedData.image && !allowedData.images) {
+      allowedData.images = Array(5).fill(allowedData.image);
     }
 
     // Stamp owner from the verified JWT — this is the ONLY source of ownership.
@@ -277,6 +288,18 @@ const updateRoom = async (req, res) => {
 
     if (updateData.amenities) {
       updateData.amenities = parseAmenities(updateData.amenities);
+    }
+
+    if (updateData.images && Array.isArray(updateData.images)) {
+      if (updateData.images.length < 5 || updateData.images.length > 15) {
+        return res.status(400).json({
+          success: false,
+          message: `Validation failed: Property must have between 5 and 15 images. Provided: ${updateData.images.length}`,
+        });
+      }
+      updateData.image = updateData.images[0];
+    } else if (updateData.image && !updateData.images) {
+      updateData.images = Array(5).fill(updateData.image);
     }
 
     // Apply the update to the already-verified room document.
@@ -492,7 +515,8 @@ const getHostBookings = async (req, res) => {
     const bookings = await Booking.find({ host: req.user.userId })
       .sort({ createdAt: -1 })
       .populate('room', 'name location propertyType image pricePerNight')
-      .populate('guest', 'name email avatar phone cnic');
+      .populate('guest', 'name email avatar phone cnic')
+      .lean();
 
     return res.status(200).json({
       success: true,

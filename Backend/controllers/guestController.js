@@ -41,10 +41,11 @@ const getGuestProperties = async (req, res) => {
     // Only show Available properties by default
     query.status = 'Available';
 
-    // 1. Search by Location
+    // 1. Search by Location or Property Name
     const dest = location || req.query.destination;
     if (dest && dest.trim() !== '') {
-      query.location = { $regex: dest.trim(), $options: 'i' };
+      const reg = new RegExp(dest.trim(), 'i');
+      query.$or = [{ location: reg }, { name: reg }];
     }
 
     // 2. Filter by Property Type
@@ -137,36 +138,56 @@ const getGuestProperties = async (req, res) => {
     if (sortBy === 'newest') sortObj = { createdAt: -1 };
 
     // Execute room query
-    let rooms = await Room.find(query).sort(sortObj).populate('owner', 'name');
+    let rooms = await Room.find(query)
+      .sort(sortObj)
+      .populate('owner', 'name avatar')
+      .lean();
 
-    // Attach review ratings & filter by minimum rating if requested
+    // Batch aggregate ratings to avoid N+1 queries
+    const roomIds = rooms.map((r) => r._id);
+    let statsMap = new Map();
+
+    if (roomIds.length > 0) {
+      const ratingStats = await Review.aggregate([
+        { $match: { room: { $in: roomIds } } },
+        {
+          $group: {
+            _id: '$room',
+            avgRating: { $avg: '$rating' },
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      ratingStats.forEach((stat) => {
+        statsMap.set(stat._id.toString(), {
+          avgRating: Number(stat.avgRating.toFixed(1)),
+          count: stat.count,
+        });
+      });
+    }
+
     const minRating = rating && rating !== 'any' ? Number(rating) : 0;
 
-    const roomsWithRatings = await Promise.all(
-      rooms.map(async (room) => {
-        const reviews = await Review.find({ room: room._id });
-        const reviewCount = reviews.length;
-        const avgRating =
-          reviewCount > 0
-            ? Number((reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount).toFixed(1))
-            : 4.8; // Default rating display if new
-
-        return {
-          ...room.toObject(),
-          rating: avgRating,
-          reviewCount,
-        };
-      })
-    );
+    let finalRooms = rooms.map((room) => {
+      const stat = statsMap.get(room._id.toString());
+      return {
+        ...room,
+        rating: stat ? stat.avgRating : 4.8,
+        reviewCount: stat ? stat.count : 0,
+      };
+    });
 
     // Apply minimum rating filter
-    let finalRooms = roomsWithRatings;
     if (minRating > 0 && !isNaN(minRating)) {
-      finalRooms = roomsWithRatings.filter((r) => r.rating >= minRating);
+      finalRooms = finalRooms.filter((r) => r.rating >= minRating);
     }
 
     if (sortBy === 'rating') {
       finalRooms.sort((a, b) => b.rating - a.rating);
+    }
+    if (sortBy === 'reviews') {
+      finalRooms.sort((a, b) => b.reviewCount - a.reviewCount);
     }
 
     return res.status(200).json({
@@ -252,8 +273,8 @@ const getWishlist = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).populate({
       path: 'wishlist',
-      populate: { path: 'owner', select: 'name' },
-    });
+      populate: { path: 'owner', select: 'name avatar' },
+    }).lean();
 
     if (!user) {
       return res.status(404).json({
@@ -262,10 +283,43 @@ const getWishlist = async (req, res) => {
       });
     }
 
+    const wishlistRooms = user.wishlist || [];
+    const roomIds = wishlistRooms.map((r) => r._id);
+
+    let statsMap = new Map();
+    if (roomIds.length > 0) {
+      const ratingStats = await Review.aggregate([
+        { $match: { room: { $in: roomIds } } },
+        {
+          $group: {
+            _id: '$room',
+            avgRating: { $avg: '$rating' },
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      ratingStats.forEach((stat) => {
+        statsMap.set(stat._id.toString(), {
+          avgRating: Number(stat.avgRating.toFixed(1)),
+          count: stat.count,
+        });
+      });
+    }
+
+    const finalWishlist = wishlistRooms.map((room) => {
+      const stat = statsMap.get(room._id.toString());
+      return {
+        ...room,
+        rating: stat ? stat.avgRating : 4.8,
+        reviewCount: stat ? stat.count : 0,
+      };
+    });
+
     return res.status(200).json({
       success: true,
-      count: user.wishlist.length,
-      data: user.wishlist,
+      count: finalWishlist.length,
+      data: finalWishlist,
     });
   } catch (error) {
     console.error('GetWishlist Error:', error);
@@ -304,12 +358,12 @@ const addToWishlist = async (req, res) => {
       req.user.userId,
       { $addToSet: { wishlist: propertyId } },
       { new: true }
-    ).populate('wishlist');
+    ).select('wishlist').lean();
 
     return res.status(200).json({
       success: true,
       message: 'Property added to wishlist',
-      data: user.wishlist,
+      data: user ? user.wishlist : [],
     });
   } catch (error) {
     console.error('AddToWishlist Error:', error);
@@ -340,12 +394,12 @@ const removeFromWishlist = async (req, res) => {
       req.user.userId,
       { $pull: { wishlist: propertyId } },
       { new: true }
-    ).populate('wishlist');
+    ).select('wishlist').lean();
 
     return res.status(200).json({
       success: true,
       message: 'Property removed from wishlist',
-      data: user.wishlist,
+      data: user ? user.wishlist : [],
     });
   } catch (error) {
     console.error('RemoveFromWishlist Error:', error);
@@ -521,6 +575,10 @@ const createBooking = async (req, res) => {
       referenceCode: refCode,
     });
 
+    // Mark room status as 'Booked' upon confirmation
+    room.status = 'Booked';
+    await room.save();
+
     await booking.populate([
       { path: 'room', select: 'name location propertyType image pricePerNight' },
       { path: 'host', select: 'name email' },
@@ -654,6 +712,19 @@ const cancelGuestBooking = async (req, res) => {
 
     booking.status = 'Canceled';
     await booking.save();
+
+    // Revert room status to 'Available' if no other active confirmed bookings exist
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const otherActiveBookings = await Booking.find({
+      room: booking.room,
+      _id: { $ne: booking._id },
+      status: 'Confirmed',
+      checkOut: { $gt: today },
+    });
+    if (otherActiveBookings.length === 0) {
+      await Room.findByIdAndUpdate(booking.room, { status: 'Available' });
+    }
 
     await booking.populate('room', 'name location image');
 

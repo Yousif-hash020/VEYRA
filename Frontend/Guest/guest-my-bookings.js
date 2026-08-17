@@ -77,7 +77,9 @@ function renderBookings() {
             statusText = "Canceled";
         }
 
-        const roomImg = room.image || "../images/luxury_mountain_cabin.png";
+        const roomImg = (Array.isArray(room.images) && room.images.length > 0)
+            ? room.images[0]
+            : (room.image || "../images/luxury_mountain_cabin.png");
         const roomName = room.name || "Property Stay";
         const roomLoc = room.location || "Pakistan";
 
@@ -215,7 +217,27 @@ function initTabs() {
     });
 }
 
+const loadUserAvatar = async () => {
+    try {
+        const response = await fetch("http://localhost:5000/api/auth/me", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (data.success && data.user) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            if (data.user.avatar) {
+                document.querySelectorAll(".nav-avatar, #nav-avatar-img").forEach(img => {
+                    img.src = data.user.avatar;
+                });
+            }
+        }
+    } catch (e) {
+        console.error("loadUserAvatar error:", e);
+    }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     initTabs();
     getMyBookings();
+    loadUserAvatar();
 });

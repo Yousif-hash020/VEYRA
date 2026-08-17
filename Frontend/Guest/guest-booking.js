@@ -102,8 +102,12 @@ let initCheckout = async () => {
         // Render Mini Property Card
         const summaryPropHead = document.querySelector(".summary-prop-head");
         if (summaryPropHead) {
+            const mainImg = (Array.isArray(roomData.images) && roomData.images.length > 0)
+                ? roomData.images[0]
+                : (roomData.image || "../images/luxury_mountain_cabin.png");
+
             summaryPropHead.innerHTML = `
-                <img src="${roomData.image}" alt="${roomData.name}" class="summary-prop-img">
+                <img src="${mainImg}" alt="${roomData.name}" class="summary-prop-img">
                 <div class="summary-prop-text">
                   <h3 class="summary-prop-title">${roomData.name}</h3>
                   <span class="summary-prop-loc">
@@ -112,7 +116,7 @@ let initCheckout = async () => {
                   </span>
                   <div class="summary-prop-rating">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#C4A040" stroke="#C4A040" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    ${roomData.rating} (${roomData.reviewCount} reviews)
+                    ${roomData.rating || 4.8} (${roomData.reviewCount || 0} reviews)
                   </div>
                 </div>
             `;

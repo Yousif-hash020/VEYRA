@@ -118,6 +118,12 @@ const getUserInfo = async () => {
             userName.style.textTransform = 'capitalize';
             userRole.textContent = data.user.role;
             userRole.style.textTransform = 'capitalize';
+            if (data.user.avatar) {
+                document.querySelectorAll('.user-avatar, #user-avatar-img, .profile-avatar-topbar').forEach(img => {
+                    img.src = data.user.avatar;
+                });
+            }
+            localStorage.setItem("user", JSON.stringify(data.user));
         }
     } catch (e) {
         console.error("getUserInfo Error:", e);

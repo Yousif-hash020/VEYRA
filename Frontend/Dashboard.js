@@ -58,9 +58,163 @@ const guests = document.querySelector("#guests");
 const bedrooms = document.querySelector("#bedrooms");
 const beds = document.querySelector("#beds");
 const bathrooms = document.querySelector("#bathrooms");
-const image = document.querySelector("#image");
 const amenities = document.querySelector("#amenities");
 const description = document.querySelector("#description");
+
+let createListingImages = [];
+let updateListingImages = [];
+
+function renderImagesPreview(containerId, counterId, imagesArray, onRemove) {
+    const container = document.getElementById(containerId);
+    const counter = document.getElementById(counterId);
+    if (!container || !counter) return;
+
+    counter.textContent = `${imagesArray.length} / 15 pictures loaded (Min 5 required)`;
+    if (imagesArray.length < 5) {
+        counter.style.color = "#e11d48";
+    } else if (imagesArray.length > 15) {
+        counter.style.color = "#e11d48";
+        counter.textContent += " — Exceeds max 15 limit!";
+    } else {
+        counter.style.color = "#0D5C4E";
+    }
+
+    container.innerHTML = "";
+    imagesArray.forEach((imgSrc, idx) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+        wrapper.style.width = "75px";
+        wrapper.style.height = "75px";
+        wrapper.style.borderRadius = "8px";
+        wrapper.style.overflow = "hidden";
+        wrapper.style.border = idx === 0 ? "2px solid #0D5C4E" : "1px solid #cbd5e1";
+
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+
+        if (idx === 0) {
+            const badge = document.createElement("span");
+            badge.textContent = "Cover";
+            badge.style.position = "absolute";
+            badge.style.bottom = "0";
+            badge.style.left = "0";
+            badge.style.right = "0";
+            badge.style.background = "rgba(13, 92, 78, 0.9)";
+            badge.style.color = "#fff";
+            badge.style.fontSize = "10px";
+            badge.style.fontWeight = "bold";
+            badge.style.textAlign = "center";
+            badge.style.padding = "2px 0";
+            wrapper.appendChild(badge);
+        }
+
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.innerHTML = "&times;";
+        delBtn.style.position = "absolute";
+        delBtn.style.top = "2px";
+        delBtn.style.right = "2px";
+        delBtn.style.background = "rgba(225, 29, 72, 0.9)";
+        delBtn.style.color = "#fff";
+        delBtn.style.border = "none";
+        delBtn.style.borderRadius = "50%";
+        delBtn.style.width = "20px";
+        delBtn.style.height = "20px";
+        delBtn.style.cursor = "pointer";
+        delBtn.style.fontSize = "13px";
+        delBtn.style.lineHeight = "18px";
+
+        delBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            imagesArray.splice(idx, 1);
+            onRemove();
+        });
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(delBtn);
+        container.appendChild(wrapper);
+    });
+}
+
+function compressImageFile(file, maxWidth = 1200, maxHeight = 900, quality = 0.75) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+                if (height > maxHeight) {
+                    width = Math.round((width * maxHeight) / height);
+                    height = maxHeight;
+                }
+
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
+                resolve(compressedDataUrl);
+            };
+            img.onerror = () => resolve(e.target.result);
+            img.src = e.target.result;
+        };
+        reader.onerror = () => resolve("");
+        reader.readAsDataURL(file);
+    });
+}
+
+async function handleFilesSelected(files, targetArray, counterId, containerId, onComplete) {
+    const fileList = Array.from(files);
+    if (fileList.length === 0) return;
+
+    for (const file of fileList) {
+        if (targetArray.length >= 15) break;
+        try {
+            const compressed = await compressImageFile(file, 1200, 900, 0.75);
+            if (compressed) targetArray.push(compressed);
+        } catch (err) {
+            console.error("Image processing error:", err);
+        }
+    }
+    onComplete();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const createFileInput = document.getElementById("create-images-input");
+    if (createFileInput) {
+        createFileInput.addEventListener("change", (e) => {
+            handleFilesSelected(e.target.files, createListingImages, "create-images-counter", "create-images-preview", () => {
+                renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => {
+                    renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => {});
+                });
+            });
+            createFileInput.value = "";
+        });
+    }
+
+    const updateFileInput = document.getElementById("update-images-input");
+    if (updateFileInput) {
+        updateFileInput.addEventListener("change", (e) => {
+            handleFilesSelected(e.target.files, updateListingImages, "update-images-counter", "update-images-preview", () => {
+                renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {
+                    renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {});
+                });
+            });
+            updateFileInput.value = "";
+        });
+    }
+});
 
 
 const token = localStorage.getItem("token");
@@ -94,15 +248,34 @@ let view = async (id) => {
     }
 };
 
+function updateStatsFromListings(listingsData) {
+    let total = document.querySelector("#total-listings");
+    let ava = document.querySelector("#Available");
+    let booked = document.querySelector("#Booked");
+    let unava = document.querySelector("#Unavailable");
+
+    if (!total || !ava || !booked || !unava || !Array.isArray(listingsData)) return;
+
+    let availCount = 0;
+    let bookedCount = 0;
+    let unavailCount = 0;
+
+    listingsData.forEach(listing => {
+        if (listing.status === "Available") availCount++;
+        else if (listing.status === "Booked") bookedCount++;
+        else if (listing.status === "Unavailable") unavailCount++;
+    });
+
+    total.textContent = listingsData.length;
+    ava.textContent = availCount;
+    booked.textContent = bookedCount;
+    unava.textContent = unavailCount;
+}
+
 let Stats = async () => {
     try {
-
-        let total = document.querySelector("#total-listings");
-        let ava = document.querySelector("#Available");
-        let booked = document.querySelector("#Booked");
-        let unava = document.querySelector("#Unavailable");
-
         const token = localStorage.getItem("token");
+        if (!token) return;
 
         const response = await fetch(
             "http://localhost:5000/api/host/properties",
@@ -114,23 +287,9 @@ let Stats = async () => {
             }
         );
         const data = await response.json();
-        const avail = data.data.filter(function (listing) {
-            return listing.status === "Available";
-        }).length;
-
-        const unavailable = data.data.filter(function (listing) {
-            return listing.status === "Unavailable";
-        }).length;
-
-        const bookedCount = data.data.filter(function (listing) {
-            return listing.status === "Booked";
-        }).length;
-
-        total.textContent = data.data.length;
-        ava.textContent = avail;
-        booked.textContent = bookedCount;
-        unava.textContent = unavailable;
-
+        if (data.success && data.data) {
+            updateStatsFromListings(data.data);
+        }
     } catch (error) {
         console.error(error);
     }
@@ -138,7 +297,6 @@ let Stats = async () => {
 
 let upDate = async (id, updatedData) => {
     try {
-
         const token = localStorage.getItem("token");
 
         const response = await fetch(
@@ -153,16 +311,13 @@ let upDate = async (id, updatedData) => {
             }
         );
 
-
         const data = await response.json();
         if (!response.ok) {
-            console.error("field to update data :", data);
-            return
+            console.error("Failed to update property:", data);
+            return;
         }
-
-        await Stats();
     } catch (error) {
-        console.error(error)
+        console.error("upDate error:", error);
     }
 };
 
@@ -193,11 +348,14 @@ let getItem = async () => {
         }
 
         const data = await response.json();
+        const listings = data.data || [];
+        updateStatsFromListings(listings);
+
         const tbody = document.querySelector(".listings-table tbody");
         if (tbody) {
             tbody.innerHTML = "";
         }
-        data.data.forEach((listing) => {
+        listings.forEach((listing) => {
 
             const tr = document.createElement("tr");
 
@@ -207,7 +365,7 @@ let getItem = async () => {
             propertyCell.className = "property-cell";
 
             const img = document.createElement("img");
-            img.src = listing.image;
+            img.src = (listing.images && listing.images.length > 0) ? listing.images[0] : listing.image;
             img.alt = listing.name;
             img.className = "property-thumb";
 
@@ -369,9 +527,25 @@ let getItem = async () => {
                     document.querySelector("#badge").textContent =
                         `${room.status} Listing`;
 
-                    // Image
-                    document.querySelector(".view-hero-image").src =
-                        room.image;
+                    // Image & Gallery
+                    const mainCover = (room.images && room.images.length > 0) ? room.images[0] : room.image;
+                    document.querySelector(".view-hero-image").src = mainCover;
+
+                    const galleryContainer = document.querySelector("#view-gallery");
+                    if (galleryContainer) {
+                        galleryContainer.innerHTML = "";
+                        const photoList = (room.images && room.images.length > 0) ? room.images : (room.image ? [room.image] : []);
+                        photoList.forEach(imgUrl => {
+                            const gImg = document.createElement("img");
+                            gImg.src = imgUrl;
+                            gImg.style.width = "85px";
+                            gImg.style.height = "65px";
+                            gImg.style.borderRadius = "6px";
+                            gImg.style.objectFit = "cover";
+                            gImg.style.border = "1px solid #e2e8f0";
+                            galleryContainer.appendChild(gImg);
+                        });
+                    }
 
 
                     // Property type
@@ -480,7 +654,14 @@ let getItem = async () => {
                 document.getElementById("update-bedrooms").value = listing.bedrooms || "";
                 document.getElementById("update-beds").value = listing.beds || "";
                 document.getElementById("update-bathrooms").value = listing.bathrooms || "";
-                document.getElementById("update-image").value = listing.image || "";
+                
+                updateListingImages = (Array.isArray(listing.images) && listing.images.length > 0)
+                    ? [...listing.images]
+                    : (listing.image ? Array(5).fill(listing.image) : []);
+
+                renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {
+                    renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {});
+                });
                 // amenities is stored as array — join back to comma-separated string
                 document.getElementById("update-amenities").value = Array.isArray(listing.amenities)
                     ? listing.amenities.join(", ")
@@ -587,13 +768,9 @@ let getItem = async () => {
             tbody.appendChild(tr);
         });
 
-        await Stats();
-
     } catch (error) {
         console.error("Network / server request failed:", error);
     }
-
-
 };
 
 
@@ -621,7 +798,6 @@ let Delete = async (id) => {
         await response.json();
 
         await getItem();
-        await Stats();
 
     } catch (error) {
         console.error("Delete request failed:", error);
@@ -634,6 +810,11 @@ form.addEventListener("submit", async (e) => {
     const availFromVal = document.getElementById("availableFrom") ? document.getElementById("availableFrom").value : "";
     const availToVal = document.getElementById("availableTo") ? document.getElementById("availableTo").value : "";
 
+    if (createListingImages.length < 5 || createListingImages.length > 15) {
+        alert(`Please select between 5 and 15 property pictures from your device. Currently loaded: ${createListingImages.length}`);
+        return;
+    }
+
     const listing = {
         name: name.value,
         propertyType: propertyType.value,
@@ -644,7 +825,8 @@ form.addEventListener("submit", async (e) => {
         bedrooms: Number(bedrooms.value),
         beds: Number(beds.value),
         bathrooms: Number(bathrooms.value),
-        image: image.value,
+        images: createListingImages,
+        image: createListingImages[0],
         amenities: amenities.value,
         description: description.value,
         ...(availFromVal && { availableFrom: availFromVal }),
@@ -683,6 +865,8 @@ form.addEventListener("submit", async (e) => {
         }
         await getItem();
         form.reset();
+        createListingImages = [];
+        renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => {});
     } catch (error) {
         console.error("Network / server request failed:", error);
     };
@@ -699,6 +883,11 @@ if (updateForm) {
         const upAvailFromVal = document.getElementById("update-availableFrom") ? document.getElementById("update-availableFrom").value : "";
         const upAvailToVal = document.getElementById("update-availableTo") ? document.getElementById("update-availableTo").value : "";
 
+        if (updateListingImages.length < 5 || updateListingImages.length > 15) {
+            alert(`Please select between 5 and 15 property pictures. Currently loaded: ${updateListingImages.length}`);
+            return;
+        }
+
         const updatedData = {
             name: document.getElementById("update-name").value,
             propertyType: document.getElementById("update-propertyType").value,
@@ -709,7 +898,8 @@ if (updateForm) {
             bedrooms: Number(document.getElementById("update-bedrooms").value),
             beds: Number(document.getElementById("update-beds").value),
             bathrooms: Number(document.getElementById("update-bathrooms").value),
-            image: document.getElementById("update-image").value,
+            images: updateListingImages,
+            image: updateListingImages[0],
             amenities: document.getElementById("update-amenities").value,
             description: document.getElementById("update-description").value,
             availableFrom: upAvailFromVal || null,
@@ -724,7 +914,6 @@ if (updateForm) {
             document.body.style.overflow = "";
         }
         await getItem();
-        await Stats();
     });
 };
 
@@ -734,20 +923,36 @@ const getUser = async () => {
     let userRole = document.querySelector('.user-role');
 
     const token = localStorage.getItem("token");
+    if (!token) return;
 
-    const response = await fetch("http://localhost:5000/api/auth/me", {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${token}`
+    try {
+        const response = await fetch("http://localhost:5000/api/auth/me", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        if (data.success && data.user) {
+            if (userName) {
+                userName.textContent = data.user.name;
+                userName.style.textTransform = 'capitalize';
+            }
+            if (userRole) {
+                userRole.textContent = data.user.role;
+                userRole.style.textTransform = 'capitalize';
+            }
+            if (data.user.avatar) {
+                document.querySelectorAll('.user-avatar, #user-avatar-img, .profile-avatar-topbar').forEach(img => {
+                    img.src = data.user.avatar;
+                });
+            }
+            localStorage.setItem("user", JSON.stringify(data.user));
         }
-    });
-
-    const data = await response.json();
-
-    userName.textContent = data.user.name;
-    userName.style.textTransform = 'capitalize' 
-    userRole.textContent = data.user.role;
-    userRole.style.textTransform = 'capitalize'
+    } catch (e) {
+        console.error("getUser error:", e);
+    }
 }
 
 let getBookings = async () => {
@@ -814,7 +1019,6 @@ let getBookings = async () => {
 };
 
 getUser();
-Stats();
 getItem();
 getBookings();
 

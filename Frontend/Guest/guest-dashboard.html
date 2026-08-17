@@ -54,23 +54,12 @@
           <span>Explore</span>
         </a>
 
-        <a href="#search-bar" class="nav-link">
+        <a href="guest-wishlist.html" class="nav-link">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.35-4.35" />
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
-          <span>Search</span>
-        </a>
-
-        <a href="#filter-row" class="nav-link">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="4" y1="6" x2="20" y2="6" />
-            <line x1="8" y1="12" x2="16" y2="12" />
-            <line x1="11" y1="18" x2="13" y2="18" />
-          </svg>
-          <span>Filter</span>
+          <span>Wishlist</span>
         </a>
 
         <a href="guest-my-bookings.html" class="nav-link">
@@ -93,9 +82,9 @@
 
       <!-- Right Actions -->
       <div class="nav-actions">
-        <a href="guest-profile.html" class="nav-avatar-link" title="Ahmed Khan — My Profile">
+        <a href="guest-profile.html" class="nav-avatar-link" title="My Profile">
           <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80"
-            alt="Ahmed Khan" class="nav-avatar" width="36" height="36">
+            alt="User avatar" class="nav-avatar" width="36" height="36">
           <span class="nav-status-dot" aria-hidden="true"></span>
         </a>
 
@@ -206,22 +195,21 @@
           </div>
 
           <div class="discovery-meta">
-            <span class="results-count">24 properties found</span>
-            <div class="sort-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                aria-hidden="true">
-                <line x1="4" y1="6" x2="20" y2="6" />
-                <line x1="4" y1="12" x2="14" y2="12" />
-                <line x1="4" y1="18" x2="10" y2="18" />
-              </svg>
-              <select class="sort-select" aria-label="Sort properties by">
-                <option value="recommended">Recommended</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-                <option value="newest">Newest First</option>
-              </select>
+            <span class="results-count">0 properties found</span>
+            <div class="custom-dropdown" id="sort-dropdown-wrap">
+              <button type="button" class="dropdown-trigger-btn" id="sort-dropdown-btn" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-icon"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="10" y2="18"/></svg>
+                <span id="sort-label">Recommended</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu menu-right" id="sort-dropdown-menu">
+                <div class="dropdown-option-item selected" data-value="recommended">Recommended</div>
+                <div class="dropdown-option-item" data-value="price-asc">Price: Low to High</div>
+                <div class="dropdown-option-item" data-value="price-desc">Price: High to Low</div>
+                <div class="dropdown-option-item" data-value="rating">Highest Rated</div>
+                <div class="dropdown-option-item" data-value="reviews">Most Reviewed</div>
+                <div class="dropdown-option-item" data-value="newest">Newest Stays</div>
+              </div>
             </div>
           </div>
         </div>
@@ -286,7 +274,7 @@
 
           <div class="search-divider" aria-hidden="true"></div>
 
-          <!-- Guests -->
+          <!-- Guests (Custom Veyra Dropdown) -->
           <div class="search-group">
             <span class="search-field-icon" aria-hidden="true">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -297,17 +285,21 @@
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </span>
-            <div class="search-field-body">
-              <label class="search-label" for="search-guests">Guests</label>
-              <select id="search-guests" name="guests" class="search-input search-select" aria-label="Number of guests">
-                <option value="">Add guests</option>
-                <option value="1">1 Guest</option>
-                <option value="2">2 Guests</option>
-                <option value="3">3 Guests</option>
-                <option value="4">4 Guests</option>
-                <option value="5">5 Guests</option>
-                <option value="6">6+ Guests</option>
-              </select>
+            <div class="search-field-body custom-dropdown search-guests-wrap" id="search-guests-dropdown-wrap">
+              <label class="search-label" for="search-guests-btn">Guests</label>
+              <button type="button" class="search-select-btn" id="search-guests-btn" aria-expanded="false">
+                <span id="search-guests-label">Add guests</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu search-guests-menu" id="search-guests-dropdown-menu">
+                <div class="dropdown-option-item selected" data-value="">Any Guests</div>
+                <div class="dropdown-option-item" data-value="1">1 Guest</div>
+                <div class="dropdown-option-item" data-value="2">2 Guests</div>
+                <div class="dropdown-option-item" data-value="3">3 Guests</div>
+                <div class="dropdown-option-item" data-value="4">4 Guests</div>
+                <div class="dropdown-option-item" data-value="5">5 Guests</div>
+                <div class="dropdown-option-item" data-value="6">6+ Guests</div>
+              </div>
             </div>
           </div>
 
@@ -329,121 +321,95 @@
           <div class="filter-chips">
 
             <!-- Property Type -->
-            <div class="filter-chip">
-              <span class="chip-icon-wrap" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-              </span>
-              <select class="chip-select" id="filter-type" name="type" aria-label="Property type filter">
-                <option value="">Property Type</option>
-                <option value="cabin">Cabin</option>
-                <option value="villa">Villa</option>
-                <option value="apartment">Apartment</option>
-                <option value="chalet">Chalet</option>
-                <option value="penthouse">Penthouse</option>
-                <option value="lodge">Lodge</option>
-              </select>
+            <div class="custom-dropdown" id="filter-type-wrap">
+              <button type="button" class="dropdown-trigger-btn" id="filter-type-btn" aria-expanded="false">
+                <span class="chip-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </span>
+                <span id="filter-type-label">Property Type</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu" id="filter-type-menu">
+                <div class="dropdown-option-item selected" data-value="">All Property Types</div>
+                <div class="dropdown-option-item" data-value="Cabin">Cabin</div>
+                <div class="dropdown-option-item" data-value="Villa">Villa</div>
+                <div class="dropdown-option-item" data-value="Chalet">Chalet</div>
+                <div class="dropdown-option-item" data-value="Apartment">Apartment</div>
+                <div class="dropdown-option-item" data-value="Lodge">Lodge</div>
+              </div>
             </div>
 
             <!-- Price Range -->
-            <div class="filter-chip">
-              <span class="chip-icon-wrap" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23" />
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-              </span>
-              <select class="chip-select" id="filter-price" name="price" aria-label="Price range filter">
-                <option value="">Price Range</option>
-                <option value="budget">Under PKR 10,000</option>
-                <option value="mid">PKR 10k – 25k</option>
-                <option value="premium">PKR 25k – 50k</option>
-                <option value="luxury">Above PKR 50,000</option>
-              </select>
-            </div>
-
-            <!-- Guests -->
-            <div class="filter-chip">
-              <span class="chip-icon-wrap" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </span>
-              <select class="chip-select" id="filter-guests" name="guests_filter" aria-label="Guests filter">
-                <option value="">Guests</option>
-                <option value="1-2">1 – 2</option>
-                <option value="3-4">3 – 4</option>
-                <option value="5-6">5 – 6</option>
-                <option value="7+">7+</option>
-              </select>
+            <div class="custom-dropdown" id="filter-price-wrap">
+              <button type="button" class="dropdown-trigger-btn" id="filter-price-btn" aria-expanded="false">
+                <span class="chip-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </span>
+                <span id="filter-price-label">Price Range</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu" id="filter-price-menu">
+                <div class="dropdown-option-item selected" data-value="">All Prices</div>
+                <div class="dropdown-option-item" data-value="budget">Under PKR 10,000</div>
+                <div class="dropdown-option-item" data-value="mid">PKR 10,000 – 25,000</div>
+                <div class="dropdown-option-item" data-value="premium">PKR 25,000 – 50,000</div>
+                <div class="dropdown-option-item" data-value="luxury">Above PKR 50,000</div>
+              </div>
             </div>
 
             <!-- Bedrooms -->
-            <div class="filter-chip">
-              <span class="chip-icon-wrap" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M2 4v16" />
-                  <path d="M2 8h18a2 2 0 0 1 2 2v10" />
-                  <path d="M2 17h20" />
-                  <path d="M6 8v9" />
-                </svg>
-              </span>
-              <select class="chip-select" id="filter-beds" name="beds" aria-label="Bedrooms filter">
-                <option value="">Bedrooms</option>
-                <option value="1">1 Bedroom</option>
-                <option value="2">2 Bedrooms</option>
-                <option value="3">3 Bedrooms</option>
-                <option value="4+">4+ Bedrooms</option>
-              </select>
+            <div class="custom-dropdown" id="filter-beds-wrap">
+              <button type="button" class="dropdown-trigger-btn" id="filter-beds-btn" aria-expanded="false">
+                <span class="chip-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                </span>
+                <span id="filter-beds-label">Bedrooms</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu" id="filter-beds-menu">
+                <div class="dropdown-option-item selected" data-value="">Any Bedrooms</div>
+                <div class="dropdown-option-item" data-value="1">1 Bedroom</div>
+                <div class="dropdown-option-item" data-value="2">2 Bedrooms</div>
+                <div class="dropdown-option-item" data-value="3">3 Bedrooms</div>
+                <div class="dropdown-option-item" data-value="4+">4+ Bedrooms</div>
+              </div>
             </div>
 
             <!-- Amenities -->
-            <div class="filter-chip">
-              <span class="chip-icon-wrap" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="7" height="7" />
-                  <rect x="14" y="3" width="7" height="7" />
-                  <rect x="14" y="14" width="7" height="7" />
-                  <rect x="3" y="14" width="7" height="7" />
-                </svg>
-              </span>
-              <select class="chip-select" id="filter-amenities" name="amenity" aria-label="Amenities filter">
-                <option value="">Amenities</option>
-                <option value="wifi">WiFi</option>
-                <option value="pool">Swimming Pool</option>
-                <option value="fireplace">Fireplace</option>
-                <option value="mountain-view">Mountain View</option>
-                <option value="parking">Free Parking</option>
-                <option value="kitchen">Full Kitchen</option>
-              </select>
+            <div class="custom-dropdown" id="filter-amenities-wrap">
+              <button type="button" class="dropdown-trigger-btn" id="filter-amenities-btn" aria-expanded="false">
+                <span class="chip-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </span>
+                <span id="filter-amenities-label">Amenities</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu" id="filter-amenities-menu">
+                <div class="dropdown-option-item selected" data-value="">All Amenities</div>
+                <div class="dropdown-option-item" data-value="WiFi">WiFi</div>
+                <div class="dropdown-option-item" data-value="Swimming Pool">Swimming Pool</div>
+                <div class="dropdown-option-item" data-value="Parking">Free Parking</div>
+                <div class="dropdown-option-item" data-value="Kitchen">Kitchen</div>
+                <div class="dropdown-option-item" data-value="Fireplace">Fireplace</div>
+                <div class="dropdown-option-item" data-value="Mountain View">Mountain View</div>
+              </div>
             </div>
 
             <!-- Rating -->
-            <div class="filter-chip">
-              <span class="chip-icon-wrap" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#C4A040"
-                  stroke="#C4A040" stroke-width="1">
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-              </span>
-              <select class="chip-select" id="filter-rating" name="rating" aria-label="Minimum rating filter">
-                <option value="">Rating</option>
-                <option value="any">Any Rating</option>
-                <option value="4.5">4.5 and above</option>
-                <option value="4.0">4.0 and above</option>
-                <option value="3.5">3.5 and above</option>
-              </select>
+            <div class="custom-dropdown" id="filter-rating-wrap">
+              <button type="button" class="dropdown-trigger-btn" id="filter-rating-btn" aria-expanded="false">
+                <span class="chip-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#C4A040" stroke="#C4A040" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </span>
+                <span id="filter-rating-label">Rating</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="custom-dropdown-menu" id="filter-rating-menu">
+                <div class="dropdown-option-item selected" data-value="">Any Rating</div>
+                <div class="dropdown-option-item" data-value="4.8">4.8+ Stars</div>
+                <div class="dropdown-option-item" data-value="4.5">4.5+ Stars</div>
+                <div class="dropdown-option-item" data-value="4.0">4.0+ Stars</div>
+              </div>
             </div>
 
           </div><!-- /filter-chips -->
@@ -473,22 +439,6 @@
       <div class="masonry-container">
         <div class="masonry-grid" id="masonry-grid">
 
-
-
-        </div>
-
-        <!-- Load More -->
-        <div class="load-more-wrap">
-          <button type="button" class="load-more-btn" id="load-more-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true">
-              <polyline points="23 4 23 10 17 10" />
-              <polyline points="1 20 1 14 7 14" />
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-            </svg>
-            Explore More Properties
-          </button>
         </div>
 
       </div><!-- /masonry-container -->
@@ -515,72 +465,7 @@
     </div>
   </footer>
 
-  <!-- Visually hidden utility class -->
-  <style>
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-  </style>
-
   <script src="guest-dashboard.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const checkinInput = document.getElementById('search-checkin');
-      const checkoutInput = document.getElementById('search-checkout');
-
-      // Set min date to today for Check-in
-      const today = new Date().toISOString().split('T')[0];
-      if (checkinInput) {
-        checkinInput.min = today;
-        checkinInput.addEventListener('change', () => {
-          if (checkoutInput) {
-            checkoutInput.min = checkinInput.value || today;
-            if (checkoutInput.value && checkoutInput.value < checkinInput.value) {
-              checkoutInput.value = checkinInput.value;
-            }
-          }
-        });
-      }
-      if (checkoutInput) {
-        checkoutInput.min = today;
-      }
-
-      // Handle active states on filter chips
-      const chipSelects = document.querySelectorAll('.chip-select');
-      chipSelects.forEach(select => {
-        const chip = select.closest('.filter-chip');
-        select.addEventListener('change', () => {
-          if (select.value) {
-            chip.classList.add('active');
-          } else {
-            chip.classList.remove('active');
-          }
-        });
-      });
-
-      // Clear all filters button
-      const clearBtn = document.getElementById('clear-filters-btn');
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-          const searchForm = document.getElementById('search-bar');
-          if (searchForm) searchForm.reset();
-          chipSelects.forEach(select => {
-            select.value = '';
-            const chip = select.closest('.filter-chip');
-            if (chip) chip.classList.remove('active');
-          });
-        });
-      }
-    });
-  </script>
 </body>
 
 </html>

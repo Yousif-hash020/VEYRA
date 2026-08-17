@@ -73,10 +73,19 @@ const roomSchema = new mongoose.Schema(
         message: 'Amenities must be a non-empty array of strings'
       }
     },
+    images: {
+      type: [String],
+      required: [true, 'Property images are required (minimum 5, maximum 15)'],
+      validate: {
+        validator: function (v) {
+          return Array.isArray(v) && v.length >= 5 && v.length <= 15;
+        },
+        message: 'Property must have between 5 and 15 images',
+      },
+    },
     image: {
       type: String,
-      required: [true, 'Property image URL/path is required'],
-      trim: true
+      trim: true,
     },
     status: {
       type: String,
