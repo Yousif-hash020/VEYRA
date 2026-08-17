@@ -1676,16 +1676,20 @@ h3 {
   display: inline-block;
 }
 
+.discovery-head.has-open-dropdown,
+.discovery-meta.has-open-dropdown,
+.discovery-head:has(.custom-dropdown.open),
+.discovery-meta:has(.custom-dropdown.open),
 .custom-dropdown.open,
 .custom-dropdown:focus-within {
-  z-index: 10000 !important;
+  z-index: 300000 !important;
 }
 
 .custom-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  z-index: 99999;
+  z-index: 350000 !important;
   min-width: 190px;
   background: #ffffff;
   border: 1.5px solid var(--border);
@@ -1709,6 +1713,7 @@ h3 {
   visibility: visible;
   transform: translateY(0);
   pointer-events: auto;
+  z-index: 400000 !important;
 }
 
 .dropdown-option-item {
@@ -1965,7 +1970,7 @@ h3 {
   .custom-dropdown-menu {
     max-width: calc(100vw - 28px);
     width: max-content;
-    z-index: 99999 !important;
+    z-index: 400000 !important;
   }
   .dashboard-empty-container {
     padding: 44px 16px;
