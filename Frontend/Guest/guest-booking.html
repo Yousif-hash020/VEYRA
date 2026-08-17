@@ -300,15 +300,17 @@
 
           <!-- Terms Checkbox & CTA -->
           <div style="display:flex; flex-direction:column; gap:18px; margin-top:12px;">
+            <div id="booking-error-alert" style="display: none; padding: 12px; background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 8px; font-size: 14px; font-weight: 500;"></div>
+
             <label class="terms-checkbox-wrap">
-              <input type="checkbox" required checked>
+              <input type="checkbox" id="terms-check" required checked>
               <span>I agree to the <strong>VEYRA House Rules</strong>, <strong>Cancellation Policy</strong>, and <strong>Guest Terms of Service</strong>.</span>
             </label>
 
-            <a href="guest-my-bookings.html" class="checkout-submit-btn" id="confirm-booking-btn">
+            <button type="button" class="checkout-submit-btn" id="confirm-booking-btn">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              Confirm & Pay PKR 63,200
-            </a>
+              Confirm & Reserve Stay
+            </button>
 
             <div class="ssl-security-note">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -397,5 +399,6 @@
     </div>
   </footer>
 
+  <script src="guest-booking.js"></script>
 </body>
 </html>

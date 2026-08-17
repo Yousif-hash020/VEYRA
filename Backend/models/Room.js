@@ -86,6 +86,14 @@ const roomSchema = new mongoose.Schema(
       },
       default: 'Available'
     },
+    availableFrom: {
+      type: Date,
+      default: null
+    },
+    availableTo: {
+      type: Date,
+      default: null
+    },
 
     // ── Resource Ownership ────────────────────────────────────────────────────
     // Every room belongs to exactly one Host.

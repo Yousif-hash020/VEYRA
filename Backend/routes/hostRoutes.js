@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { protect } = require('../middleware/authMiddleware');
 const { authorizeRoles } = require('../middleware/roleMiddleware');
-const { getHostProperties } = require('../controllers/roomController');
+const { getHostProperties, getHostBookings } = require('../controllers/roomController');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HOST-ONLY ROUTES
@@ -34,13 +34,11 @@ router.get('/test', protect, authorizeRoles('host'), (req, res) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/host/properties
 // Returns ONLY the properties owned by the authenticated Host.
-//
-// OWNERSHIP:
-//   The controller queries: Room.find({ owner: req.user.userId })
-//   Host A receives only Host A's rooms.
-//   Host B receives only Host B's rooms.
-//   Cross-host access is impossible through this endpoint.
-// ─────────────────────────────────────────────────────────────────────────────
 router.get('/properties', protect, authorizeRoles('host'), getHostProperties);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GET /api/host/bookings
+// Returns ONLY the bookings for properties owned by the authenticated Host.
+router.get('/bookings', protect, authorizeRoles('host'), getHostBookings);
 
 module.exports = router;

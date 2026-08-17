@@ -486,6 +486,8 @@ let getItem = async () => {
                     ? listing.amenities.join(", ")
                     : (listing.amenities || "");
                 document.getElementById("update-description").value = listing.description || "";
+                document.getElementById("update-availableFrom").value = listing.availableFrom ? new Date(listing.availableFrom).toISOString().split('T')[0] : "";
+                document.getElementById("update-availableTo").value = listing.availableTo ? new Date(listing.availableTo).toISOString().split('T')[0] : "";
 
                 // Open the update modal
                 const modalUpdate = document.getElementById("modal-update");
@@ -629,6 +631,9 @@ let Delete = async (id) => {
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const availFromVal = document.getElementById("availableFrom") ? document.getElementById("availableFrom").value : "";
+    const availToVal = document.getElementById("availableTo") ? document.getElementById("availableTo").value : "";
+
     const listing = {
         name: name.value,
         propertyType: propertyType.value,
@@ -641,7 +646,9 @@ form.addEventListener("submit", async (e) => {
         bathrooms: Number(bathrooms.value),
         image: image.value,
         amenities: amenities.value,
-        description: description.value
+        description: description.value,
+        ...(availFromVal && { availableFrom: availFromVal }),
+        ...(availToVal && { availableTo: availToVal })
     };
 
     try {
@@ -689,6 +696,9 @@ if (updateForm) {
         const id = document.getElementById("update-id").value;
         if (!id) return;
 
+        const upAvailFromVal = document.getElementById("update-availableFrom") ? document.getElementById("update-availableFrom").value : "";
+        const upAvailToVal = document.getElementById("update-availableTo") ? document.getElementById("update-availableTo").value : "";
+
         const updatedData = {
             name: document.getElementById("update-name").value,
             propertyType: document.getElementById("update-propertyType").value,
@@ -702,6 +712,8 @@ if (updateForm) {
             image: document.getElementById("update-image").value,
             amenities: document.getElementById("update-amenities").value,
             description: document.getElementById("update-description").value,
+            availableFrom: upAvailFromVal || null,
+            availableTo: upAvailToVal || null,
         };
 
         await upDate(id, updatedData);
@@ -738,7 +750,71 @@ const getUser = async () => {
     userRole.style.textTransform = 'capitalize'
 }
 
+let getBookings = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const response = await fetch("http://localhost:5000/api/host/bookings", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const tbody = document.getElementById("host-bookings-tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = "";
+
+        if (!data.data || data.data.length === 0) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td colspan="8" style="text-align: center; color: #64748b; padding: 24px;">No reservations found for your properties yet.</td>`;
+            tbody.appendChild(tr);
+            return;
+        }
+
+        data.data.forEach((booking) => {
+            const tr = document.createElement("tr");
+
+            const checkInFormatted = new Date(booking.checkIn).toLocaleDateString("en-US", {
+                month: "short", day: "numeric", year: "numeric"
+            });
+            const checkOutFormatted = new Date(booking.checkOut).toLocaleDateString("en-US", {
+                month: "short", day: "numeric", year: "numeric"
+            });
+
+            const guestName = booking.guest ? booking.guest.name : "Guest";
+            const roomName = booking.room ? booking.room.name : "Property";
+
+            let statusBadgeClass = "badge badge-active";
+            if (booking.status === "Confirmed") statusBadgeClass = "badge badge-active";
+            else if (booking.status === "Completed") statusBadgeClass = "badge badge-pending";
+            else if (booking.status === "Canceled") statusBadgeClass = "badge badge-inactive";
+
+            tr.innerHTML = `
+                <td><span class="property-meta" style="font-weight:600;">#${booking.referenceCode || booking._id.slice(-6).toUpperCase()}</span></td>
+                <td><span class="property-title">${roomName}</span></td>
+                <td><span class="location-text">${guestName}</span></td>
+                <td><strong style="color: #0D5C4E;">${checkInFormatted}</strong></td>
+                <td><strong style="color: #e11d48;">${checkOutFormatted}</strong></td>
+                <td>${booking.nights} night(s)</td>
+                <td><span class="price-text">PKR ${booking.totalPrice.toLocaleString()}</span></td>
+                <td><span class="${statusBadgeClass}">${booking.status}</span></td>
+            `;
+
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error("Failed to load host bookings:", error);
+    }
+};
+
 getUser();
 Stats();
 getItem();
+getBookings();
 

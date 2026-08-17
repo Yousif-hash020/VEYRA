@@ -7,6 +7,7 @@ const { authorizeRoles } = require('../middleware/roleMiddleware');
 const {
   getRooms,
   getRoomById,
+  getRoomAvailability,
   createRoom,
   updateRoom,
   deleteRoom,
@@ -21,10 +22,12 @@ const {
 //   Ownership is NOT enforced here — all published rooms are visible to everyone.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// GET /api/rooms       → Browse all available rooms (public discovery)
-// GET /api/rooms/:id   → View a single room's details
+// GET /api/rooms                  → Browse all available rooms (public discovery)
+// GET /api/rooms/:id              → View a single room's details
+// GET /api/rooms/:id/availability → Check availability schedule & booked date ranges
 router.get('/', getRooms);
 router.get('/:id', getRoomById);
+router.get('/:id/availability', getRoomAvailability);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PROTECTED ROUTES — Require JWT + host role

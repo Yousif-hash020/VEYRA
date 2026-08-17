@@ -21,6 +21,8 @@ function initSidebar() {
 
         if (currentPath.includes('profile') && href.toLowerCase().includes('profile')) {
             item.classList.add('active');
+        } else if (currentPath.includes('bookings') && href.toLowerCase().includes('bookings')) {
+            item.classList.add('active');
         } else if ((currentPath.includes('dashboard') || currentPath.endsWith('/') || currentPath.endsWith('/frontend/')) && href.toLowerCase().includes('dashboard')) {
             item.classList.add('active');
         }

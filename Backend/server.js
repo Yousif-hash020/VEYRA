@@ -81,6 +81,7 @@ app.get('/api', (req, res) => {
       host: {
         test: 'GET /api/host/test  [Protected: host]',
         myProperties: 'GET /api/host/properties  [Protected: host]  — returns only the authenticated host\'s own rooms',
+        myBookings: 'GET /api/host/bookings  [Protected: host]  — returns bookings for host\'s properties',
       },
       guest: {
         test: 'GET /api/guest/test  [Protected: guest]',
@@ -100,6 +101,7 @@ app.get('/api', (req, res) => {
       rooms: {
         browse: 'GET /api/rooms  [Public]  — all published rooms for discovery',
         single: 'GET /api/rooms/:id  [Public]',
+        availability: 'GET /api/rooms/:id/availability  [Public]  — property availability & booked ranges',
         create: 'POST /api/rooms  [Protected: host]  — owner stamped from JWT',
         update: 'PUT /api/rooms/:id  [Protected: host]  — ownership verified',
         delete: 'DELETE /api/rooms/:id  [Protected: host]  — ownership verified',

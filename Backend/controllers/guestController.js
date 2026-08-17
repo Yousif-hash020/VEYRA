@@ -460,6 +460,21 @@ const createBooking = async (req, res) => {
       });
     }
 
+    // Host Availability Window Check
+    if (room.availableFrom && checkInDate < new Date(room.availableFrom)) {
+      return res.status(400).json({
+        success: false,
+        message: `This property is only available from ${new Date(room.availableFrom).toISOString().split('T')[0]} onwards.`,
+      });
+    }
+
+    if (room.availableTo && checkOutDate > new Date(room.availableTo)) {
+      return res.status(400).json({
+        success: false,
+        message: `This property is only available up to ${new Date(room.availableTo).toISOString().split('T')[0]}.`,
+      });
+    }
+
     // ── 5. Date Conflict Validation (Overlap Check) ───────────────────────────
     // Overlap condition: existing.checkIn < new.checkOut AND existing.checkOut > new.checkIn
     const conflictingBooking = await Booking.findOne({

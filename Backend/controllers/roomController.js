@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Room = require('../models/Room');
+const Booking = require('../models/Booking');
 
 /**
  * Helper function to normalize amenities input.
@@ -35,6 +36,8 @@ const ALLOWED_ROOM_FIELDS = [
   'amenities',
   'image',
   'status',
+  'availableFrom',
+  'availableTo',
 ];
 
 /**
@@ -137,16 +140,36 @@ const getRoomById = async (req, res) => {
 // =============================================================================
 const getHostProperties = async (req, res) => {
   try {
-    // req.user.userId comes from the verified JWT (set by protect middleware).
-    // This is the ONLY source of truth for ownership — never req.body or req.query.
     const rooms = await Room.find({ owner: req.user.userId }).sort({
       createdAt: -1,
     });
 
+    const now = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Find all confirmed bookings for this host where checkIn <= now and checkOut > today
+    const activeBookings = await Booking.find({
+      host: req.user.userId,
+      status: 'Confirmed',
+      checkIn: { $lte: now },
+      checkOut: { $gt: today },
+    });
+
+    const bookedRoomIds = new Set(activeBookings.map((b) => b.room.toString()));
+
+    const roomsWithComputedStatus = rooms.map((room) => {
+      const roomObj = room.toObject();
+      if (roomObj.status !== 'Unavailable' && bookedRoomIds.has(roomObj._id.toString())) {
+        roomObj.status = 'Booked';
+      }
+      return roomObj;
+    });
+
     return res.status(200).json({
       success: true,
-      count: rooms.length,
-      data: rooms,
+      count: roomsWithComputedStatus.length,
+      data: roomsWithComputedStatus,
     });
   } catch (error) {
     return res.status(500).json({
@@ -340,6 +363,152 @@ const deleteRoom = async (req, res) => {
   }
 };
 
+// =============================================================================
+// @desc    Get room availability schedule & booked date ranges
+// @route   GET /api/rooms/:id/availability
+// @access  Public
+// =============================================================================
+const getRoomAvailability = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { checkIn, checkOut } = req.query;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid property ID format',
+      });
+    }
+
+    const room = await Room.findById(id);
+    if (!room) {
+      return res.status(404).json({
+        success: false,
+        message: 'Property not found',
+      });
+    }
+
+    // Get all active confirmed bookings for this room
+    const bookings = await Booking.find({
+      room: id,
+      status: 'Confirmed',
+    })
+      .select('checkIn checkOut nights referenceCode')
+      .sort({ checkIn: 1 });
+
+    const bookedDates = bookings.map((b) => ({
+      checkIn: b.checkIn,
+      checkOut: b.checkOut,
+      nights: b.nights,
+    }));
+
+    let isAvailable = room.status === 'Available';
+    let availabilityCheck = null;
+
+    if (checkIn && checkOut) {
+      const reqStart = new Date(checkIn);
+      const reqEnd = new Date(checkOut);
+
+      if (isNaN(reqStart.getTime()) || isNaN(reqEnd.getTime())) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid check-in or check-out date format',
+        });
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const reqStartMidnight = new Date(reqStart);
+      reqStartMidnight.setHours(0, 0, 0, 0);
+
+      let available = true;
+      let reason = null;
+
+      if (reqStartMidnight < today) {
+        available = false;
+        reason = 'Check-in date cannot be in the past.';
+      } else if (reqEnd <= reqStart) {
+        available = false;
+        reason = 'Check-out date must be strictly after check-in date.';
+      } else if (room.status !== 'Available') {
+        available = false;
+        reason = `Property is currently marked as ${room.status}.`;
+      } else if (room.availableFrom && reqStart < new Date(room.availableFrom)) {
+        available = false;
+        reason = `Property is not available before ${new Date(room.availableFrom).toISOString().split('T')[0]}.`;
+      } else if (room.availableTo && reqEnd > new Date(room.availableTo)) {
+        available = false;
+        reason = `Property is not available after ${new Date(room.availableTo).toISOString().split('T')[0]}.`;
+      } else {
+        // Overlap check: existing.checkIn < reqEnd AND existing.checkOut > reqStart
+        const conflict = bookings.find(
+          (b) => new Date(b.checkIn) < reqEnd && new Date(b.checkOut) > reqStart
+        );
+        if (conflict) {
+          available = false;
+          reason = 'Selected dates overlap with an existing confirmed booking.';
+        }
+      }
+
+      availabilityCheck = {
+        checkIn: reqStart,
+        checkOut: reqEnd,
+        nights: Math.ceil((reqEnd.getTime() - reqStart.getTime()) / (1000 * 3600 * 24)),
+        available,
+        reason,
+      };
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        roomId: room._id,
+        roomName: room.name,
+        status: room.status,
+        availableFrom: room.availableFrom,
+        availableTo: room.availableTo,
+        bookedDates,
+        availabilityCheck,
+      },
+    });
+  } catch (error) {
+    console.error('GetRoomAvailability Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error while fetching property availability',
+      error: error.message,
+    });
+  }
+};
+
+// =============================================================================
+// @desc    Get all bookings for properties owned by authenticated host
+// @route   GET /api/host/bookings
+// @access  Protected (Host only)
+// =============================================================================
+const getHostBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ host: req.user.userId })
+      .sort({ createdAt: -1 })
+      .populate('room', 'name location propertyType image pricePerNight')
+      .populate('guest', 'name email avatar phone cnic');
+
+    return res.status(200).json({
+      success: true,
+      count: bookings.length,
+      data: bookings,
+    });
+  } catch (error) {
+    console.error('GetHostBookings Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error while fetching host bookings',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getRooms,
   getRoomById,
@@ -347,4 +516,6 @@ module.exports = {
   createRoom,
   updateRoom,
   deleteRoom,
+  getRoomAvailability,
+  getHostBookings,
 };
