@@ -949,6 +949,34 @@ h3 {
   background: white;
 }
 
+/* ── Wishlist button pinned directly on the card image (not inside overlay) ─ */
+/* This prevents height/layout shifts when toggling wishlist state.            */
+.wish-btn-pinned {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  opacity: 0.82;
+  pointer-events: auto;
+  transition: opacity var(--t-fast), transform var(--t-fast), color var(--t-fast), background var(--t-fast);
+}
+
+.wish-btn-pinned:hover,
+.wish-btn-pinned.saved,
+.wish-btn-pinned.active {
+  opacity: 1;
+}
+
+.wish-btn-pinned.saved,
+.wish-btn-pinned.active {
+  color: var(--co-500);
+  background: white;
+}
+
+.prop-card:hover .wish-btn-pinned {
+  opacity: 1;
+}
+
 .overlay-bottom {
   display: flex;
   align-items: flex-end;

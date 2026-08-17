@@ -7,31 +7,31 @@
    1. DESIGN TOKENS
    -------------------------------------------------------------------------- */
 :root {
-  --color-deep-navy:        #14213D;
-  --color-royal-blue:       #2563EB;
-  --color-royal-blue-hover: #1D4ED8;
-  --color-soft-blue:        #EAF2FF;
+  --color-deep-navy:        #0F172A;
+  --color-royal-blue:       #0D5C4E;
+  --color-royal-blue-hover: #084036;
+  --color-soft-blue:        #F0FAF8;
   --color-off-white:        #F8FAFC;
   --color-white:            #FFFFFF;
   --color-slate-gray:       #64748B;
-  --color-slate-dark:       #334155;
+  --color-slate-dark:       #1E293B;
   --color-slate-light:      #94A3B8;
   --color-light-border:     #E2E8F0;
-  --color-warm-gold:        #F4B860;
-  --color-emerald-green:    #10B981;
-  --color-green-bg:         #ECFDF5;
-  --color-danger-red:       #EF4444;
-  --color-danger-bg:        #FEF2F2;
+  --color-warm-gold:        #D97706;
+  --color-emerald-green:    #059669;
+  --color-green-bg:         #F0FDF4;
+  --color-danger-red:       #E11D48;
+  --color-danger-bg:        #FFF1F2;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --radius-sm:   6px;
   --radius-md:   10px;
   --radius-lg:   14px;
   --radius-xl:   18px;
   --radius-full: 9999px;
-  --shadow-subtle: 0 1px 3px rgba(20,33,61,.05), 0 1px 2px rgba(20,33,61,.03);
-  --shadow-card:   0 4px 24px rgba(20,33,61,.07), 0 2px 6px rgba(20,33,61,.04);
-  --shadow-hover:  0 8px 24px rgba(20,33,61,.12);
-  --shadow-focus:  0 0 0 3px rgba(37,99,235,.18);
+  --shadow-subtle: 0 1px 3px rgba(15,23,42,.04), 0 1px 2px rgba(15,23,42,.02);
+  --shadow-card:   0 4px 20px rgba(15,23,42,.05), 0 2px 6px rgba(15,23,42,.02);
+  --shadow-hover:  0 8px 24px rgba(15,23,42,.09);
+  --shadow-focus:  0 0 0 3px rgba(13,92,78,.15);
   --transition-fast:   all 0.15s cubic-bezier(0.4,0,0.2,1);
   --transition-smooth: all 0.25s cubic-bezier(0.4,0,0.2,1);
 }
@@ -58,17 +58,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    -------------------------------------------------------------------------- */
 .bg-blob {
   position: fixed; border-radius: 50%;
-  filter: blur(90px); opacity: 0.3;
+  filter: blur(90px); opacity: 0.25;
   pointer-events: none; z-index: 0;
 }
 .bg-blob-1 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle, #DBEAFE, transparent 70%);
+  background: radial-gradient(circle, #E2E8F0, transparent 70%);
   top: -180px; left: -180px;
 }
 .bg-blob-2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, #FEF9C3, transparent 70%);
+  background: radial-gradient(circle, #E6F7F4, transparent 70%);
   bottom: -120px; right: -80px;
 }
 
@@ -87,7 +87,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .auth-left {
   width: 380px;
   flex-shrink: 0;
-  background-color: var(--color-deep-navy);
+  background: linear-gradient(160deg, #0B1320 0%, #0F1D2F 50%, #092620 100%);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -98,16 +98,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   content: '';
   position: absolute; inset: 0;
   background-image:
-    radial-gradient(circle at 20% 20%, rgba(37,99,235,.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(244,184,96,.15) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(13,92,78,.4) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(217,119,6,.12) 0%, transparent 50%);
   pointer-events: none;
 }
 .auth-left::after {
   content: '';
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
 }
@@ -174,9 +174,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .feature-icon {
   width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(37,99,235,.35);
+  background: rgba(13,92,78,.55);
   border-radius: var(--radius-sm);
-  color: #93C5FD; flex-shrink: 0;
+  color: #A8EAE0; flex-shrink: 0;
 }
 .feature-icon svg { width: 14px; height: 14px; }
 

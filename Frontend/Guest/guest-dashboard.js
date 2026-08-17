@@ -350,8 +350,10 @@ let GetRooms = async () => {
             const overlayTop = document.createElement("div");
             overlayTop.className = "overlay-top";
 
+            // Wishlist button lives DIRECTLY on the image wrap (not inside the
+            // hover overlay) so toggling it never causes a layout/height shift.
             const wishBtn = document.createElement("button");
-            wishBtn.className = "wish-btn";
+            wishBtn.className = "wish-btn wish-btn-pinned";
             if (savedWishlistIds.has(room._id.toString())) {
                 wishBtn.classList.add("saved", "active");
             }
@@ -415,7 +417,7 @@ let GetRooms = async () => {
             overlayPrice.className = "overlay-price";
             overlayPrice.innerHTML = `PKR ${Number(room.pricePerNight).toLocaleString()}<span class="price-per">/night</span>`;
 
-            overlayTop.appendChild(wishBtn);
+            // (wishBtn is appended to imgWrap below, NOT overlayTop)
             overlayBottom.appendChild(overlayRating);
             overlayBottom.appendChild(overlayPrice);
             overlay.appendChild(overlayTop);
@@ -441,6 +443,7 @@ let GetRooms = async () => {
             imgWrap.appendChild(availBadge);
             imgWrap.appendChild(propBadge);
             imgWrap.appendChild(overlay);
+            imgWrap.appendChild(wishBtn);  // always-visible, outside overlay
 
             card.appendChild(imgWrap);
             card.appendChild(propFoot);
@@ -468,12 +471,19 @@ function clearAllFilters() {
     searchState.rating = "";
     searchState.sortBy = "recommended";
 
+    const todayStr = new Date().toISOString().split("T")[0];
     const destInput = document.getElementById("search-dest");
     const checkinInput = document.getElementById("search-checkin");
     const checkoutInput = document.getElementById("search-checkout");
     if (destInput) destInput.value = "";
-    if (checkinInput) checkinInput.value = "";
-    if (checkoutInput) checkoutInput.value = "";
+    if (checkinInput) {
+        checkinInput.value = "";
+        checkinInput.min = todayStr;
+    }
+    if (checkoutInput) {
+        checkoutInput.value = "";
+        checkoutInput.min = todayStr;
+    }
 
     const guestsLabel = document.getElementById("search-guests-label");
     const typeLabel = document.getElementById("filter-type-label");
@@ -498,6 +508,11 @@ function clearAllFilters() {
         const firstOpt = menu.querySelector(".dropdown-option-item");
         if (firstOpt) firstOpt.classList.add("selected");
     });
+
+    // Remove query params from the browser address bar without reloading
+    if (window.location.search) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
     closeAllDropdowns();
     GetRooms();
@@ -532,6 +547,26 @@ document.addEventListener("DOMContentLoaded", () => {
         searchState.destination = locParam.trim();
         const destInput = document.getElementById("search-dest");
         if (destInput) destInput.value = locParam.trim();
+    }
+
+    const destInput = document.getElementById("search-dest");
+    if (destInput) {
+        let destTimeout;
+        destInput.addEventListener("input", () => {
+            clearTimeout(destTimeout);
+            const val = destInput.value.trim();
+            searchState.destination = val;
+            if (!val) {
+                if (window.location.search) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+                GetRooms();
+            } else {
+                destTimeout = setTimeout(() => {
+                    GetRooms();
+                }, 400);
+            }
+        });
     }
 
     const searchForm = document.getElementById("search-bar");
@@ -586,7 +621,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clearBtn = document.getElementById("clear-filters-btn");
     if (clearBtn) {
-        clearBtn.addEventListener("click", clearAllFilters);
+        clearBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            clearAllFilters();
+        });
     }
 
     GetRooms();

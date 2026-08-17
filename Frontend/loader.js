@@ -1,5 +1,5 @@
 /**
- * VEYRA Global Loader Utility Component (Premium Edition)
+ * VEYRA Global Loader Utility Component (High Performance Edition)
  */
 
 function ensureVeyraLoaderElement() {
@@ -37,9 +37,15 @@ function showVeyraLoader() {
 
 function hideVeyraLoader() {
     const loader = document.getElementById("veyra-global-loader");
-    if (!loader) return;
+    if (!loader || loader.classList.contains("hidden")) return;
     loader.classList.add("hidden");
     setTimeout(() => {
         loader.style.display = "none";
-    }, 250);
+    }, 180);
 }
+
+// Generous safety fallback (10s) in case of unexpected network failure
+if (typeof window !== "undefined") {
+    setTimeout(hideVeyraLoader, 10000);
+}
+

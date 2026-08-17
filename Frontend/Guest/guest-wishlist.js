@@ -138,8 +138,9 @@ let loadWishlist = async () => {
             const overlayTop = document.createElement("div");
             overlayTop.className = "overlay-top";
 
+            // Wishlist button pinned directly on imgWrap — not inside overlay
             const wishBtn = document.createElement("button");
-            wishBtn.className = "wish-btn saved active";
+            wishBtn.className = "wish-btn wish-btn-pinned saved active";
             wishBtn.type = "button";
             wishBtn.setAttribute("title", "Remove from Wishlist");
             wishBtn.setAttribute("aria-label", "Remove from Wishlist");
@@ -207,7 +208,7 @@ let loadWishlist = async () => {
             overlayPrice.className = "overlay-price";
             overlayPrice.innerHTML = `PKR ${Number(room.pricePerNight || 0).toLocaleString()}<span class="price-per">/night</span>`;
 
-            overlayTop.appendChild(wishBtn);
+            // (wishBtn appended to imgWrap directly below)
             overlayBottom.appendChild(overlayRating);
             overlayBottom.appendChild(overlayPrice);
             overlay.appendChild(overlayTop);
@@ -233,6 +234,7 @@ let loadWishlist = async () => {
             imgWrap.appendChild(availBadge);
             imgWrap.appendChild(propBadge);
             imgWrap.appendChild(overlay);
+            imgWrap.appendChild(wishBtn);  // always-visible pinned button
 
             card.appendChild(imgWrap);
             card.appendChild(propFoot);

@@ -403,13 +403,13 @@
             </svg>
             <span>PRICING & CAPACITY</span>
           </div>
-          <div class="form-grid-5">
+          <div class="pricing-grid-top">
             <div class="form-group">
-              <label for="pricePerNight" class="form-label">Price Per Night ($) <span class="required">*</span></label>
+              <label for="pricePerNight" class="form-label">Price / Night (PKR) <span class="required">*</span></label>
               <div class="input-prefix-wrapper">
-                <span class="input-prefix">$</span>
+                <span class="input-prefix">PKR</span>
                 <input type="number" id="pricePerNight" name="pricePerNight" class="form-input prefix-indent"
-                  placeholder="350" min="0" step="1" required>
+                  placeholder="15000" min="0" step="1" required>
               </div>
             </div>
 
@@ -417,7 +417,9 @@
               <label for="guests" class="form-label">Max Guests <span class="required">*</span></label>
               <input type="number" id="guests" name="guests" class="form-input" placeholder="6" min="1" required>
             </div>
+          </div>
 
+          <div class="pricing-grid-bottom">
             <div class="form-group">
               <label for="bedrooms" class="form-label">Bedrooms <span class="required">*</span></label>
               <input type="number" id="bedrooms" name="bedrooms" class="form-input" placeholder="3" min="0" required>
@@ -542,7 +544,7 @@
               </p>
             </div>
             <div class="view-price-container">
-              <span class="view-price-amount">$340</span>
+              <span class="view-price-amount">PKR 0</span>
               <span class="view-price-unit">/ night</span>
             </div>
           </div>
@@ -716,20 +718,23 @@
             </svg>
             <span>PRICING & CAPACITY</span>
           </div>
-          <div class="form-grid-5">
+          <div class="pricing-grid-top">
             <div class="form-group">
-              <label for="update-pricePerNight" class="form-label">Price / Night ($) <span
+              <label for="update-pricePerNight" class="form-label">Price / Night (PKR) <span
                   class="required">*</span></label>
               <div class="input-prefix-wrapper">
-                <span class="input-prefix">$</span>
+                <span class="input-prefix">PKR</span>
                 <input type="number" id="update-pricePerNight" name="pricePerNight" class="form-input prefix-indent"
-                  placeholder="350" min="0" step="1" required>
+                  placeholder="15000" min="0" step="1" required>
               </div>
             </div>
             <div class="form-group">
-              <label for="update-guests" class="form-label">Guests <span class="required">*</span></label>
+              <label for="update-guests" class="form-label">Max Guests <span class="required">*</span></label>
               <input type="number" id="update-guests" name="guests" class="form-input" placeholder="6" min="1" required>
             </div>
+          </div>
+
+          <div class="pricing-grid-bottom">
             <div class="form-group">
               <label for="update-bedrooms" class="form-label">Bedrooms <span class="required">*</span></label>
               <input type="number" id="update-bedrooms" name="bedrooms" class="form-input" placeholder="3" min="0"

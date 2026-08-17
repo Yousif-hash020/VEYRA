@@ -221,7 +221,7 @@ const getGuestPropertyById = async (req, res) => {
       });
     }
 
-    const room = await Room.findById(id).populate('owner', 'name email');
+    const room = await Room.findById(id).populate('owner', 'name email avatar');
 
     if (!room) {
       return res.status(404).json({
@@ -643,6 +643,19 @@ const getGuestBookings = async (req, res) => {
     if (status && ['Confirmed', 'Completed', 'Canceled'].includes(status)) {
       filter.status = status;
     }
+
+    // Auto-update past confirmed bookings to 'Completed'
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    await Booking.updateMany(
+      {
+        guest: req.user.userId,
+        status: 'Confirmed',
+        checkOut: { $lt: today },
+      },
+      { $set: { status: 'Completed' } }
+    );
 
     const bookings = await Booking.find(filter)
       .sort({ createdAt: -1 })

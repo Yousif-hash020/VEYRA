@@ -81,6 +81,7 @@ let getDetails = async (propertyId) => {
         }
 
         propertyData = data.data;
+        console.log(propertyData)
 
         // Ensure property detail container is visible and error container hidden
         const detailContainer = document.getElementById("property-detail-container");
@@ -110,10 +111,31 @@ let getDetails = async (propertyId) => {
         
         const hostNameText = propertyData.owner ? propertyData.owner.name : "Host";
         setText(".host-name", `Hosted by ${hostNameText}`);
-        
-        if (propertyData.owner && propertyData.owner.avatar) {
-            const hostAvatarImg = document.querySelector(".host-avatar");
-            if (hostAvatarImg) hostAvatarImg.src = propertyData.owner.avatar;
+
+        // Set host avatar — real photo from API or initials fallback
+        const hostAvatarImg = document.querySelector(".host-avatar");
+        if (hostAvatarImg) {
+            const ownerAvatar = propertyData.owner && propertyData.owner.avatar;
+            if (ownerAvatar) {
+                // Show the real host avatar photo
+                hostAvatarImg.src = ownerAvatar;
+                hostAvatarImg.alt = `${hostNameText} avatar`;
+                hostAvatarImg.style.display = "block";
+            } else {
+                // No photo uploaded — show styled initials circle
+                const initials = (hostNameText || "H")
+                    .split(" ")
+                    .map(w => w[0])
+                    .slice(0, 2)
+                    .join("")
+                    .toUpperCase();
+                const parent = hostAvatarImg.parentNode;
+                const initialsEl = document.createElement("div");
+                initialsEl.className = "host-avatar host-avatar-initials";
+                initialsEl.textContent = initials;
+                initialsEl.setAttribute("aria-label", `${hostNameText} avatar`);
+                parent.replaceChild(initialsEl, hostAvatarImg);
+            }
         }
 
         // Host Superhost / Verified Badge

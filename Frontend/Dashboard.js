@@ -388,7 +388,7 @@ let getItem = async () => {
 
             const priceText = document.createElement("span");
             priceText.className = "price-text";
-            priceText.textContent = `$${listing.pricePerNight}`;
+            priceText.textContent = `PKR ${Number(listing.pricePerNight || 0).toLocaleString()}`;
 
             priceTd.appendChild(priceText);
 
@@ -539,7 +539,7 @@ let getItem = async () => {
 
                     // Price
                     document.querySelector(".view-price-amount").textContent =
-                        `$${room.pricePerNight}`;
+                        `PKR ${Number(room.pricePerNight || 0).toLocaleString()}`;
 
 
                     // Guests

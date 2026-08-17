@@ -77,6 +77,38 @@ function initProfileDOMElements() {
     }
 }
 
+function renderUserData(userData) {
+    if (!userData || typeof userData !== "object") return;
+
+    if (userData.avatar) {
+        updateAvatarImages(userData.avatar);
+    }
+
+    const rawBio = userData.bio || "";
+    const cleanBio = (rawBio && !rawBio.includes("formname") && !rawBio.includes("data.user")) ? rawBio : "";
+
+    if (heroName && userData.name) heroName.textContent = userData.name;
+    if (heroEmail && userData.email) heroEmail.textContent = userData.email;
+    if (heroCity && userData.city) heroCity.textContent = userData.city;
+    if (heroBio && cleanBio) heroBio.textContent = cleanBio;
+
+    if (disName) disName.textContent = userData.name || "Not provided";
+    if (disEmail) disEmail.textContent = userData.email || "Not provided";
+    if (disPhone) disPhone.textContent = userData.phone || "Not provided";
+    if (disCnic) disCnic.textContent = userData.cnic || "Not provided";
+    if (disCity) disCity.textContent = userData.city || "Not provided";
+    if (disBio) disBio.textContent = cleanBio || "Not provided";
+
+    if (formname && userData.name) formname.value = userData.name;
+    if (phone && userData.phone) phone.value = userData.phone;
+    if (cnic && userData.cnic) cnic.value = userData.cnic;
+    if (city && userData.city) city.value = userData.city;
+    if (bio && cleanBio) bio.value = cleanBio;
+
+    const emailInput = document.querySelector("#email-addr");
+    if (emailInput && userData.email) emailInput.value = userData.email;
+}
+
 let getUser = async () => {
     try {
         const response = await guestFetch("http://localhost:5000/api/auth/me", { method: "GET" });
@@ -90,36 +122,7 @@ let getUser = async () => {
 
         const userData = data.user;
         localStorage.setItem("user", JSON.stringify(userData));
-
-        if (userData.avatar) {
-            updateAvatarImages(userData.avatar);
-        }
-
-        const rawBio = userData.bio || "";
-        const cleanBio = (rawBio && !rawBio.includes("formname") && !rawBio.includes("data.user")) ? rawBio : "";
-
-        if (heroName) heroName.textContent = userData.name || "Guest Member";
-        if (heroEmail) heroEmail.textContent = userData.email || "";
-        if (heroCity) heroCity.textContent = userData.city || "Pakistan";
-        if (heroBio) heroBio.textContent = cleanBio || "Passionate travel explorer.";
-
-        if (disName) disName.textContent = userData.name || "Not provided";
-        if (disEmail) disEmail.textContent = userData.email || "Not provided";
-        if (disPhone) disPhone.textContent = userData.phone || "Not provided";
-        if (disCnic) disCnic.textContent = userData.cnic || "Not provided";
-        if (disCity) disCity.textContent = userData.city || "Not provided";
-        if (disBio) disBio.textContent = cleanBio || "Not provided";
-
-        if (formname) formname.value = userData.name || "";
-        if (phone) phone.value = userData.phone || "";
-        if (cnic) cnic.value = userData.cnic || "";
-        if (city) city.value = userData.city || "";
-        if (bio) bio.value = cleanBio;
-
-        // Fill Read-only email field in edit form
-        const emailInput = document.querySelector("#email-addr");
-        if (emailInput) emailInput.value = userData.email || "";
-
+        renderUserData(userData);
     } catch (error) {
         console.error("Error fetching profile:", error);
     } finally {
@@ -129,6 +132,10 @@ let getUser = async () => {
 
 let loadProfileStats = async () => {
     try {
+        const compEl = document.querySelector("#stat-completed-stays");
+        const upEl = document.querySelector("#stat-upcoming-stays");
+        const savedEl = document.querySelector("#stat-saved-places");
+
         const [bookingsRes, wishlistRes] = await Promise.allSettled([
             guestFetch("http://localhost:5000/api/guest/bookings"),
             guestFetch("http://localhost:5000/api/guest/wishlist")
@@ -137,22 +144,44 @@ let loadProfileStats = async () => {
         if (bookingsRes.status === "fulfilled" && bookingsRes.value && bookingsRes.value.ok) {
             const bData = await bookingsRes.value.json();
             if (bData.success && Array.isArray(bData.data)) {
-                const completed = bData.data.filter(b => b.status === "Completed").length;
-                const upcoming = bData.data.filter(b => b.status === "Confirmed" || b.status === "Pending").length;
+                const now = new Date();
+                now.setHours(0, 0, 0, 0);
+
+                const completed = bData.data.filter(b => {
+                    if (b.status === "Completed") return true;
+                    if (b.status === "Confirmed" && b.checkOut && new Date(b.checkOut) < now) return true;
+                    return false;
+                }).length;
+
+                const upcoming = bData.data.filter(b => {
+                    if (b.status === "Canceled" || b.status === "Cancelled" || b.status === "Completed") return false;
+                    if (b.status === "Confirmed" || b.status === "Pending") {
+                        if (!b.checkOut) return true;
+                        return new Date(b.checkOut) >= now;
+                    }
+                    return false;
+                }).length;
                 
-                const compEl = document.querySelector("#stat-completed-stays");
-                const upEl = document.querySelector("#stat-upcoming-stays");
                 if (compEl) compEl.textContent = completed;
                 if (upEl) upEl.textContent = upcoming;
+            } else {
+                if (compEl) compEl.textContent = "0";
+                if (upEl) upEl.textContent = "0";
             }
+        } else {
+            if (compEl) compEl.textContent = "0";
+            if (upEl) upEl.textContent = "0";
         }
 
         if (wishlistRes.status === "fulfilled" && wishlistRes.value && wishlistRes.value.ok) {
             const wData = await wishlistRes.value.json();
             if (wData.success && Array.isArray(wData.data)) {
-                const savedEl = document.querySelector("#stat-saved-places");
                 if (savedEl) savedEl.textContent = wData.data.length;
+            } else {
+                if (savedEl) savedEl.textContent = "0";
             }
+        } else {
+            if (savedEl) savedEl.textContent = "0";
         }
     } catch (e) {
         console.error("loadProfileStats error:", e);
@@ -273,6 +302,16 @@ document.addEventListener("DOMContentLoaded", () => {
     initProfileDOMElements();
     initAvatarUploader();
 
+    // Render cached user instantly without waiting for network
+    try {
+        const cachedUser = JSON.parse(localStorage.getItem("user") || "{}");
+        if (cachedUser && Object.keys(cachedUser).length > 0) {
+            renderUserData(cachedUser);
+        }
+    } catch (err) {
+        console.warn("Cached user parse error:", err);
+    }
+
     if (btnsave) {
         btnsave.addEventListener("click", async (e) => {
             e.preventDefault();
@@ -283,6 +322,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (displayform) displayform.style.display = 'block';
             }
         });
+    }
+
+    // Hide loader immediately since page is rendered
+    if (typeof hideVeyraLoader === "function") {
+        hideVeyraLoader();
     }
 
     getUser();

@@ -94,8 +94,23 @@ function initGuestLogout() {
   });
 }
 
+function applyCachedGuestAvatar() {
+  try {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (user && user.avatar) {
+      document.querySelectorAll(".nav-avatar, #nav-avatar-img, .user-avatar, #hero-avatar-img").forEach((img) => {
+        img.src = user.avatar;
+      });
+    }
+  } catch (_) {}
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initGuestLogout);
+  document.addEventListener("DOMContentLoaded", () => {
+    initGuestLogout();
+    applyCachedGuestAvatar();
+  });
 } else {
   initGuestLogout();
+  applyCachedGuestAvatar();
 }

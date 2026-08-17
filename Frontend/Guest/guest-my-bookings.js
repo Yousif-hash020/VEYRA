@@ -65,11 +65,25 @@ function renderBookings() {
     const listContainer = document.querySelector(".bookings-list");
     if (!listContainer) return;
 
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
     let filtered = allBookings;
     if (currentFilter === "upcoming") {
-        filtered = allBookings.filter(b => b.status === "Confirmed" || b.status === "Pending");
+        filtered = allBookings.filter(b => {
+            if (b.status === "Canceled" || b.status === "Cancelled" || b.status === "Completed") return false;
+            if (b.status === "Confirmed" || b.status === "Pending") {
+                if (!b.checkOut) return true;
+                return new Date(b.checkOut) >= now;
+            }
+            return false;
+        });
     } else if (currentFilter === "completed") {
-        filtered = allBookings.filter(b => b.status === "Completed");
+        filtered = allBookings.filter(b => {
+            if (b.status === "Completed") return true;
+            if (b.status === "Confirmed" && b.checkOut && new Date(b.checkOut) < now) return true;
+            return false;
+        });
     } else if (currentFilter === "canceled") {
         filtered = allBookings.filter(b => b.status === "Canceled" || b.status === "Cancelled");
     }
@@ -109,18 +123,23 @@ function renderBookings() {
         }
         calculatedNights = calculatedNights || 1;
 
+        const isPastStay = booking.status === "Completed" || (booking.status === "Confirmed" && !isNaN(cOutDate.getTime()) && cOutDate < now);
+
         let statusPillClass = "upcoming";
         let statusText = "Confirmed Stay";
 
-        if (booking.status === "Completed") {
-            statusPillClass = "completed";
-            statusText = "Completed";
-        } else if (booking.status === "Canceled" || booking.status === "Cancelled") {
+        if (booking.status === "Canceled" || booking.status === "Cancelled") {
             statusPillClass = "canceled";
             statusText = "Canceled";
+        } else if (isPastStay) {
+            statusPillClass = "completed";
+            statusText = "Completed";
         } else if (booking.status === "Pending") {
             statusPillClass = "upcoming";
             statusText = "Pending Host Approval";
+        } else {
+            statusPillClass = "upcoming";
+            statusText = "Confirmed Stay";
         }
 
         const fallbackImg = GUEST_PROPERTY_FALLBACK_IMG;
@@ -241,9 +260,25 @@ function updateTabCounts() {
     const tabBtns = document.querySelectorAll(".bookings-tabs .tab-btn");
     if (!tabBtns || tabBtns.length < 4) return;
 
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
     const totalCount = allBookings.length;
-    const upcomingCount = allBookings.filter(b => b.status === "Confirmed" || b.status === "Pending").length;
-    const completedCount = allBookings.filter(b => b.status === "Completed").length;
+    const upcomingCount = allBookings.filter(b => {
+        if (b.status === "Canceled" || b.status === "Cancelled" || b.status === "Completed") return false;
+        if (b.status === "Confirmed" || b.status === "Pending") {
+            if (!b.checkOut) return true;
+            return new Date(b.checkOut) >= now;
+        }
+        return false;
+    }).length;
+
+    const completedCount = allBookings.filter(b => {
+        if (b.status === "Completed") return true;
+        if (b.status === "Confirmed" && b.checkOut && new Date(b.checkOut) < now) return true;
+        return false;
+    }).length;
+
     const canceledCount = allBookings.filter(b => b.status === "Canceled" || b.status === "Cancelled").length;
 
     tabBtns[0].textContent = `All Stays (${totalCount})`;

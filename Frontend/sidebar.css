@@ -11,9 +11,9 @@
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(20, 33, 61, 0.4);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 999;
   opacity: 0;
   visibility: hidden;
@@ -36,7 +36,7 @@ body.sidebar-open .sidebar-backdrop,
   border-radius: var(--radius-md, 10px);
   border: 1px solid var(--color-light-border, #E2E8F0);
   background-color: var(--color-white, #FFFFFF);
-  color: var(--color-deep-navy, #14213D);
+  color: var(--color-deep-navy, #0F172A);
   cursor: pointer;
   flex-shrink: 0;
   transition: all 0.2s ease;
@@ -44,8 +44,8 @@ body.sidebar-open .sidebar-backdrop,
 
 .hamburger-btn:hover {
   background-color: var(--color-off-white, #F8FAFC);
-  color: var(--color-royal-blue, #2563EB);
-  border-color: var(--color-royal-blue, #2563EB);
+  color: var(--color-royal-blue, #0D5C4E);
+  border-color: var(--color-royal-blue, #0D5C4E);
 }
 
 /* 3. Sidebar Close Button (Cross) inside Drawer Header (Hidden by default on Desktop) */
