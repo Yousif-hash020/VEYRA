@@ -157,6 +157,8 @@ let initCheckout = async () => {
 
     } catch (err) {
         console.error("initCheckout Error:", err);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 

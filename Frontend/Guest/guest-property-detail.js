@@ -349,6 +349,8 @@ let getDetails = async (propertyId) => {
 
     } catch (error) {
         console.error("getDetails Error:", error);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 

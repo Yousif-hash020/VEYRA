@@ -19,9 +19,24 @@
 
   <!-- Property Detail CSS -->
   <link rel="stylesheet" href="guest-property-detail.css">
+  <link rel="stylesheet" href="../loader.css">
 </head>
 
 <body>
+
+  <div class="veyra-loader" id="veyra-global-loader">
+    <div class="veyra-loader-content">
+      <div class="veyra-loader-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0D5C4E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div class="veyra-loader-text">
+        Loading<span class="dots-wrapper"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+      </div>
+    </div>
+  </div>
 
   <!-- CSS-only mobile nav toggle -->
   <input type="checkbox" id="navToggle" class="nav-toggle-input" aria-hidden="true">
@@ -57,7 +72,8 @@
         <a href="guest-wishlist.html" class="nav-link">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
           <span>Wishlist</span>
         </a>
@@ -124,7 +140,8 @@
         <a href="guest-wishlist.html" class="mobile-link">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
           Wishlist
         </a>
@@ -163,13 +180,22 @@
   <main class="detail-main" id="main-content">
 
     <!-- Unified Error State (Hidden by default) -->
-    <div id="property-error-container" class="dashboard-empty-container" style="display: none; margin: 40px auto; max-width: 600px;">
-      <div class="dashboard-empty-icon" style="background: rgba(254, 226, 226, 0.7); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div id="property-error-container" class="dashboard-empty-container"
+      style="display: none; margin: 40px auto; max-width: 600px;">
+      <div class="dashboard-empty-icon"
+        style="background: rgba(254, 226, 226, 0.7); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
       </div>
       <h3 class="dashboard-empty-title" id="property-error-title">Unable to Load Property</h3>
-      <p class="dashboard-empty-desc" id="property-error-desc">We couldn't find the requested property or the server is unavailable.</p>
-      <a href="guest-dashboard.html" class="btn-clear-all-filters" style="background: linear-gradient(135deg, var(--em-700) 0%, var(--em-800) 100%); display: inline-flex; align-items: center; text-decoration: none; margin-top: 8px;">
+      <p class="dashboard-empty-desc" id="property-error-desc">We couldn't find the requested property or the server is
+        unavailable.</p>
+      <a href="guest-dashboard.html" class="btn-clear-all-filters"
+        style="background: linear-gradient(135deg, var(--em-700) 0%, var(--em-800) 100%); display: inline-flex; align-items: center; text-decoration: none; margin-top: 8px;">
         Back to Explore
       </a>
     </div>
@@ -192,8 +218,8 @@
           <h1 class="property-title">Loading Property...</h1>
           <div class="property-sub-meta">
             <span class="meta-badge-item">
-              <svg class="meta-rating-star" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
-                fill="#C4A040" stroke="#C4A040" stroke-width="1">
+              <svg class="meta-rating-star" xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                viewBox="0 0 24 24" fill="#C4A040" stroke="#C4A040" stroke-width="1">
                 <polygon
                   points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
@@ -244,444 +270,457 @@
         </div>
       </div>
 
-    <!-- ── PHOTO GALLERY GRID (Pinterest Inspired) ────────────────────────── -->
-    <div class="gallery-grid" id="galleryGrid">
-      <div class="gallery-item main-photo">
-        <img src="../images/luxury_mountain_cabin.png" alt="Luxury Mountain Cabin Main Exterior View"
-          class="gallery-img">
-      </div>
-      <div class="gallery-item">
-        <img src="../images/destination_nathia_gali.png" alt="Pine forest surrounding the cabin" class="gallery-img">
-      </div>
-      <div class="gallery-item">
-        <img src="../images/hunza_valley_chalet.png" alt="Cozy cabin living interior with wood fireplace"
-          class="gallery-img">
-      </div>
-      <div class="gallery-item">
-        <img src="../images/skardu_lake_villa.png" alt="Outdoor wooden balcony and dining area" class="gallery-img">
-      </div>
-      <div class="gallery-item">
-        <img src="../images/veyra_hero_bg.png" alt="Panoramic sunrise views from bedroom balcony" class="gallery-img">
-      </div>
-
-      <button type="button" class="gallery-overlay-btn" aria-label="View all photos">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-        View All 18 Photos
-      </button>
-    </div>
-
-    <!-- ── MAIN SPLIT LAYOUT ─────────────────────────────────────────────── -->
-    <div class="detail-layout">
-
-      <!-- LEFT COLUMN: Content, Specs, Calendar, Reviews -->
-      <div class="detail-left-col">
-
-        <!-- Host Info Card -->
-        <div class="host-card">
-          <div class="host-info">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
-              alt="Host Alexander Wright" class="host-avatar">
-            <div class="host-text">
-              <h3 class="host-name">Hosted by Alexander Wright</h3>
-              <span class="host-meta">Superhost · Hosting guests for 4 years</span>
-            </div>
-          </div>
-          <span class="host-badge-pill">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-            Verified Superhost
-          </span>
+      <!-- ── PHOTO GALLERY GRID (Pinterest Inspired) ────────────────────────── -->
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="gallery-item main-photo">
+          <img src="../images/luxury_mountain_cabin.png" alt="Luxury Mountain Cabin Main Exterior View"
+            class="gallery-img">
+        </div>
+        <div class="gallery-item">
+          <img src="../images/destination_nathia_gali.png" alt="Pine forest surrounding the cabin" class="gallery-img">
+        </div>
+        <div class="gallery-item">
+          <img src="../images/hunza_valley_chalet.png" alt="Cozy cabin living interior with wood fireplace"
+            class="gallery-img">
+        </div>
+        <div class="gallery-item">
+          <img src="../images/skardu_lake_villa.png" alt="Outdoor wooden balcony and dining area" class="gallery-img">
+        </div>
+        <div class="gallery-item">
+          <img src="../images/veyra_hero_bg.png" alt="Panoramic sunrise views from bedroom balcony" class="gallery-img">
         </div>
 
-        <!-- Key Specs Bar -->
-        <div class="specs-bar">
-          <div class="spec-item">
-            <div class="spec-icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
+        <button type="button" class="gallery-overlay-btn" aria-label="View all photos">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          View All 18 Photos
+        </button>
+      </div>
+
+      <!-- ── MAIN SPLIT LAYOUT ─────────────────────────────────────────────── -->
+      <div class="detail-layout">
+
+        <!-- LEFT COLUMN: Content, Specs, Calendar, Reviews -->
+        <div class="detail-left-col">
+
+          <!-- Host Info Card -->
+          <div class="host-card">
+            <div class="host-info">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+                alt="Host Alexander Wright" class="host-avatar">
+              <div class="host-text">
+                <h3 class="host-name">Hosted by Alexander Wright</h3>
+                <span class="host-meta">Superhost · Hosting guests for 4 years</span>
+              </div>
+            </div>
+            <span class="host-badge-pill">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
-            </div>
-            <div class="spec-details">
-              <span class="spec-val" id="guest">8 Guests</span>
-              <span class="spec-label">Capacity</span>
-            </div>
+              Verified Superhost
+            </span>
           </div>
 
-          <div class="spec-item">
-            <div class="spec-icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 4v16" />
-                <path d="M2 8h18a2 2 0 0 1 2 2v10" />
-                <path d="M2 17h20" />
-                <path d="M6 8v9" />
-              </svg>
-            </div>
-            <div class="spec-details">
-              <span class="spec-val" id="beds">4 Bedrooms</span>
-              <span class="spec-label">King beds</span>
-            </div>
-          </div>
-
-          <div class="spec-item">
-            <div class="spec-icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-2.12 0l-.88.88a1.5 1.5 0 0 0 0 2.12L6 9" />
-                <path d="M4 14.5a8.5 8.5 0 0 0 15.5 4.5" />
-              </svg>
-            </div>
-            <div class="spec-details">
-              <span class="spec-val" id="bath">3 Baths</span>
-              <span class="spec-label">Full luxury</span>
-            </div>
-          </div>
-
-          <div class="spec-item">
-            <div class="spec-icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path
-                  d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-              </svg>
-            </div>
-            <div class="spec-details">
-              <span class="spec-val" id="bedrooms">Bedrooms</span>
-              <span class="spec-label">King beds</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Description Block -->
-        <div class="section-block">
-          <h2 class="section-title">About This Escape</h2>
-          <p class="description-text">
-            Perched amidst ancient pine ridge forests at 2,200 meters altitude in Nathia Gali, this handcrafted timber
-            cabin redefines mountain tranquility. Designed for discerning travelers, the retreat combines authentic
-            cedar-wood architecture with modern Scandinavian minimalist luxury.
-          </p>
-        </div>
-
-        <!-- Amenities Grid -->
-        <div class="section-block">
-          <h2 class="section-title">What This Stay Offers</h2>
-          <div class="amenities-grid">
-
-          </div>
-        </div>
-
-        <!-- ── AVAILABILITY & CALENDAR ────────────────────────────────────── -->
-        <div class="section-block" id="availability-section">
-          <h2 class="section-title">Availability & House Timing</h2>
-
-          <!-- Check-in / Check-out timing specs -->
-          <div class="timing-specs">
-            <div class="timing-card">
-              <div class="timing-icon">
+          <!-- Key Specs Bar -->
+          <div class="specs-bar">
+            <div class="spec-item">
+              <div class="spec-icon-box">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                  <polyline points="10 17 15 12 10 7" />
-                  <line x1="15" y1="12" x2="3" y2="12" />
+                  stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
                 </svg>
               </div>
-              <div class="timing-info">
-                <span class="timing-title">Check-in Time</span>
-                <span class="timing-time">2:00 PM – 8:00 PM</span>
+              <div class="spec-details">
+                <span class="spec-val" id="guest">8 Guests</span>
+                <span class="spec-label">Capacity</span>
               </div>
             </div>
 
-            <div class="timing-card">
-              <div class="timing-icon">
+            <div class="spec-item">
+              <div class="spec-icon-box">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <polyline points="16 17 21 12 16 7" />
-                  <line x1="21" y1="12" x2="9" y2="12" />
+                  stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 4v16" />
+                  <path d="M2 8h18a2 2 0 0 1 2 2v10" />
+                  <path d="M2 17h20" />
+                  <path d="M6 8v9" />
                 </svg>
               </div>
-              <div class="timing-info">
-                <span class="timing-title">Check-out Time</span>
-                <span class="timing-time">11:00 AM Sharp</span>
+              <div class="spec-details">
+                <span class="spec-val" id="beds">4 Bedrooms</span>
+                <span class="spec-label">King beds</span>
+              </div>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-2.12 0l-.88.88a1.5 1.5 0 0 0 0 2.12L6 9" />
+                  <path d="M4 14.5a8.5 8.5 0 0 0 15.5 4.5" />
+                </svg>
+              </div>
+              <div class="spec-details">
+                <span class="spec-val" id="bath">3 Baths</span>
+                <span class="spec-label">Full luxury</span>
+              </div>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+                </svg>
+              </div>
+              <div class="spec-details">
+                <span class="spec-val" id="bedrooms">Bedrooms</span>
+                <span class="spec-label">King beds</span>
               </div>
             </div>
           </div>
 
-          <!-- Calendar Widget Card -->
-          <div class="avail-card">
-            <div class="avail-header-row">
-              <h3 style="font-size:16px; font-weight:700; color:var(--ch-800);">Select Stay Dates</h3>
-              <div class="avail-legend">
-                <div class="legend-item"><span class="legend-dot avail"></span> Available</div>
-                <div class="legend-item"><span class="legend-dot selected"></span> Selected</div>
-                <div class="legend-item"><span class="legend-dot booked"></span> Booked</div>
-              </div>
-            </div>
+          <!-- Description Block -->
+          <div class="section-block">
+            <h2 class="section-title">About This Escape</h2>
+            <p class="description-text">
+              Perched amidst ancient pine ridge forests at 2,200 meters altitude in Nathia Gali, this handcrafted timber
+              cabin redefines mountain tranquility. Designed for discerning travelers, the retreat combines authentic
+              cedar-wood architecture with modern Scandinavian minimalist luxury.
+            </p>
+          </div>
 
-            <div class="calendar-month">
-              <div class="cal-nav">
-                <button type="button" class="cal-btn" aria-label="Previous month">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          <!-- Amenities Grid -->
+          <div class="section-block">
+            <h2 class="section-title">What This Stay Offers</h2>
+            <div class="amenities-grid">
+
+            </div>
+          </div>
+
+          <!-- ── AVAILABILITY & CALENDAR ────────────────────────────────────── -->
+          <div class="section-block" id="availability-section">
+            <h2 class="section-title">Availability & House Timing</h2>
+
+            <!-- Check-in / Check-out timing specs -->
+            <div class="timing-specs">
+              <div class="timing-card">
+                <div class="timing-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6" />
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                    <polyline points="10 17 15 12 10 7" />
+                    <line x1="15" y1="12" x2="3" y2="12" />
                   </svg>
-                </button>
-                <span class="cal-month-title">August 2026</span>
-                <button type="button" class="cal-btn" aria-label="Next month">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                </div>
+                <div class="timing-info">
+                  <span class="timing-title">Check-in Time</span>
+                  <span class="timing-time">2:00 PM – 8:00 PM</span>
+                </div>
+              </div>
+
+              <div class="timing-card">
+                <div class="timing-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
                   </svg>
-                </button>
+                </div>
+                <div class="timing-info">
+                  <span class="timing-title">Check-out Time</span>
+                  <span class="timing-time">11:00 AM Sharp</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calendar Widget Card -->
+            <div class="avail-card">
+              <div class="avail-header-row">
+                <h3 style="font-size:16px; font-weight:700; color:var(--ch-800);">Select Stay Dates</h3>
+                <div class="avail-legend">
+                  <div class="legend-item"><span class="legend-dot avail"></span> Available</div>
+                  <div class="legend-item"><span class="legend-dot selected"></span> Selected</div>
+                  <div class="legend-item"><span class="legend-dot booked"></span> Booked</div>
+                </div>
               </div>
 
-              <div class="cal-grid">
-                <div class="cal-day-name">Su</div>
-                <div class="cal-day-name">Mo</div>
-                <div class="cal-day-name">Tu</div>
-                <div class="cal-day-name">We</div>
-                <div class="cal-day-name">Th</div>
-                <div class="cal-day-name">Fr</div>
-                <div class="cal-day-name">Sa</div>
+              <div class="calendar-month">
+                <div class="cal-nav">
+                  <button type="button" class="cal-btn" aria-label="Previous month">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                  </button>
+                  <span class="cal-month-title">August 2026</span>
+                  <button type="button" class="cal-btn" aria-label="Next month">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                </div>
 
-                <!-- Days -->
-                <div class="cal-date empty"></div>
-                <div class="cal-date empty"></div>
-                <div class="cal-date empty"></div>
-                <div class="cal-date empty"></div>
-                <div class="cal-date empty"></div>
-                <div class="cal-date empty"></div>
-                <div class="cal-date available">1</div>
+                <div class="cal-grid">
+                  <div class="cal-day-name">Su</div>
+                  <div class="cal-day-name">Mo</div>
+                  <div class="cal-day-name">Tu</div>
+                  <div class="cal-day-name">We</div>
+                  <div class="cal-day-name">Th</div>
+                  <div class="cal-day-name">Fr</div>
+                  <div class="cal-day-name">Sa</div>
 
-                <div class="cal-date available">2</div>
-                <div class="cal-date available">3</div>
-                <div class="cal-date available">4</div>
-                <div class="cal-date available">5</div>
-                <div class="cal-date available">6</div>
-                <div class="cal-date available">7</div>
-                <div class="cal-date available">8</div>
+                  <!-- Days -->
+                  <div class="cal-date empty"></div>
+                  <div class="cal-date empty"></div>
+                  <div class="cal-date empty"></div>
+                  <div class="cal-date empty"></div>
+                  <div class="cal-date empty"></div>
+                  <div class="cal-date empty"></div>
+                  <div class="cal-date available">1</div>
 
-                <div class="cal-date available">9</div>
-                <div class="cal-date available">10</div>
-                <div class="cal-date available">11</div>
-                <div class="cal-date available">12</div>
-                <div class="cal-date available">13</div>
-                <div class="cal-date selected">14</div>
-                <div class="cal-date in-range">15</div>
+                  <div class="cal-date available">2</div>
+                  <div class="cal-date available">3</div>
+                  <div class="cal-date available">4</div>
+                  <div class="cal-date available">5</div>
+                  <div class="cal-date available">6</div>
+                  <div class="cal-date available">7</div>
+                  <div class="cal-date available">8</div>
 
-                <div class="cal-date in-range">16</div>
-                <div class="cal-date selected">17</div>
-                <div class="cal-date available">18</div>
-                <div class="cal-date available">19</div>
-                <div class="cal-date booked">20</div>
-                <div class="cal-date booked">21</div>
-                <div class="cal-date booked">22</div>
+                  <div class="cal-date available">9</div>
+                  <div class="cal-date available">10</div>
+                  <div class="cal-date available">11</div>
+                  <div class="cal-date available">12</div>
+                  <div class="cal-date available">13</div>
+                  <div class="cal-date selected">14</div>
+                  <div class="cal-date in-range">15</div>
 
-                <div class="cal-date available">23</div>
-                <div class="cal-date available">24</div>
-                <div class="cal-date available">25</div>
-                <div class="cal-date available">26</div>
-                <div class="cal-date available">27</div>
-                <div class="cal-date available">28</div>
-                <div class="cal-date available">29</div>
+                  <div class="cal-date in-range">16</div>
+                  <div class="cal-date selected">17</div>
+                  <div class="cal-date available">18</div>
+                  <div class="cal-date available">19</div>
+                  <div class="cal-date booked">20</div>
+                  <div class="cal-date booked">21</div>
+                  <div class="cal-date booked">22</div>
 
-                <div class="cal-date available">30</div>
-                <div class="cal-date available">31</div>
+                  <div class="cal-date available">23</div>
+                  <div class="cal-date available">24</div>
+                  <div class="cal-date available">25</div>
+                  <div class="cal-date available">26</div>
+                  <div class="cal-date available">27</div>
+                  <div class="cal-date available">28</div>
+                  <div class="cal-date available">29</div>
+
+                  <div class="cal-date available">30</div>
+                  <div class="cal-date available">31</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- ── REVIEWS BLOCK ─────────────────────────────────────────────── -->
-        <div class="reviews-block" id="reviews-section">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
-            <h2 class="section-title" style="margin-bottom:0;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#C4A040"
-                stroke="#C4A040" stroke-width="1" style="vertical-align:-2px; margin-right:4px;">
-                <polygon
-                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          <!-- ── REVIEWS BLOCK ─────────────────────────────────────────────── -->
+          <div class="reviews-block" id="reviews-section">
+            <div
+              style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+              <h2 class="section-title" style="margin-bottom:0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#C4A040"
+                  stroke="#C4A040" stroke-width="1" style="vertical-align:-2px; margin-right:4px;">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                <span class="guest-rating">4.9 ·</span>
+                <span class="guest-reviews-count">127 Guest Reviews</span>
+              </h2>
+              <button type="button" id="btn-open-review-modal"
+                style="background:#0D5C4E; color:#ffffff; border:none; padding:10px 18px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span>Write a Review</span>
+              </button>
+            </div>
+
+            <div class="reviews-summary-card">
+              <div class="rating-big-box">
+                <span class="rating-score-num">4.9</span>
+                <div class="rating-stars-row">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </div>
+                <span class="rating-total-label">127 ratings</span>
+              </div>
+
+              <div class="rating-aspects-grid">
+                <div class="aspect-row">
+                  <span class="aspect-name">Cleanliness</span>
+                  <div class="aspect-val-wrap">
+                    <div class="aspect-bar">
+                      <div class="aspect-fill" style="width: 98%;"></div>
+                    </div>
+                    <span class="aspect-num">4.9</span>
+                  </div>
+                </div>
+                <div class="aspect-row">
+                  <span class="aspect-name">Accuracy</span>
+                  <div class="aspect-val-wrap">
+                    <div class="aspect-bar">
+                      <div class="aspect-fill" style="width: 100%;"></div>
+                    </div>
+                    <span class="aspect-num">5.0</span>
+                  </div>
+                </div>
+                <div class="aspect-row">
+                  <span class="aspect-name">Communication</span>
+                  <div class="aspect-val-wrap">
+                    <div class="aspect-bar">
+                      <div class="aspect-fill" style="width: 98%;"></div>
+                    </div>
+                    <span class="aspect-num">4.9</span>
+                  </div>
+                </div>
+                <div class="aspect-row">
+                  <span class="aspect-name">Location</span>
+                  <div class="aspect-val-wrap">
+                    <div class="aspect-bar">
+                      <div class="aspect-fill" style="width: 100%;"></div>
+                    </div>
+                    <span class="aspect-num">5.0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reviews Cards Grid -->
+            <div class="reviews-grid">
+
+            </div>
+          </div>
+
+        </div><!-- /detail-left-col -->
+
+        <!-- RIGHT COLUMN: Sticky Booking Price Calculator Card -->
+        <div class="detail-right-col">
+          <div class="booking-sticky-card">
+            <div class="booking-card-header">
+              <div class="price-display">
+                <span class="price-amount">PKR 18,500</span>
+                <span class="price-unit">/ night</span>
+              </div>
+              <div class="booking-card-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#C4A040"
+                  stroke="#C4A040" stroke-width="1">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                <span class="side-rating">4.9</span>
+                <span class="side-rating-count">(127)</span>
+              </div>
+            </div>
+
+            <!-- Date & Guest Form Box -->
+            <div class="booking-form-box">
+              <div class="date-inputs-row">
+                <div class="date-field-cell">
+                  <label class="field-label" for="booking-checkin">Check-in</label>
+                  <input type="date" id="booking-checkin" value="2026-08-14" class="field-input">
+                </div>
+                <div class="date-field-cell">
+                  <label class="field-label" for="booking-checkout">Check-out</label>
+                  <input type="date" id="booking-checkout" value="2026-08-17" class="field-input">
+                </div>
+              </div>
+
+              <div class="guest-input-cell">
+                <label class="field-label" for="booking-guests">Guests</label>
+                <select id="booking-guests" class="guest-select">
+                  <option value="1">1 Adult</option>
+                  <option value="2" selected>2 Guests (1 Room)</option>
+                  <option value="4">4 Guests (2 Rooms)</option>
+                  <option value="8">8 Guests (Full Cabin)</option>
+                </select>
+              </div>
+              <div id="availability-warning"
+                style="display: none; margin-top: 10px; padding: 10px; background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 6px; font-size: 13px; font-weight: 500;">
+              </div>
+            </div>
+
+            <!-- Price Calculation List -->
+            <div class="price-breakdown-list">
+              <div class="breakdown-row">
+                <span>PKR 18,500 × 3 nights</span>
+                <span>PKR 55,500</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Cleaning & Preparation fee</span>
+                <span>PKR 3,500</span>
+              </div>
+              <div class="breakdown-row">
+                <span>VEYRA Service fee</span>
+                <span>PKR 4,200</span>
+              </div>
+              <div class="breakdown-row total-row">
+                <span>Total Stay Price</span>
+                <span>PKR 63,200</span>
+              </div>
+            </div>
+
+            <!-- Reserve CTA Button -->
+            <a href="guest-booking.html" class="reserve-btn" id="reserve-now-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
               </svg>
-              <span class="guest-rating">4.9 ·</span>
-              <span class="guest-reviews-count">127 Guest Reviews</span>
-            </h2>
-            <button type="button" id="btn-open-review-modal" style="background:#0D5C4E; color:#ffffff; border:none; padding:10px 18px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s ease;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span>Write a Review</span>
-            </button>
-          </div>
+              Reserve Property Stay
+            </a>
 
-          <div class="reviews-summary-card">
-            <div class="rating-big-box">
-              <span class="rating-score-num">4.9</span>
-              <div class="rating-stars-row">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-              </div>
-              <span class="rating-total-label">127 ratings</span>
-            </div>
-
-            <div class="rating-aspects-grid">
-              <div class="aspect-row">
-                <span class="aspect-name">Cleanliness</span>
-                <div class="aspect-val-wrap">
-                  <div class="aspect-bar">
-                    <div class="aspect-fill" style="width: 98%;"></div>
-                  </div>
-                  <span class="aspect-num">4.9</span>
-                </div>
-              </div>
-              <div class="aspect-row">
-                <span class="aspect-name">Accuracy</span>
-                <div class="aspect-val-wrap">
-                  <div class="aspect-bar">
-                    <div class="aspect-fill" style="width: 100%;"></div>
-                  </div>
-                  <span class="aspect-num">5.0</span>
-                </div>
-              </div>
-              <div class="aspect-row">
-                <span class="aspect-name">Communication</span>
-                <div class="aspect-val-wrap">
-                  <div class="aspect-bar">
-                    <div class="aspect-fill" style="width: 98%;"></div>
-                  </div>
-                  <span class="aspect-num">4.9</span>
-                </div>
-              </div>
-              <div class="aspect-row">
-                <span class="aspect-name">Location</span>
-                <div class="aspect-val-wrap">
-                  <div class="aspect-bar">
-                    <div class="aspect-fill" style="width: 100%;"></div>
-                  </div>
-                  <span class="aspect-num">5.0</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Reviews Cards Grid -->
-          <div class="reviews-grid">
-
-          </div>
-        </div>
-
-      </div><!-- /detail-left-col -->
-
-      <!-- RIGHT COLUMN: Sticky Booking Price Calculator Card -->
-      <div class="detail-right-col">
-        <div class="booking-sticky-card">
-          <div class="booking-card-header">
-            <div class="price-display">
-              <span class="price-amount">PKR 18,500</span>
-              <span class="price-unit">/ night</span>
-            </div>
-            <div class="booking-card-rating">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#C4A040"
-                stroke="#C4A040" stroke-width="1">
-                <polygon
-                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            <p class="booking-guarantee-note">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
-              <span class="side-rating">4.9</span>
-              <span class="side-rating-count">(127)</span>
-            </div>
-          </div>
+              You won't be charged until booking confirmation
+            </p>
 
-          <!-- Date & Guest Form Box -->
-          <div class="booking-form-box">
-            <div class="date-inputs-row">
-              <div class="date-field-cell">
-                <label class="field-label" for="booking-checkin">Check-in</label>
-                <input type="date" id="booking-checkin" value="2026-08-14" class="field-input">
-              </div>
-              <div class="date-field-cell">
-                <label class="field-label" for="booking-checkout">Check-out</label>
-                <input type="date" id="booking-checkout" value="2026-08-17" class="field-input">
-              </div>
-            </div>
+          </div><!-- /booking-sticky-card -->
+        </div><!-- /detail-right-col -->
 
-            <div class="guest-input-cell">
-              <label class="field-label" for="booking-guests">Guests</label>
-              <select id="booking-guests" class="guest-select">
-                <option value="1">1 Adult</option>
-                <option value="2" selected>2 Guests (1 Room)</option>
-                <option value="4">4 Guests (2 Rooms)</option>
-                <option value="8">8 Guests (Full Cabin)</option>
-              </select>
-            </div>
-            <div id="availability-warning" style="display: none; margin-top: 10px; padding: 10px; background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 6px; font-size: 13px; font-weight: 500;"></div>
-          </div>
-
-          <!-- Price Calculation List -->
-          <div class="price-breakdown-list">
-            <div class="breakdown-row">
-              <span>PKR 18,500 × 3 nights</span>
-              <span>PKR 55,500</span>
-            </div>
-            <div class="breakdown-row">
-              <span>Cleaning & Preparation fee</span>
-              <span>PKR 3,500</span>
-            </div>
-            <div class="breakdown-row">
-              <span>VEYRA Service fee</span>
-              <span>PKR 4,200</span>
-            </div>
-            <div class="breakdown-row total-row">
-              <span>Total Stay Price</span>
-              <span>PKR 63,200</span>
-            </div>
-          </div>
-
-          <!-- Reserve CTA Button -->
-          <a href="guest-booking.html" class="reserve-btn" id="reserve-now-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-            </svg>
-            Reserve Property Stay
-          </a>
-
-          <p class="booking-guarantee-note">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-            You won't be charged until booking confirmation
-          </p>
-
-        </div><!-- /booking-sticky-card -->
-      </div><!-- /detail-right-col -->
-
-    </div><!-- /detail-layout -->
+      </div><!-- /detail-layout -->
     </div><!-- /property-detail-container -->
 
   </main>
@@ -706,17 +745,24 @@
   </footer>
 
   <!-- ── ADD REVIEW MODAL ────────────────────────────────────────────────── -->
-  <div class="modal-overlay" id="modal-add-review" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:99999; align-items:center; justify-content:center; padding:16px;">
-    <div class="modal-card" style="background:#ffffff; border-radius:16px; width:100%; max-width:520px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); overflow:hidden;">
-      <div style="padding:20px 24px; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between;">
+  <div class="modal-overlay" id="modal-add-review"
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:99999; align-items:center; justify-content:center; padding:16px;">
+    <div class="modal-card"
+      style="background:#ffffff; border-radius:16px; width:100%; max-width:520px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); overflow:hidden;">
+      <div
+        style="padding:20px 24px; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between;">
         <h3 style="font-size:18px; font-weight:700; color:#0f172a; margin:0;">Write a Guest Review</h3>
-        <button type="button" id="close-review-modal" style="background:none; border:none; font-size:22px; color:#64748b; cursor:pointer; line-height:1;">&times;</button>
+        <button type="button" id="close-review-modal"
+          style="background:none; border:none; font-size:22px; color:#64748b; cursor:pointer; line-height:1;">&times;</button>
       </div>
       <form id="form-add-review" style="padding:24px;">
-        <div id="review-alert" style="display:none; padding:10px 14px; background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; border-radius:8px; font-size:13px; font-weight:500; margin-bottom:16px;"></div>
-        
+        <div id="review-alert"
+          style="display:none; padding:10px 14px; background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; border-radius:8px; font-size:13px; font-weight:500; margin-bottom:16px;">
+        </div>
+
         <div style="margin-bottom:20px;">
-          <label style="display:block; font-weight:600; font-size:14px; color:#1e293b; margin-bottom:8px;">Rating Score</label>
+          <label style="display:block; font-weight:600; font-size:14px; color:#1e293b; margin-bottom:8px;">Rating
+            Score</label>
           <div id="star-picker" style="display:flex; gap:8px; cursor:pointer;">
             <span class="star-pick-btn" data-val="1" style="font-size:26px; color:#D4B860; user-select:none;">★</span>
             <span class="star-pick-btn" data-val="2" style="font-size:26px; color:#D4B860; user-select:none;">★</span>
@@ -728,17 +774,25 @@
         </div>
 
         <div style="margin-bottom:24px;">
-          <label for="review-comment-input" style="display:block; font-weight:600; font-size:14px; color:#1e293b; margin-bottom:8px;">Your Review / Feedback</label>
-          <textarea id="review-comment-input" rows="4" placeholder="Describe your stay, host hospitality, amenities, and surroundings..." required style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; font-family:inherit; font-size:14px; color:#0f172a; resize:vertical; outline:none;"></textarea>
+          <label for="review-comment-input"
+            style="display:block; font-weight:600; font-size:14px; color:#1e293b; margin-bottom:8px;">Your Review /
+            Feedback</label>
+          <textarea id="review-comment-input" rows="4"
+            placeholder="Describe your stay, host hospitality, amenities, and surroundings..." required
+            style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; font-family:inherit; font-size:14px; color:#0f172a; resize:vertical; outline:none;"></textarea>
         </div>
 
         <div style="display:flex; justify-content:flex-end; gap:12px;">
-          <button type="button" id="btn-cancel-review" style="padding:10px 20px; border-radius:8px; background:#f1f5f9; color:#475569; border:none; font-weight:600; font-size:14px; cursor:pointer;">Cancel</button>
-          <button type="submit" id="btn-submit-review" style="padding:10px 22px; border-radius:8px; background:#0D5C4E; color:#ffffff; border:none; font-weight:600; font-size:14px; cursor:pointer;">Submit Review</button>
+          <button type="button" id="btn-cancel-review"
+            style="padding:10px 20px; border-radius:8px; background:#f1f5f9; color:#475569; border:none; font-weight:600; font-size:14px; cursor:pointer;">Cancel</button>
+          <button type="submit" id="btn-submit-review"
+            style="padding:10px 22px; border-radius:8px; background:#0D5C4E; color:#ffffff; border:none; font-weight:600; font-size:14px; cursor:pointer;">Submit
+            Review</button>
         </div>
       </form>
     </div>
   </div>
+  <script src="../loader.js"></script>
   <script src="guest-property-detail.js"></script>
 </body>
 

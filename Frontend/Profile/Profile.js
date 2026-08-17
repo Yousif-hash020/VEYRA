@@ -80,6 +80,8 @@ async function loadProfile() {
 
     } catch (err) {
         console.error("Error loading profile:", err);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 }
 

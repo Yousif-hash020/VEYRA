@@ -16,21 +16,6 @@ const { getHostProperties, getHostBookings } = require('../controllers/roomContr
 // An unauthenticated request receives 401 Unauthorized.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// GET /api/host/test
-// Verify host-only authorization (development/debug route)
-router.get('/test', protect, authorizeRoles('host'), (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: '✅ Host route accessed successfully!',
-    description: 'You reached this route because your JWT contains role: "host".',
-    authenticatedUser: {
-      userId: req.user.userId,
-      role: req.user.role,
-    },
-    note: 'Use GET /api/host/properties to fetch your own property listings.',
-  });
-});
-
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/host/properties
 // Returns ONLY the properties owned by the authenticated Host.

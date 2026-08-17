@@ -452,6 +452,8 @@ let GetRooms = async () => {
 
     } catch (error) {
         console.error("GetRooms error:", error);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 

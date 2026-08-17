@@ -133,6 +133,8 @@ let getUser = async () => {
 
     } catch (error) {
         console.error("Error fetching profile:", error);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 

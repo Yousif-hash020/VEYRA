@@ -28,6 +28,8 @@ let loadHostBookingsPage = async () => {
         renderHostTable(hostBookingsList);
     } catch (err) {
         console.error("loadHostBookingsPage Error:", err);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 

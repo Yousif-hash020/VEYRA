@@ -182,8 +182,6 @@ login_form.addEventListener('submit', async (e) => {
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));
 
-  console.log("Login successful:", data);
-
   showAlert("lg-alert", "Login successful! Redirecting...", "success");
 
   login_form.reset();
@@ -219,8 +217,6 @@ login_form.addEventListener('submit', async (e) => {
     window.location.href = "/Frontend/auth.html";
     return;
   }
-
-  console.log("Authenticated user:", userData);
 
   if (userData.user.role === "guest") {
 

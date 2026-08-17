@@ -3,7 +3,6 @@ const User = require('../models/User');
 const Room = require('../models/Room');
 const Booking = require('../models/Booking');
 const Review = require('../models/Review');
-const bcrypt = require('bcryptjs');
 
 // =============================================================================
 // PROPERTY DISCOVERY, SEARCH & FILTERING

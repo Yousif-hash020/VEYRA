@@ -252,6 +252,8 @@ let loadWishlist = async () => {
 
     } catch (error) {
         console.error("Wishlist error:", error);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 

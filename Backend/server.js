@@ -79,12 +79,10 @@ app.get('/api', (req, res) => {
         logout: 'POST /api/auth/logout  [Protected]',
       },
       host: {
-        test: 'GET /api/host/test  [Protected: host]',
         myProperties: 'GET /api/host/properties  [Protected: host]  — returns only the authenticated host\'s own rooms',
         myBookings: 'GET /api/host/bookings  [Protected: host]  — returns bookings for host\'s properties',
       },
       guest: {
-        test: 'GET /api/guest/test  [Protected: guest]',
         properties: 'GET /api/guest/properties  [Public/Guest]  — search & filter available properties',
         propertyDetail: 'GET /api/guest/properties/:id  [Public/Guest]',
         wishlist: 'GET /api/guest/wishlist  [Protected: guest]',

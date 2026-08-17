@@ -23,15 +23,6 @@ const {
 // PUBLIC / GUEST BROWSING ROUTES
 // ─────────────────────────────────────────────────────────────────────────────
 
-// GET /api/guest/test → Debug / verification endpoint
-router.get('/test', protect, authorizeRoles('guest'), (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: '✅ Guest route accessed successfully!',
-    authenticatedUser: req.user,
-  });
-});
-
 // GET /api/guest/properties → Available properties with search & filters
 router.get('/properties', getGuestProperties);
 

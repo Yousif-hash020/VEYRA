@@ -19,9 +19,24 @@
 
   <!-- Profile CSS -->
   <link rel="stylesheet" href="guest-profile.css">
+  <link rel="stylesheet" href="../loader.css">
 </head>
 
 <body>
+
+  <div class="veyra-loader" id="veyra-global-loader">
+    <div class="veyra-loader-content">
+      <div class="veyra-loader-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0D5C4E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div class="veyra-loader-text">
+        Loading<span class="dots-wrapper"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
@@ -468,6 +483,7 @@
   </footer>
 
   <!-- Profile JS Logic -->
+  <script src="../loader.js"></script>
   <script src="guest-profile.js"></script>
 
 </body>

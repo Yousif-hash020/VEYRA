@@ -1,3 +1,10 @@
+let token = localStorage.getItem("token");
+let user = JSON.parse(localStorage.getItem("user") || "{}");
+
+if (!token || !user || user.role !== "host") {
+    window.location.href = "/Frontend/auth.html";
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Modal Elements
     const modalCreate = document.getElementById('modal-create');
@@ -195,34 +202,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (createFileInput) {
         createFileInput.addEventListener("change", (e) => {
             handleFilesSelected(e.target.files, createListingImages, "create-images-counter", "create-images-preview", () => {
-                renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => {
-                    renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => {});
-                });
+                renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => { });
             });
             createFileInput.value = "";
         });
-    }
 
-    const updateFileInput = document.getElementById("update-images-input");
-    if (updateFileInput) {
         updateFileInput.addEventListener("change", (e) => {
             handleFilesSelected(e.target.files, updateListingImages, "update-images-counter", "update-images-preview", () => {
-                renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {
-                    renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {});
-                });
+                renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => { });
             });
             updateFileInput.value = "";
         });
     }
 });
-
-
-const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if (!token || !user || user.role !== "host") {
-    window.location.href = "/Frontend/auth.html";
-}
 
 let view = async (id) => {
     try {
@@ -272,28 +264,7 @@ function updateStatsFromListings(listingsData) {
     unava.textContent = unavailCount;
 }
 
-let Stats = async () => {
-    try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
 
-        const response = await fetch(
-            "http://localhost:5000/api/host/properties",
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
-        const data = await response.json();
-        if (data.success && data.data) {
-            updateStatsFromListings(data.data);
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 let upDate = async (id, updatedData) => {
     try {
@@ -654,13 +625,13 @@ let getItem = async () => {
                 document.getElementById("update-bedrooms").value = listing.bedrooms || "";
                 document.getElementById("update-beds").value = listing.beds || "";
                 document.getElementById("update-bathrooms").value = listing.bathrooms || "";
-                
+
                 updateListingImages = (Array.isArray(listing.images) && listing.images.length > 0)
                     ? [...listing.images]
                     : (listing.image ? Array(5).fill(listing.image) : []);
 
                 renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {
-                    renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => {});
+                    renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => { });
                 });
                 // amenities is stored as array — join back to comma-separated string
                 document.getElementById("update-amenities").value = Array.isArray(listing.amenities)
@@ -770,6 +741,8 @@ let getItem = async () => {
 
     } catch (error) {
         console.error("Network / server request failed:", error);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 
@@ -866,12 +839,11 @@ form.addEventListener("submit", async (e) => {
         await getItem();
         form.reset();
         createListingImages = [];
-        renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => {});
+        renderImagesPreview("create-images-preview", "create-images-counter", createListingImages, () => { });
     } catch (error) {
         console.error("Network / server request failed:", error);
-    };
-
-},);
+    }
+});
 
 const updateForm = document.getElementById("form-update-listing");
 if (updateForm) {
@@ -955,70 +927,6 @@ const getUser = async () => {
     }
 }
 
-let getBookings = async () => {
-    try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const response = await fetch("http://localhost:5000/api/host/bookings", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) return;
-
-        const data = await response.json();
-        const tbody = document.getElementById("host-bookings-tbody");
-        if (!tbody) return;
-
-        tbody.innerHTML = "";
-
-        if (!data.data || data.data.length === 0) {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `<td colspan="8" style="text-align: center; color: #64748b; padding: 24px;">No reservations found for your properties yet.</td>`;
-            tbody.appendChild(tr);
-            return;
-        }
-
-        data.data.forEach((booking) => {
-            const tr = document.createElement("tr");
-
-            const checkInFormatted = new Date(booking.checkIn).toLocaleDateString("en-US", {
-                month: "short", day: "numeric", year: "numeric"
-            });
-            const checkOutFormatted = new Date(booking.checkOut).toLocaleDateString("en-US", {
-                month: "short", day: "numeric", year: "numeric"
-            });
-
-            const guestName = booking.guest ? booking.guest.name : "Guest";
-            const roomName = booking.room ? booking.room.name : "Property";
-
-            let statusBadgeClass = "badge badge-active";
-            if (booking.status === "Confirmed") statusBadgeClass = "badge badge-active";
-            else if (booking.status === "Completed") statusBadgeClass = "badge badge-pending";
-            else if (booking.status === "Canceled") statusBadgeClass = "badge badge-inactive";
-
-            tr.innerHTML = `
-                <td><span class="property-meta" style="font-weight:600;">#${booking.referenceCode || booking._id.slice(-6).toUpperCase()}</span></td>
-                <td><span class="property-title">${roomName}</span></td>
-                <td><span class="location-text">${guestName}</span></td>
-                <td><strong style="color: #0D5C4E;">${checkInFormatted}</strong></td>
-                <td><strong style="color: #e11d48;">${checkOutFormatted}</strong></td>
-                <td>${booking.nights} night(s)</td>
-                <td><span class="price-text">PKR ${booking.totalPrice.toLocaleString()}</span></td>
-                <td><span class="${statusBadgeClass}">${booking.status}</span></td>
-            `;
-
-            tbody.appendChild(tr);
-        });
-    } catch (error) {
-        console.error("Failed to load host bookings:", error);
-    }
-};
-
 getUser();
 getItem();
-getBookings();
 

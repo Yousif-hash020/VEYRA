@@ -61,6 +61,8 @@ let getMyBookings = async () => {
         updateTabCounts();
     } catch (err) {
         console.error("getMyBookings Error:", err);
+    } finally {
+        if (typeof hideVeyraLoader === "function") hideVeyraLoader();
     }
 };
 
