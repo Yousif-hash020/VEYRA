@@ -1,9 +1,5 @@
+requireGuestSession();
 const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if (!token || !user || user.role !== "guest") {
-    window.location.href = "/Frontend/auth.html";
-}
 
 const cardTypes = [
     "card-tall",
@@ -63,12 +59,10 @@ let loadWishlist = async () => {
     }
 
     try {
-        const response = await fetch("http://localhost:5000/api/guest/wishlist", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+        const response = await guestFetch("http://localhost:5000/api/guest/wishlist", {
+            method: "GET"
         });
+        if (!response) return;
 
         const data = await response.json();
 
@@ -84,7 +78,7 @@ let loadWishlist = async () => {
             return;
         }
 
-        const rooms = data.data || [];
+        const rooms = (data.data || []).filter((room) => room && room._id);
 
         if (countBadge) {
             countBadge.textContent = `${rooms.length} ${rooms.length === 1 ? 'saved stay' : 'saved stays'}`;
@@ -115,7 +109,7 @@ let loadWishlist = async () => {
             card.href = `guest-property-detail.html?id=${room._id}`;
             card.setAttribute("aria-label", `${room.name || 'Property'}, ${room.location || ''} — PKR ${(room.pricePerNight || 0).toLocaleString()} per night`);
 
-            const fallbackImg = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80";
+            const fallbackImg = GUEST_PROPERTY_FALLBACK_IMG;
             const mainImgSrc = (room.images && room.images.length > 0 && typeof room.images[0] === 'string')
                 ? room.images[0]
                 : (room.image || fallbackImg);
@@ -128,10 +122,7 @@ let loadWishlist = async () => {
             img.alt = room.name || "Property photo";
             img.className = "prop-img";
             img.loading = index === 0 ? "eager" : "lazy";
-            img.onerror = function() {
-                this.onerror = null;
-                this.src = fallbackImg;
-            };
+            attachImageFallback(img, fallbackImg);
 
             const availBadge = document.createElement("span");
             availBadge.className = `avail-badge ${room.status === 'Unavailable' ? 'booked' : 'available'}`;
@@ -197,9 +188,8 @@ let loadWishlist = async () => {
                 }
 
                 try {
-                    await fetch(`http://localhost:5000/api/guest/wishlist/${room._id}`, {
-                        method: "DELETE",
-                        headers: { "Authorization": `Bearer ${token}` }
+                    await guestFetch(`http://localhost:5000/api/guest/wishlist/${room._id}`, {
+                        method: "DELETE"
                     });
                 } catch (err) {
                     console.error("Remove from wishlist error:", err);
@@ -227,10 +217,10 @@ let loadWishlist = async () => {
             propFoot.className = "prop-foot";
             propFoot.innerHTML = `
                 <div class="prop-foot-main">
-                    <h3 class="prop-name">${room.name || 'Retreat Stay'}</h3>
+                    <h3 class="prop-name">${escapeHtml(room.name || 'Retreat Stay')}</h3>
                     <span class="prop-location">
                         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        ${room.location || 'Pakistan'}
+                        ${escapeHtml(room.location || 'Pakistan')}
                     </span>
                 </div>
                 <div class="prop-foot-right">
@@ -259,9 +249,8 @@ let loadWishlist = async () => {
 
 const loadUserAvatar = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/auth/me", {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
+        const response = await guestFetch("http://localhost:5000/api/auth/me");
+        if (!response) return;
         const data = await response.json();
         if (data.success && data.user) {
             localStorage.setItem("user", JSON.stringify(data.user));

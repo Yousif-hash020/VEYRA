@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Room = require('../models/Room');
 const Booking = require('../models/Booking');
+const User = require('../models/User');
 
 /**
  * Helper function to normalize amenities input.
@@ -372,6 +373,9 @@ const deleteRoom = async (req, res) => {
     // Ownership confirmed — safe to delete.
     await Room.findByIdAndDelete(id);
 
+    // Remove deleted property from every guest wishlist
+    await User.updateMany({}, { $pull: { wishlist: id } });
+
     return res.status(200).json({
       success: true,
       message: 'Room deleted successfully',
@@ -425,7 +429,7 @@ const getRoomAvailability = async (req, res) => {
       nights: b.nights,
     }));
 
-    let isAvailable = room.status === 'Available';
+    let isAvailable = room.status !== 'Unavailable';
     let availabilityCheck = null;
 
     if (checkIn && checkOut) {
@@ -454,9 +458,9 @@ const getRoomAvailability = async (req, res) => {
       } else if (reqEnd <= reqStart) {
         available = false;
         reason = 'Check-out date must be strictly after check-in date.';
-      } else if (room.status !== 'Available') {
+      } else if (room.status === 'Unavailable') {
         available = false;
-        reason = `Property is currently marked as ${room.status}.`;
+        reason = 'This property is no longer available for booking.';
       } else if (room.availableFrom && reqStart < new Date(room.availableFrom)) {
         available = false;
         reason = `Property is not available before ${new Date(room.availableFrom).toISOString().split('T')[0]}.`;

@@ -1,9 +1,6 @@
+requireGuestSession();
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if (!token || !user || user.role !== "guest") {
-    window.location.href = "/Frontend/auth.html";
-}
 
 // ── Central State Management ──────────────────────────────────────────────
 const searchState = {
@@ -32,12 +29,15 @@ let isWishlistLoaded = false;
 const fetchWishlist = async () => {
     if (isWishlistLoaded) return;
     try {
-        const res = await fetch("http://localhost:5000/api/guest/wishlist", {
-            headers: { "Authorization": `Bearer ${token}` }
+        const response = await guestFetch(`http://localhost:5000/api/guest/wishlist`, {
+            method: "GET"
         });
-        const data = await res.json();
+        if (!response) return;
+        const data = await response.json();
         if (data.success && Array.isArray(data.data)) {
-            savedWishlistIds = new Set(data.data.map(item => (item._id || item).toString()));
+            savedWishlistIds = new Set(
+                data.data.filter((item) => item && item._id).map((item) => item._id.toString())
+            );
             isWishlistLoaded = true;
         }
     } catch (err) {
@@ -250,12 +250,10 @@ let GetRooms = async () => {
         if (searchState.rating) queryParams.append("rating", searchState.rating);
         if (searchState.sortBy) queryParams.append("sortBy", searchState.sortBy);
 
-        const response = await fetch(`http://localhost:5000/api/guest/properties?${queryParams.toString()}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+        const response = await guestFetch(`http://localhost:5000/api/guest/properties?${queryParams.toString()}`, {
+            method: "GET"
         });
+        if (!response) return;
 
         const data = await response.json();
 
@@ -330,12 +328,13 @@ let GetRooms = async () => {
             imgWrap.className = "prop-img-wrap";
 
             const img = document.createElement("img");
-            img.src = (room.images && room.images.length > 0) ? room.images[0] : room.image;
+            img.src = (room.images && room.images.length > 0) ? room.images[0] : (room.image || GUEST_PROPERTY_FALLBACK_IMG);
             img.alt = room.name;
             img.className = "prop-img";
             img.width = 600;
             img.height = cardType === "card-tall" ? 800 : 480;
             img.loading = index === 0 ? "eager" : "lazy";
+            attachImageFallback(img);
 
             const availBadge = document.createElement("span");
             availBadge.className = "avail-badge available";
@@ -388,11 +387,10 @@ let GetRooms = async () => {
                 }
 
                 try {
-                    const res = await fetch(`http://localhost:5000/api/guest/wishlist/${room._id}`, {
-                        method,
-                        headers: { "Authorization": `Bearer ${token}` }
+                    const res = await guestFetch(`http://localhost:5000/api/guest/wishlist/${room._id}`, {
+                        method
                     });
-                    if (!res.ok) {
+                    if (!res || !res.ok) {
                         if (isSaved) {
                             wishBtn.classList.add("saved", "active");
                             savedWishlistIds.add(room._id.toString());
@@ -427,10 +425,10 @@ let GetRooms = async () => {
             propFoot.className = "prop-foot";
             propFoot.innerHTML = `
                 <div class="prop-foot-main">
-                    <h3 class="prop-name">${room.name}</h3>
+                    <h3 class="prop-name">${escapeHtml(room.name)}</h3>
                     <span class="prop-location">
                         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        ${room.location}
+                        ${escapeHtml(room.location)}
                     </span>
                 </div>
                 <div class="prop-foot-right">
@@ -507,9 +505,8 @@ function clearAllFilters() {
 
 const loadUserAvatar = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/auth/me", {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
+        const response = await guestFetch("http://localhost:5000/api/auth/me");
+        if (!response) return;
         const data = await response.json();
         if (data.success && data.user) {
             localStorage.setItem("user", JSON.stringify(data.user));

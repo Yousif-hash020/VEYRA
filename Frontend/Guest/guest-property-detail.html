@@ -270,36 +270,13 @@
         </div>
       </div>
 
-      <!-- ── PHOTO GALLERY GRID (Pinterest Inspired) ────────────────────────── -->
-      <div class="gallery-grid" id="galleryGrid">
-        <div class="gallery-item main-photo">
-          <img src="../images/luxury_mountain_cabin.png" alt="Luxury Mountain Cabin Main Exterior View"
-            class="gallery-img">
-        </div>
-        <div class="gallery-item">
-          <img src="../images/destination_nathia_gali.png" alt="Pine forest surrounding the cabin" class="gallery-img">
-        </div>
-        <div class="gallery-item">
-          <img src="../images/hunza_valley_chalet.png" alt="Cozy cabin living interior with wood fireplace"
-            class="gallery-img">
-        </div>
-        <div class="gallery-item">
-          <img src="../images/skardu_lake_villa.png" alt="Outdoor wooden balcony and dining area" class="gallery-img">
-        </div>
-        <div class="gallery-item">
-          <img src="../images/veyra_hero_bg.png" alt="Panoramic sunrise views from bedroom balcony" class="gallery-img">
-        </div>
-
-        <button type="button" class="gallery-overlay-btn" aria-label="View all photos">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7" />
-            <rect x="14" y="3" width="7" height="7" />
-            <rect x="14" y="14" width="7" height="7" />
-            <rect x="3" y="14" width="7" height="7" />
-          </svg>
-          View All 18 Photos
-        </button>
+      <!-- Gallery populated dynamically by guest-property-detail.js -->
+      <div class="gallery-grid gallery-loading" id="galleryGrid">
+        <div class="gallery-item main-photo gallery-skeleton" aria-hidden="true"></div>
+        <div class="gallery-item gallery-skeleton" aria-hidden="true"></div>
+        <div class="gallery-item gallery-skeleton" aria-hidden="true"></div>
+        <div class="gallery-item gallery-skeleton" aria-hidden="true"></div>
+        <div class="gallery-item gallery-skeleton" aria-hidden="true"></div>
       </div>
 
       <!-- ── MAIN SPLIT LAYOUT ─────────────────────────────────────────────── -->
@@ -793,6 +770,7 @@
     </div>
   </div>
   <script src="../loader.js"></script>
+  <script src="guest-common.js"></script>
   <script src="guest-property-detail.js"></script>
 </body>
 

@@ -1,9 +1,6 @@
+requireGuestSession();
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if (!token || !user || user.role !== "guest") {
-    window.location.href = "/Frontend/auth.html";
-}
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
@@ -71,15 +68,11 @@ let getDetails = async (propertyId) => {
     }
 
     try {
-        const response = await fetch(
+        const response = await guestFetch(
             `http://localhost:5000/api/guest/properties/${propertyId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+            { method: "GET" }
         );
+        if (!response) return;
 
         const data = await response.json();
         if (!response.ok || !data.success || !data.data) {
@@ -153,9 +146,8 @@ let getDetails = async (propertyId) => {
         // Load Current Guest Navbar Avatar
         const loadUserNavAvatar = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/auth/me", {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
+                const res = await guestFetch("http://localhost:5000/api/auth/me");
+                if (!res) return;
                 const meData = await res.json();
                 if (meData.success && meData.user && meData.user.avatar) {
                     document.querySelectorAll(".nav-avatar, #nav-avatar-img").forEach(img => {
@@ -196,7 +188,7 @@ let getDetails = async (propertyId) => {
         // Render Property Photo Gallery Grid with Fallbacks
         const galleryGrid = document.querySelector("#galleryGrid");
         if (galleryGrid) {
-            const fallbackImg = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80";
+            const fallbackImg = GUEST_PROPERTY_FALLBACK_IMG;
             let photos = (Array.isArray(propertyData.images) && propertyData.images.length > 0)
                 ? propertyData.images.filter(p => p && typeof p === 'string')
                 : (propertyData.image ? [propertyData.image] : [fallbackImg]);
@@ -394,12 +386,13 @@ async function initDetailWishlist(propertyId) {
     let isSaved = false;
 
     try {
-        const res = await fetch("http://localhost:5000/api/guest/wishlist", {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
+        const res = await guestFetch("http://localhost:5000/api/guest/wishlist");
+        if (!res) return;
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
-            isSaved = data.data.some(item => (item._id || item).toString() === propertyId.toString());
+            isSaved = data.data
+                .filter((item) => item && item._id)
+                .some((item) => item._id.toString() === propertyId.toString());
         }
     } catch (e) {
         console.error("Wishlist check error:", e);
@@ -439,11 +432,10 @@ async function initDetailWishlist(propertyId) {
 
         const method = isSaved ? "POST" : "DELETE";
         try {
-            const res = await fetch(`http://localhost:5000/api/guest/wishlist/${propertyId}`, {
-                method,
-                headers: { "Authorization": `Bearer ${token}` }
+            const res = await guestFetch(`http://localhost:5000/api/guest/wishlist/${propertyId}`, {
+                method
             });
-            if (!res.ok) {
+            if (!res || !res.ok) {
                 isSaved = !isSaved;
                 updateUI();
             }
@@ -459,6 +451,8 @@ let currentCalYear = new Date().getFullYear();
 let currentCalMonth = new Date().getMonth(); // 0-indexed
 let selectedCheckIn = null;
 let selectedCheckOut = null;
+
+let calendarNavInitialized = false;
 
 let fetchAvailability = async (roomId) => {
     try {
@@ -480,6 +474,9 @@ let fetchAvailability = async (roomId) => {
 };
 
 function initCalendarNav() {
+    if (calendarNavInitialized) return;
+    calendarNavInitialized = true;
+
     const prevBtn = document.querySelector(".cal-btn[aria-label='Previous month']");
     const nextBtn = document.querySelector(".cal-btn[aria-label='Next month']");
 
@@ -793,8 +790,8 @@ function updatePriceAndAvailability() {
         return false;
     }
 
-    if (propertyData.status !== "Available") {
-        showWarning(`Property is currently ${propertyData.status} and cannot be booked.`);
+    if (propertyData.status === "Unavailable") {
+        showWarning("This property is no longer available for booking.");
         return false;
     }
 
@@ -857,58 +854,6 @@ function showWarning(msg) {
     if (reserveBtn) {
         reserveBtn.style.opacity = "0.5";
     }
-}
-
-// Header Wishlist Button Logic
-async function initHeaderWishlist(roomId) {
-    const wishBtn = document.getElementById("btn-header-wishlist");
-    const labelSpan = document.getElementById("wishlist-btn-label");
-    if (!wishBtn || !roomId) return;
-
-    let isSaved = false;
-    try {
-        const res = await fetch("http://localhost:5000/api/guest/wishlist", {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data)) {
-            isSaved = data.data.some(item => (item._id || item).toString() === roomId.toString());
-        }
-    } catch (e) {}
-
-    if (isSaved) {
-        wishBtn.classList.add("saved");
-        if (labelSpan) labelSpan.textContent = "Saved";
-        const svg = wishBtn.querySelector("svg");
-        if (svg) svg.setAttribute("fill", "currentColor");
-    }
-
-    wishBtn.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const currentlySaved = wishBtn.classList.contains("saved");
-        const method = currentlySaved ? "DELETE" : "POST";
-
-        if (currentlySaved) {
-            wishBtn.classList.remove("saved");
-            if (labelSpan) labelSpan.textContent = "Save";
-            const svg = wishBtn.querySelector("svg");
-            if (svg) svg.setAttribute("fill", "none");
-        } else {
-            wishBtn.classList.add("saved");
-            if (labelSpan) labelSpan.textContent = "Saved";
-            const svg = wishBtn.querySelector("svg");
-            if (svg) svg.setAttribute("fill", "currentColor");
-        }
-
-        try {
-            await fetch(`http://localhost:5000/api/guest/wishlist/${roomId}`, {
-                method,
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-        } catch (err) {
-            console.error("Wishlist toggle error:", err);
-        }
-    });
 }
 
 // Review Modal & Add Review Logic
@@ -977,11 +922,10 @@ function initReviewModal(roomId) {
             }
 
             try {
-                const res = await fetch("http://localhost:5000/api/guest/reviews", {
+                const res = await guestFetch("http://localhost:5000/api/guest/reviews", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         roomId: roomId,
@@ -989,6 +933,7 @@ function initReviewModal(roomId) {
                         comment: comment
                     })
                 });
+                if (!res) return;
 
                 const resData = await res.json();
                 if (!res.ok || !resData.success) {
@@ -1043,7 +988,6 @@ function initShareButton() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    initHeaderWishlist(id);
     initReviewModal(id);
     initShareButton();
 });

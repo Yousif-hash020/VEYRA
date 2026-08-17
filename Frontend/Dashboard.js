@@ -206,7 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             createFileInput.value = "";
         });
+    }
 
+    const updateFileInput = document.getElementById("update-images-input");
+    if (updateFileInput) {
         updateFileInput.addEventListener("change", (e) => {
             handleFilesSelected(e.target.files, updateListingImages, "update-images-counter", "update-images-preview", () => {
                 renderImagesPreview("update-images-preview", "update-images-counter", updateListingImages, () => { });

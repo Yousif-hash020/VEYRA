@@ -1,9 +1,6 @@
+requireGuestSession();
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if (!token || !user || user.role !== "guest") {
-    window.location.href = "/Frontend/auth.html";
-}
 
 let allBookings = [];
 let currentFilter = "all";
@@ -42,12 +39,10 @@ function showVeyraToast(message, type = "success") {
 
 let getMyBookings = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/guest/bookings", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+        const response = await guestFetch("http://localhost:5000/api/guest/bookings", {
+            method: "GET"
         });
+        if (!response) return;
 
         const data = await response.json();
         if (!response.ok || !data.success) {
@@ -100,6 +95,8 @@ function renderBookings() {
         card.className = "booking-item-card";
 
         const room = booking.room || {};
+        const roomId = room._id ? room._id.toString() : "";
+        const isRoomAvailable = Boolean(roomId);
         const cInDate = new Date(booking.checkIn);
         const cOutDate = new Date(booking.checkOut);
 
@@ -126,30 +123,35 @@ function renderBookings() {
             statusText = "Pending Host Approval";
         }
 
-        const fallbackImg = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80";
+        const fallbackImg = GUEST_PROPERTY_FALLBACK_IMG;
         const roomImg = (Array.isArray(room.images) && room.images.length > 0 && typeof room.images[0] === 'string')
             ? room.images[0]
             : (room.image || fallbackImg);
-        const roomName = room.name || "Property Retreat";
-        const roomLoc = room.location || "Pakistan";
+        const roomName = isRoomAvailable ? (room.name || "Property Retreat") : "Property No Longer Available";
+        const roomLoc = isRoomAvailable ? (room.location || "Pakistan") : "Listing removed by host";
 
         let actionBtnsHTML = "";
+        const viewPropertyLink = isRoomAvailable
+            ? `guest-property-detail.html?id=${roomId}`
+            : "guest-dashboard.html";
+        const viewPropertyLabel = isRoomAvailable ? "View Property" : "Explore Stays";
+
         if (booking.status === "Confirmed" || booking.status === "Pending") {
             actionBtnsHTML = `
                 <button type="button" class="btn-secondary cancel-booking-btn" data-id="${booking._id}" style="color: #e11d48; border-color: #fecdd3;">Cancel Booking</button>
-                <a href="guest-property-detail.html?id=${room._id || ''}" class="btn-primary">View Property</a>
+                <a href="${viewPropertyLink}" class="btn-primary">${viewPropertyLabel}</a>
             `;
         } else if (booking.status === "Completed") {
             actionBtnsHTML = `
-                <a href="guest-property-detail.html?id=${room._id || ''}" class="btn-primary">Book Again</a>
+                <a href="${viewPropertyLink}" class="btn-primary">${isRoomAvailable ? "Book Again" : "Explore Stays"}</a>
             `;
         } else {
             actionBtnsHTML = `
-                <a href="guest-property-detail.html?id=${room._id || ''}" class="btn-secondary">View Property</a>
+                <a href="${viewPropertyLink}" class="btn-secondary">${viewPropertyLabel}</a>
             `;
         }
 
-        const bookingRefCode = booking._id ? `#VEY-${booking._id.slice(-6).toUpperCase()}` : '#VEY-000000';
+        const bookingRefCode = booking.referenceCode || (booking._id ? `#VEY-${booking._id.slice(-6).toUpperCase()}` : '#VEY-000000');
 
         card.innerHTML = `
             <div class="booking-card-img-wrap">
@@ -159,10 +161,10 @@ function renderBookings() {
             <div class="booking-card-body">
               <div class="booking-card-top">
                 <div class="booking-card-title-group">
-                  <h2 class="booking-prop-name">${roomName}</h2>
+                  <h2 class="booking-prop-name">${escapeHtml(roomName)}</h2>
                   <span class="booking-prop-loc">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    ${roomLoc}
+                    ${escapeHtml(roomLoc)}
                   </span>
                 </div>
 
@@ -206,7 +208,7 @@ function renderBookings() {
     // Attach listener to cancel buttons with toast confirmation
     document.querySelectorAll(".cancel-booking-btn").forEach(btn => {
         btn.addEventListener("click", async (e) => {
-            const bookingId = e.target.dataset.id;
+            const bookingId = e.currentTarget.dataset.id;
             if (!bookingId) return;
 
             if (!confirm("Are you sure you want to cancel this booking reservation?")) {
@@ -214,12 +216,10 @@ function renderBookings() {
             }
 
             try {
-                const response = await fetch(`http://localhost:5000/api/guest/bookings/${bookingId}/cancel`, {
-                    method: "PATCH",
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
+                const response = await guestFetch(`http://localhost:5000/api/guest/bookings/${bookingId}/cancel`, {
+                    method: "PATCH"
                 });
+                if (!response) return;
 
                 const resData = await response.json();
                 if (!response.ok || !resData.success) {
@@ -242,9 +242,9 @@ function updateTabCounts() {
     if (!tabBtns || tabBtns.length < 4) return;
 
     const totalCount = allBookings.length;
-    const upcomingCount = allBookings.filter(b => b.status === "Confirmed").length;
+    const upcomingCount = allBookings.filter(b => b.status === "Confirmed" || b.status === "Pending").length;
     const completedCount = allBookings.filter(b => b.status === "Completed").length;
-    const canceledCount = allBookings.filter(b => b.status === "Canceled").length;
+    const canceledCount = allBookings.filter(b => b.status === "Canceled" || b.status === "Cancelled").length;
 
     tabBtns[0].textContent = `All Stays (${totalCount})`;
     tabBtns[1].textContent = `Upcoming (${upcomingCount})`;
@@ -271,9 +271,8 @@ function initTabs() {
 
 const loadUserAvatar = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/auth/me", {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
+        const response = await guestFetch("http://localhost:5000/api/auth/me");
+        if (!response) return;
         const data = await response.json();
         if (data.success && data.user) {
             localStorage.setItem("user", JSON.stringify(data.user));

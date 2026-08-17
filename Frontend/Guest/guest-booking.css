@@ -179,6 +179,8 @@ input, select, textarea { font-family: inherit; }
 
 .summary-sticky-card { position: sticky; top: 90px; background: var(--surface); border-radius: var(--r-2xl); border: 1.5px solid var(--border-subtle); padding: 28px; box-shadow: var(--sh-xl); display: flex; flex-direction: column; gap: 24px; }
 .summary-prop-head { display: flex; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--border-subtle); }
+.summary-prop-skeleton-img { width: 90px; height: 72px; border-radius: var(--r-md); flex-shrink: 0; background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%); background-size: 200% 100%; animation: checkoutShimmer 1.2s ease-in-out infinite; }
+@keyframes checkoutShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 .summary-prop-img { width: 90px; height: 72px; border-radius: var(--r-md); object-fit: cover; flex-shrink: 0; }
 .summary-prop-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .summary-prop-title { font-size: 15px; font-weight: 700; color: var(--ch-900); line-height: 1.3; }

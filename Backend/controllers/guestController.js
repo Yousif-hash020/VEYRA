@@ -37,8 +37,9 @@ const getGuestProperties = async (req, res) => {
 
     const query = {};
 
-    // Only show Available properties by default
-    query.status = 'Available';
+    // Show all active listings; only hide host-marked unavailable properties.
+    // "Booked" is a display hint — availability is determined by date conflicts below.
+    query.status = { $ne: 'Unavailable' };
 
     // 1. Search by Location or Property Name
     const dest = location || req.query.destination;
@@ -229,6 +230,13 @@ const getGuestPropertyById = async (req, res) => {
       });
     }
 
+    if (room.status === 'Unavailable') {
+      return res.status(404).json({
+        success: false,
+        message: 'This property is no longer available',
+      });
+    }
+
     // Fetch reviews for this room
     const reviews = await Review.find({ room: id })
       .populate('guest', 'name avatar')
@@ -270,10 +278,7 @@ const getGuestPropertyById = async (req, res) => {
  */
 const getWishlist = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).populate({
-      path: 'wishlist',
-      populate: { path: 'owner', select: 'name avatar' },
-    }).lean();
+    const user = await User.findById(req.user.userId).select('wishlist').lean();
 
     if (!user) {
       return res.status(404).json({
@@ -282,7 +287,31 @@ const getWishlist = async (req, res) => {
       });
     }
 
-    const wishlistRooms = user.wishlist || [];
+    const wishlistIds = user.wishlist || [];
+
+    if (wishlistIds.length === 0) {
+      return res.status(200).json({
+        success: true,
+        count: 0,
+        data: [],
+      });
+    }
+
+    const wishlistRooms = await Room.find({ _id: { $in: wishlistIds } })
+      .populate('owner', 'name avatar')
+      .lean();
+
+    // Remove stale wishlist entries (e.g. after a host deletes a property)
+    const validIds = wishlistRooms.map((r) => r._id.toString());
+    const staleIds = wishlistIds.filter(
+      (id) => !validIds.includes(id.toString())
+    );
+    if (staleIds.length > 0) {
+      await User.findByIdAndUpdate(req.user.userId, {
+        $pull: { wishlist: { $in: staleIds } },
+      });
+    }
+
     const roomIds = wishlistRooms.map((r) => r._id);
 
     let statsMap = new Map();
@@ -350,6 +379,13 @@ const addToWishlist = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'Property not found',
+      });
+    }
+
+    if (room.status === 'Unavailable') {
+      return res.status(400).json({
+        success: false,
+        message: 'This property is no longer available to save',
       });
     }
 
@@ -499,10 +535,10 @@ const createBooking = async (req, res) => {
       });
     }
 
-    if (room.status !== 'Available') {
+    if (room.status === 'Unavailable') {
       return res.status(400).json({
         success: false,
-        message: `This property is currently marked as ${room.status} and cannot be booked`,
+        message: 'This property is no longer available for booking',
       });
     }
 
@@ -573,10 +609,6 @@ const createBooking = async (req, res) => {
       paymentMethod: ['card', 'wallet', 'bank'].includes(paymentMethod) ? paymentMethod : 'card',
       referenceCode: refCode,
     });
-
-    // Mark room status as 'Booked' upon confirmation
-    room.status = 'Booked';
-    await room.save();
 
     await booking.populate([
       { path: 'room', select: 'name location propertyType image pricePerNight' },

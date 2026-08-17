@@ -1,9 +1,5 @@
+requireGuestSession();
 const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if (!token || !user || user.role !== "guest") {
-    window.location.href = "/Frontend/auth.html";
-}
 
 let editbtn, editform, displayform, btncancel, btnsave, formname, bio, phone, city, cnic;
 let heroName, heroEmail, heroCity, heroBio;
@@ -83,15 +79,8 @@ function initProfileDOMElements() {
 
 let getUser = async () => {
     try {
-        const response = await fetch(
-            "http://localhost:5000/api/auth/me",
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                },
-            }
-        );
+        const response = await guestFetch("http://localhost:5000/api/auth/me", { method: "GET" });
+        if (!response) return;
 
         const data = await response.json();
         if (!response.ok || !data.success || !data.user) {
@@ -141,11 +130,11 @@ let getUser = async () => {
 let loadProfileStats = async () => {
     try {
         const [bookingsRes, wishlistRes] = await Promise.allSettled([
-            fetch("http://localhost:5000/api/guest/bookings", { headers: { "Authorization": `Bearer ${token}` } }),
-            fetch("http://localhost:5000/api/guest/wishlist", { headers: { "Authorization": `Bearer ${token}` } })
+            guestFetch("http://localhost:5000/api/guest/bookings"),
+            guestFetch("http://localhost:5000/api/guest/wishlist")
         ]);
 
-        if (bookingsRes.status === "fulfilled" && bookingsRes.value.ok) {
+        if (bookingsRes.status === "fulfilled" && bookingsRes.value && bookingsRes.value.ok) {
             const bData = await bookingsRes.value.json();
             if (bData.success && Array.isArray(bData.data)) {
                 const completed = bData.data.filter(b => b.status === "Completed").length;
@@ -158,7 +147,7 @@ let loadProfileStats = async () => {
             }
         }
 
-        if (wishlistRes.status === "fulfilled" && wishlistRes.value.ok) {
+        if (wishlistRes.status === "fulfilled" && wishlistRes.value && wishlistRes.value.ok) {
             const wData = await wishlistRes.value.json();
             if (wData.success && Array.isArray(wData.data)) {
                 const savedEl = document.querySelector("#stat-saved-places");
@@ -172,23 +161,18 @@ let loadProfileStats = async () => {
 
 let updateUser = async () => {
     try {
-        const response = await fetch(
-            "http://localhost:5000/api/guest/profile",
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    name: formname ? formname.value : "",
-                    phone: phone ? phone.value : "",
-                    cnic: cnic ? cnic.value : "",
-                    city: city ? city.value : "",
-                    bio: bio ? bio.value : ""
-                })
-            }
-        );
+        const response = await guestFetch("http://localhost:5000/api/guest/profile", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: formname ? formname.value : "",
+                phone: phone ? phone.value : "",
+                cnic: cnic ? cnic.value : "",
+                city: city ? city.value : "",
+                bio: bio ? bio.value : ""
+            })
+        });
+        if (!response) return false;
 
         const data = await response.json();
         if (!response.ok || !data.success) {
@@ -252,17 +236,19 @@ function initAvatarUploader() {
                 const base64Avatar = await compressAvatarFile(file);
                 if (!base64Avatar) return;
 
-                const response = await fetch("http://localhost:5000/api/guest/profile", {
+                const response = await guestFetch("http://localhost:5000/api/guest/profile", {
                     method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ avatar: base64Avatar })
                 });
+                if (!response) return;
 
                 const data = await response.json();
-                if (data.success && data.user) {
+                if (!response.ok || !data.success) {
+                    showVeyraToast(data.message || "Failed to update profile picture.", "error");
+                    return;
+                }
+                if (data.user) {
                     localStorage.setItem("user", JSON.stringify(data.user));
                     updateAvatarImages(data.user.avatar);
                     showVeyraToast("Profile picture updated", "success");
