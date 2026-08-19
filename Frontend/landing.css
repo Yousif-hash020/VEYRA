@@ -1,0 +1,1082 @@
+/* ============================================================================
+   VEYRA Property — Landing Hero
+   Full web theme · Cut-edge layout · No-scroll · No images
+   ============================================================================ */
+
+:root {
+  /* Emerald — brand */
+  --em-900: #052E26;
+  --em-800: #094037;
+  --em-700: #0D5C4E;
+  --em-600: #0F7A68;
+  --em-200: #A8EAE0;
+  --em-100: #DCF5F1;
+  --em-50: #F0FAF8;
+
+  /* Coral — accent */
+  --co-600: #E05228;
+  --co-500: #FF6B47;
+  --co-400: #FF8C72;
+  --co-100: #FFF1ED;
+
+  /* Gold */
+  --go-500: #C4A040;
+  --go-100: #FBF4E0;
+
+  /* Cream / charcoal */
+  --cr-100: #FAF8F4;
+  --cr-200: #F2EEE5;
+  --cr-300: #E5DFCE;
+  --surface: #FFFFFF;
+  --ch-800: #1C1C1E;
+  --ch-500: #48484A;
+  --ch-300: #8E8E93;
+
+  --bg: var(--cr-100);
+  --text-primary: var(--ch-800);
+  --text-secondary: var(--ch-500);
+  --text-muted: var(--ch-300);
+  --brand: var(--em-700);
+  --brand-dark: var(--em-800);
+  --accent: var(--co-500);
+  --accent-hover: var(--co-600);
+  --accent-light: var(--co-100);
+  --gold: var(--go-500);
+
+  --text-on-dark: #FFFFFF;
+  --text-on-dark-muted: rgba(255, 255, 255, 0.62);
+
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif-italic: 'Playfair Display', Georgia, serif;
+
+  --r-panel: 40px;
+  --r-lg: 22px;
+  --r-md: 14px;
+  --r-pill: 999px;
+  --tab-h: 52px;
+  --page-pad: 12px;
+
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --sh-co: 0 6px 24px rgba(255, 107, 71, 0.28);
+  --sh-panel: 0 20px 50px rgba(5, 46, 38, 0.22);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-primary);
+  padding: var(--page-pad);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+select {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Wrapper
+   -------------------------------------------------------------------------- */
+.hero-wrapper {
+  max-width: 1480px;
+  margin: 0 auto;
+  height: calc(100vh - var(--page-pad) * 2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Main panel — with bottom-left tab & rounded slope cutout polygon
+   -------------------------------------------------------------------------- */
+.hero-main {
+  flex: 1;
+  min-height: 0;
+  background: linear-gradient(148deg, var(--em-800) 0%, var(--em-900) 100%);
+  padding: 18px 36px 60px 36px;
+  color: var(--text-on-dark);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: var(--sh-panel);
+
+  /* 100% mathematically smooth SVG Cubic Bezier S-curve & perfect rounded corners */
+  clip-path: url(#hero-panel-clip);
+  -webkit-clip-path: url(#hero-panel-clip);
+}
+
+/* --------------------------------------------------------------------------
+   Navigation
+   -------------------------------------------------------------------------- */
+.hero-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  padding-bottom: 18px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--text-on-dark);
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--em-600), var(--em-700));
+  color: var(--text-on-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(13, 92, 78, 0.35);
+}
+
+.brand-mark svg {
+  width: 17px;
+  height: 17px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-on-dark-muted);
+  transition: color 0.2s ease;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--text-on-dark);
+}
+
+.nav-links a.active {
+  color: var(--co-400);
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.btn-login {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-on-dark-muted);
+  transition: color 0.2s ease;
+}
+
+.btn-login:hover {
+  color: var(--text-on-dark);
+}
+
+.btn-signup {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  padding: 8px 20px;
+  border-radius: var(--r-pill);
+  transition: all 0.2s ease;
+}
+
+.btn-signup:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Hero body — two columns (Fresh Layout Balance)
+   -------------------------------------------------------------------------- */
+.hero-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.28fr 0.72fr;
+  gap: 36px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   Left column — Modern Chunky Editorial Typography
+   -------------------------------------------------------------------------- */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  max-width: 600px;
+  animation: heroContentFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--co-400);
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.eyebrow-tag {
+  background: rgba(255, 107, 71, 0.16);
+  border: 1px solid rgba(255, 107, 71, 0.32);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  font-size: 0.64rem;
+  color: var(--co-400);
+}
+
+.eyebrow-sep {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.eyebrow-title {
+  color: var(--text-on-dark-muted);
+}
+
+.eyebrow-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--co-400);
+  opacity: 0.7;
+}
+
+.eyebrow-coord {
+  font-size: 0.63rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.42);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Modern Chunky Display Headline */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.title-line {
+  display: block;
+}
+
+.title-line--1 {
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.title-line--2 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.title-serif-italic {
+  font-family: var(--font-serif-italic);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--co-400);
+  font-size: 0.96em;
+  letter-spacing: -0.01em;
+}
+
+.title-chunky {
+  font-weight: 900;
+  color: #FFFFFF;
+}
+
+.title-chunky--glow {
+  color: #FFFFFF;
+  text-shadow: 0 0 35px rgba(15, 122, 104, 0.5);
+}
+
+.hero-desc {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-on-dark-muted);
+  max-width: 480px;
+  margin: 0;
+}
+
+/* Unified Search Pill Console */
+.hero-search-box {
+  display: flex;
+  align-items: center;
+  background: rgba(9, 64, 55, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--r-pill);
+  padding: 5px 5px 5px 18px;
+  gap: 12px;
+  box-shadow: 0 12px 36px rgba(5, 46, 38, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  max-width: 530px;
+  width: 100%;
+  transition: all 0.25s ease;
+}
+
+.hero-search-box:focus-within {
+  border-color: rgba(255, 107, 71, 0.5);
+  box-shadow: 0 16px 40px rgba(5, 46, 38, 0.55), 0 0 20px rgba(255, 107, 71, 0.2);
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.field-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--em-200);
+}
+
+.field-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.field-icon--gold {
+  color: #FFB800;
+  background: rgba(255, 184, 0, 0.12);
+}
+
+.field-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.field-text label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--co-400);
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.field-text select {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-text select option {
+  background: var(--em-900);
+  color: var(--text-on-dark);
+}
+
+.search-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.btn-search {
+  background: linear-gradient(135deg, var(--co-500), var(--co-600));
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 22px;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  box-shadow: var(--sh-co);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-search:hover {
+  background: linear-gradient(135deg, var(--co-600), #CC421B);
+  transform: scale(1.02);
+  box-shadow: 0 8px 28px rgba(224, 82, 40, 0.4);
+}
+
+.btn-search-arrow {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s ease;
+}
+
+.btn-search:hover .btn-search-arrow {
+  transform: translateX(3px);
+}
+
+/* Quick Trending Destinations */
+.hero-quick-destinations {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -2px;
+}
+
+.dest-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--co-400);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dest-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.dest-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-on-dark-muted);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dest-chip:hover,
+.dest-chip.active {
+  background: rgba(255, 107, 71, 0.2);
+  border-color: var(--co-500);
+  color: #FFFFFF;
+}
+
+/* Social & Editorial Motto */
+.social-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.social-icons-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-on-dark-muted);
+  transition: all 0.2s ease;
+}
+
+.social-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.social-icon:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-on-dark);
+  transform: translateY(-2px);
+}
+
+.editorial-brand-motto {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Right column — Compact Dual Inverted Monolith Card
+   -------------------------------------------------------------------------- */
+.hero-right {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 14px;
+}
+
+/* Ambient backlight behind the card */
+.card-ambient-glow {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 122, 104, 0.35) 0%, rgba(224, 82, 40, 0.12) 50%, transparent 75%);
+  filter: blur(36px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Compact Dual Inverted-Corner Geometric Picture Monolith */
+.creative-inverted-monolith {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  filter: drop-shadow(0 18px 42px rgba(5, 46, 38, 0.45));
+  animation: cardEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.15s;
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.creative-inverted-monolith:hover {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 22px 50px rgba(5, 46, 38, 0.55)) drop-shadow(0 0 20px rgba(15, 122, 104, 0.3));
+}
+
+/* 1. Top-Left Interlocking Shelf Element Nested in the Inverted Notch */
+.inverted-notch-dock-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48%;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 2px;
+}
+
+.notch-accent-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--co-500);
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(255, 107, 71, 0.6);
+}
+
+.notch-glass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(5, 46, 38, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--text-on-dark);
+  box-shadow: 0 4px 14px rgba(5, 46, 38, 0.35);
+  width: fit-content;
+}
+
+.notch-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--em-200);
+  box-shadow: 0 0 8px var(--em-200);
+  animation: geoPulse 2s infinite;
+}
+
+/* 2. The Dual Inverted-Corner Clipped Picture Frame (Compact 235px Proportions) */
+.dual-inverted-picture-frame {
+  position: relative;
+  width: 100%;
+  height: 235px;
+  background: linear-gradient(135deg, var(--em-800), var(--em-900));
+  clip-path: url(#dual-inverted-clip);
+  -webkit-clip-path: url(#dual-inverted-clip);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.frame-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.frame-property-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.creative-inverted-monolith:hover .frame-property-img {
+  transform: scale(1.06);
+}
+
+.frame-gradient-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 46, 38, 0.12) 0%, rgba(5, 46, 38, 0.02) 40%, rgba(5, 46, 38, 0.45) 100%);
+}
+
+/* 3. Bottom-Right Interlocking Shelf Dock */
+.inverted-notch-dock-bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 48%;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-right: 2px;
+}
+
+.notch-bottom-accent-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--co-500);
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(255, 107, 71, 0.6);
+}
+
+/* Keyframe animations */
+@keyframes heroContentFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes backdropFloat {
+  0% {
+    transform: rotate(3deg) translateY(0);
+  }
+
+  100% {
+    transform: rotate(1deg) translateY(-8px);
+  }
+}
+
+@keyframes geoPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Cut-edge bottom strip
+   -------------------------------------------------------------------------- */
+/* Integrated tab at bottom-left inside hero-main (aligned with search bar end) */
+.hero-main-tab {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 38%;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  z-index: 10;
+}
+
+.hero-tab-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.tab-pill {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-on-dark-muted);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-pill.active,
+.tab-pill:hover {
+  color: var(--text-on-dark);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   Cutout bottom strip: Spotlight card & Destination chips
+   -------------------------------------------------------------------------- */
+.hero-bottom-strip {
+  position: absolute;
+  bottom: 0;
+  left: 45%;
+  right: 0;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 24px 0 16px;
+  z-index: 10;
+}
+
+/* Property spotlight pill card */
+.property-spotlight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid rgba(13, 92, 78, 0.12);
+  border-radius: var(--r-pill);
+  padding: 5px 6px 5px 6px;
+  box-shadow: 0 4px 18px rgba(5, 46, 38, 0.08);
+  flex-shrink: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.property-spotlight:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(5, 46, 38, 0.14);
+}
+
+.spotlight-thumb {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--em-50);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.spotlight-thumb svg {
+  width: 18px;
+  height: 18px;
+}
+
+.spotlight-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding-right: 4px;
+}
+
+.spotlight-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spotlight-location {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.spotlight-tag {
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: var(--brand);
+  background: var(--em-50);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+}
+
+.spotlight-specs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.spotlight-specs small {
+  font-size: 0.64rem;
+  color: var(--text-muted);
+}
+
+.spec-dot {
+  color: var(--cr-300);
+  font-size: 0.6rem;
+}
+
+.btn-book {
+  background: var(--brand);
+  color: var(--text-on-dark);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(13, 92, 78, 0.2);
+}
+
+.btn-book:hover {
+  background: var(--em-600);
+  transform: scale(1.03);
+}
+
+/* Destination chips */
+.partner-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.partner-chip {
+  background: var(--surface);
+  border: 1px solid var(--cr-200);
+  border-radius: var(--r-pill);
+  padding: 8px 18px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.partner-chip:hover {
+  border-color: var(--brand);
+  color: var(--text-on-dark);
+  background: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(13, 92, 78, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — keep no scroll & preserve outer bounds
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px) {
+  .hero-body {
+    gap: 24px;
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+
+  .hero-title {
+    font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  }
+
+  .creative-inverted-monolith {
+    max-width: 290px;
+  }
+
+  .dual-inverted-picture-frame {
+    height: 215px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-main {
+    padding: 18px 24px 60px 24px;
+  }
+
+  .hero-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    overflow-y: auto;
+  }
+
+  .hero-right {
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  .creative-inverted-monolith {
+    max-width: 100%;
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-height: 750px) {
+  .hero-main {
+    padding: 14px 32px 56px 32px;
+  }
+
+  .hero-nav {
+    padding-bottom: 10px;
+  }
+
+  .hero-left {
+    gap: 8px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+  }
+
+  .hero-desc {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .hero-search-box {
+    padding: 4px 4px 4px 14px;
+  }
+
+  .btn-search {
+    padding: 8px 18px;
+    font-size: 0.8rem;
+  }
+
+  .creative-inverted-monolith {
+    max-width: 280px;
+  }
+
+  .dual-inverted-picture-frame {
+    height: 205px;
+  }
+}
+
+.hero-search-box {
+  padding: 4px 5px 4px 14px;
+}
+
+.btn-search {
+  padding: 8px 16px;
+  font-size: 0.78rem;
+}
+
+.creative-inverted-monolith {
+  max-width: 260px;
+}
+
+.dual-inverted-picture-frame {
+  height: 180px;
+}
+
+.hero-metrics-strip {
+  padding: 5px 12px;
+}
