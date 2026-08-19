@@ -1099,10 +1099,43 @@ body.pt-in .page-transition {
 ═══════════════════════════════════════════════════════════════════ */
 .dest-section {
   background: var(--cream-100);
+  padding: 92px 0 64px;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  background: var(--green-50);
+  border: 1px solid var(--green-100);
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
   font-weight: 800;
   letter-spacing: -.04em;
   color: var(--gray-900);
   line-height: 1.06;
+}
+
+.sh-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.sh-wrap .section-desc {
+  text-align: center;
 }
 
 .section-title em {
@@ -1119,81 +1152,208 @@ body.pt-in .page-transition {
   max-width: 500px;
 }
 
-/* Single-row 4-card grid — fits 100vh */
-.dest-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 14px;
-  /* Height calculated to leave room for header (~120px) + padding */
-  height: min(340px, calc(100vh - var(--nav-h) - 200px));
-}
-
-.dest-card {
-  position: relative;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  cursor: pointer;
-  background: var(--gray-100);
-}
-
-.dest-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .6s var(--ease-out);
-}
-
-.dest-card:hover img {
-  transform: scale(1.06);
-}
-
-.dest-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, .72) 100%);
-  transition: opacity .3s;
-}
-
-.dest-card:hover .dest-overlay {
-  opacity: .88;
-}
-
-.dest-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px;
+.dest-top {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 28px;
 }
 
-.dest-info h3 {
+.dest-top-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.dest-top-right {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-shrink: 0;
+}
+
+.dest-overview-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dos-num {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--brand);
+}
+
+.dos-plus {
+  color: var(--green-400);
+}
+
+.dos-coral {
+  color: var(--coral-500);
+}
+
+.dos-amber {
+  color: var(--amber-500);
+}
+
+.dos-label {
+  font-size: .65rem;
+  font-weight: 600;
+  color: var(--gray-400);
+  white-space: nowrap;
+}
+
+.dest-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.dloc-card {
+  min-height: 190px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--cream-300);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform .3s var(--ease-out), box-shadow .3s, border-color .3s;
+}
+
+.dloc-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--green-200);
+  box-shadow: var(--shadow-lg);
+}
+
+.dloc-top,
+.dloc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dloc-icon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c);
+  background: var(--bg);
+  border-radius: var(--r-sm);
+}
+
+.dloc-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dloc-badge,
+.dloc-tags span {
+  font-size: .63rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: var(--cream-200);
+  border-radius: var(--r-pill);
+  padding: 4px 9px;
+}
+
+.dloc-name {
   font-family: var(--font-display);
   font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -.02em;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--gray-900);
 }
 
-.dest-tall .dest-info h3 {
-  font-size: 1.35rem;
+.dloc-desc {
+  font-size: .72rem;
+  color: var(--gray-500);
 }
 
-.dest-info span {
-  font-size: .68rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, .75);
-  background: rgba(255, 255, 255, .14);
-  backdrop-filter: blur(8px);
-  padding: 3px 10px;
+.dloc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.dloc-tags span {
+  padding: 3px 8px;
+  color: var(--brand);
+  background: var(--green-50);
+}
+
+.dloc-bar {
+  height: 3px;
+  margin-top: auto;
+  overflow: hidden;
+  background: var(--cream-200);
   border-radius: var(--r-pill);
 }
 
-.dest-link {
-  position: absolute;
-  inset: 0;
+.dloc-bar div {
+  height: 100%;
+  background: var(--green-400);
+  border-radius: inherit;
+}
+
+.dloc-footer {
+  justify-content: flex-start;
+  font-size: .68rem;
+  color: var(--gray-400);
+}
+
+.dloc-footer strong {
+  color: var(--gray-900);
+}
+
+.dloc-all {
+  align-items: center;
+  justify-content: center;
+  background: var(--green-900);
+  border-color: var(--green-900);
+  color: var(--white);
+}
+
+.dloc-all:hover {
+  border-color: var(--green-700);
+}
+
+.dloc-all-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.dloc-all-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--green-300);
+}
+
+.dloc-all-text {
+  font-size: .78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .75);
+}
+
+.dloc-all-cta {
+  margin-top: 6px;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--white);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1811,17 +1971,14 @@ body.pt-in .page-transition {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .dest-grid {
+  .dest-cards-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .dest-section {
     height: auto;
-  }
-
-  .dest-card {
-    height: 200px;
-  }
-
-  .dest-tall {
-    height: 200px;
+    min-height: 100vh;
+    overflow-y: auto;
   }
 
   .props-grid {
@@ -1863,9 +2020,19 @@ body.pt-in .page-transition {
     padding: 0 20px;
   }
 
-  .dest-grid {
+  .dest-cards-grid {
     grid-template-columns: 1fr;
-    height: auto;
+  }
+
+  .dest-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .dest-top-right {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .cta-btns {
