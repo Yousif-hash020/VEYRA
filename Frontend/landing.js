@@ -89,38 +89,98 @@ function initHeroAnimations() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   4. SCROLL-TRIGGER GSAP ANIMATIONS
-   Elements with data-gsap="..." animate when scrolled into view.
-   Types: fade-up  fade-left  fade-right  scale-in  slide-up
+   4. BIDIRECTIONAL SCROLL ANIMATIONS
+   ─ Scroll DOWN  → element enters from below   (y +40  → 0)
+   ─ Scroll DOWN  → element exits  upward       (y  0  → -40)
+   ─ Scroll UP    → element enters from above   (y -30  → 0)
+   ─ Scroll UP    → element exits  downward     (y  0  → +40)
+   fade-left / fade-right / scale-in get matching directional exits.
 ═══════════════════════════════════════════════════════════════════ */
-function getAnimProps(type) {
+
+/* Starting "from" state per animation type — used for ENTER DOWN */
+function fromDown(type) {
   switch (type) {
-    case 'fade-up':    return { opacity: 0, y: 36 };
-    case 'fade-left':  return { opacity: 0, x: -36 };
-    case 'fade-right': return { opacity: 0, x:  36 };
-    case 'scale-in':   return { opacity: 0, scale: 0.88, y: 20 };
-    case 'slide-up':   return { opacity: 0, y: 48, scale: 0.96 };
-    default:           return { opacity: 0, y: 28 };
+    case 'fade-left':  return { opacity: 0, x: -40, y: 0 };
+    case 'fade-right': return { opacity: 0, x:  40, y: 0 };
+    case 'scale-in':   return { opacity: 0, scale: 0.86, y: 22 };
+    case 'slide-up':   return { opacity: 0, y: 52, scale: 0.95 };
+    default:           return { opacity: 0, y: 42 };          // fade-up
   }
 }
 
-function initScrollAnimations() {
-  const els = document.querySelectorAll('[data-gsap]');
+/* Starting "from" state when re-entering from above (scroll UP) */
+function fromUp(type) {
+  switch (type) {
+    case 'fade-left':  return { opacity: 0, x: -40, y: 0 };  // keep same horizontal
+    case 'fade-right': return { opacity: 0, x:  40, y: 0 };
+    case 'scale-in':   return { opacity: 0, scale: 0.86, y: -18 };
+    case 'slide-up':   return { opacity: 0, y: -42, scale: 0.95 };
+    default:           return { opacity: 0, y: -34 };
+  }
+}
 
-  els.forEach((el) => {
+/* Exit state when element leaves upward (scroll DOWN past it) */
+function exitUp(type) {
+  switch (type) {
+    case 'fade-left':  return { opacity: 0, x: -30, y: 0 };
+    case 'fade-right': return { opacity: 0, x:  30, y: 0 };
+    case 'scale-in':   return { opacity: 0, scale: 0.9, y: -16 };
+    default:           return { opacity: 0, y: -36 };
+  }
+}
+
+/* Exit state when element leaves downward (scroll UP past it) */
+function exitDown(type) {
+  switch (type) {
+    case 'fade-left':  return { opacity: 0, x: -30, y: 0 };
+    case 'fade-right': return { opacity: 0, x:  30, y: 0 };
+    case 'scale-in':   return { opacity: 0, scale: 0.9, y: 18 };
+    default:           return { opacity: 0, y: 36 };
+  }
+}
+
+const ENTER_DUR = 0.72;
+const EXIT_DUR  = 0.45;
+const ENTER_EASE = 'power3.out';
+const EXIT_EASE  = 'power2.in';
+
+function initScrollAnimations() {
+  document.querySelectorAll('[data-gsap]').forEach((el) => {
     const type  = el.getAttribute('data-gsap') || 'fade-up';
     const delay = parseFloat(el.getAttribute('data-gsap-delay') || 0);
-    const from  = getAnimProps(type);
 
-    gsap.from(el, {
-      ...from,
-      duration: 0.75,
-      delay,
-      ease:     'power3.out',
-      scrollTrigger: {
-        trigger:  el,
-        start:    'top 85%',
-        toggleActions: 'play none none none',
+    // Set initial hidden state immediately (no flash)
+    gsap.set(el, { ...fromDown(type) });
+
+    ScrollTrigger.create({
+      trigger: el,
+      start:   'top 88%',
+      end:     'top 8%',
+
+      /* ── Scroll DOWN: enter from below ── */
+      onEnter() {
+        gsap.fromTo(el,
+          fromDown(type),
+          { opacity: 1, x: 0, y: 0, scale: 1, duration: ENTER_DUR, delay, ease: ENTER_EASE, overwrite: true }
+        );
+      },
+
+      /* ── Scroll DOWN: exit upward (element disappears above viewport) ── */
+      onLeave() {
+        gsap.to(el, { ...exitUp(type), duration: EXIT_DUR, ease: EXIT_EASE, overwrite: true });
+      },
+
+      /* ── Scroll UP: re-enter from above ── */
+      onEnterBack() {
+        gsap.fromTo(el,
+          fromUp(type),
+          { opacity: 1, x: 0, y: 0, scale: 1, duration: ENTER_DUR, delay, ease: ENTER_EASE, overwrite: true }
+        );
+      },
+
+      /* ── Scroll UP: exit downward (element drops back below viewport) ── */
+      onLeaveBack() {
+        gsap.to(el, { ...exitDown(type), duration: EXIT_DUR, ease: EXIT_EASE, overwrite: true });
       },
     });
   });
