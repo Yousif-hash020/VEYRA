@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="VEYRA Property — Discover handpicked luxury villas, mountain chalets, and premium stays across Pakistan." />
+  <meta name="description" content="VEYRA Property — Discover handpicked luxury villas, mountain chalets, and premium stays across Pakistan." />
   <title>VEYRA Property | Luxury Stays</title>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@600;700;800&family=DM+Serif+Display:ital@0;1&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <link rel="stylesheet" href="landing.css" />
 </head>
 
-<body class="page-loading">
+<body>
+
+  <!-- Page transition overlay -->
+  <div class="page-transition" id="page-transition" aria-hidden="true"></div>
 
   <!-- ══════════════ NAV ══════════════ -->
   <header class="site-nav" id="site-nav">
     <a href="#" class="nav-logo">
       <span class="nav-logo-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
       </span>
       <span class="nav-logo-text">veyra</span>
@@ -32,63 +40,60 @@
 
     <nav class="nav-pill" id="nav-pill" aria-label="Main navigation">
       <div class="nav-pill-indicator" id="nav-indicator"></div>
-      <a href="#hero" class="nav-pill-link active" data-index="0">Home</a>
-      <a href="#destinations" class="nav-pill-link" data-index="1">Destinations</a>
-      <a href="#properties" class="nav-pill-link" data-index="2">Properties</a>
-      <a href="#why" class="nav-pill-link" data-index="3">Hosts</a>
-      <a href="#cta" class="nav-pill-link" data-index="4">About</a>
+      <a href="#hero"         class="nav-pill-link active">Home</a>
+      <a href="#destinations" class="nav-pill-link">Destinations</a>
+      <a href="#properties"   class="nav-pill-link">Properties</a>
+      <a href="#why"          class="nav-pill-link">Hosts</a>
+      <a href="#cta"          class="nav-pill-link">About</a>
     </nav>
 
     <div class="nav-end">
       <a href="auth.html" class="btn-nav-login">Log In</a>
       <a href="auth.html" class="btn-nav-signup magnetic-btn" id="btn-signup">
-        <span class="magnetic-text">Get Started</span>
+        <span>Get Started</span>
         <span class="magnetic-arrow">→</span>
       </a>
     </div>
   </header>
 
-  <!-- ══════════════ HERO (100vh base, not stacked) ══════════════ -->
-  <section class="hero" id="hero">
-    <div class="hero-bg-orb hero-bg-orb--1" aria-hidden="true"></div>
-    <div class="hero-bg-orb hero-bg-orb--2" aria-hidden="true"></div>
-    <div class="hero-bg-grid" aria-hidden="true"></div>
+  <!-- ══════════════════════════════════════
+       SECTION 1 — HERO (100vh)
+  ═══════════════════════════════════════ -->
+  <section class="section hero-section" id="hero">
+    <div class="hero-bg-orb orb-1" aria-hidden="true"></div>
+    <div class="hero-bg-orb orb-2" aria-hidden="true"></div>
+    <div class="hero-bg-grid"      aria-hidden="true"></div>
 
     <div class="hero-inner">
-      <!-- LEFT -->
+      <!-- Left -->
       <div class="hero-content">
-
-        <div class="hero-eyebrow page-anim" data-anim-delay="0">
+        <div class="hero-eyebrow" id="h-eyebrow">
           <span class="eyebrow-pill">
             <span class="eyebrow-live"></span>
             Pakistan's Premier Luxury Stays
           </span>
         </div>
 
-        <h1 class="hero-headline page-anim" data-anim-delay="120">
+        <h1 class="hero-headline" id="h-headline">
           <span class="hl-row hl-top">Find Your</span>
           <span class="hl-row hl-em"><em>Perfect</em>&thinsp;Retreat</span>
-          <span class="hl-row hl-light">Anywhere in Pakistan</span>
+          <span class="hl-row hl-sub">Anywhere in Pakistan</span>
         </h1>
 
-        <p class="hero-subtext page-anim" data-anim-delay="220">
+        <p class="hero-subtext" id="h-sub">
           Handpicked chalets, lakefront villas &amp; mountain sanctuaries across
-          Hunza, Skardu, Murree and beyond — curated for the discerning traveller.
+          Hunza, Skardu, Murree and beyond.
         </p>
 
-        <!-- Search -->
-        <div class="hero-search page-anim" data-anim-delay="320">
+        <div class="hero-search" id="h-search">
           <div class="search-wrap">
             <div class="search-field">
-              <span class="search-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
+              <span class="s-icon s-icon--green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               </span>
-              <div class="sf-text">
-                <label class="search-label" for="dest">Where to?</label>
-                <select id="dest" class="search-input">
+              <div class="sf-inner">
+                <label for="dest" class="sf-label">Where to?</label>
+                <select id="dest" class="sf-select">
                   <option>All Destinations</option>
                   <option>Hunza Valley</option>
                   <option>Skardu</option>
@@ -98,19 +103,14 @@
                 </select>
               </div>
             </div>
-
-            <div class="search-sep"></div>
-
+            <div class="s-sep"></div>
             <div class="search-field">
-              <span class="search-icon search-icon--amber">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="3" width="20" height="14" rx="2" />
-                  <path d="M8 21h8M12 17v4" />
-                </svg>
+              <span class="s-icon s-icon--amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
               </span>
-              <div class="sf-text">
-                <label class="search-label" for="type">Property type</label>
-                <select id="type" class="search-input">
+              <div class="sf-inner">
+                <label for="type" class="sf-label">Property type</label>
+                <select id="type" class="sf-select">
                   <option>Any Type</option>
                   <option>Luxury Chalet</option>
                   <option>Mountain Villa</option>
@@ -119,37 +119,29 @@
                 </select>
               </div>
             </div>
-
-            <a href="Guest/guest-dashboard.html" class="btn-search-creative" id="hero-search-btn">
-              <span class="bsc-bg"></span>
-              <span class="bsc-label">Explore</span>
-              <span class="bsc-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+            <a href="Guest/guest-dashboard.html" class="btn-explore" id="hero-search-btn">
+              <span class="btn-explore-label">Explore</span>
+              <span class="btn-explore-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </span>
             </a>
           </div>
         </div>
 
-        <!-- Trending chips -->
-        <div class="hero-chips page-anim" data-anim-delay="420">
+        <div class="hero-chips" id="h-chips">
           <span class="chip-label">Trending ·</span>
           <a href="#" class="chip chip--active">Hunza</a>
           <a href="#" class="chip">Skardu</a>
           <a href="#" class="chip">Murree</a>
           <a href="#" class="chip">Swat</a>
         </div>
-
       </div>
 
-      <!-- RIGHT: Animated abstract visual -->
-      <div class="hero-visual page-anim" data-anim-delay="80" aria-hidden="true">
-
-        <!-- Rings -->
+      <!-- Right: Animated ring visual -->
+      <div class="hero-visual" id="h-visual" aria-hidden="true">
         <div class="vis-rings">
-          <div class="vr vr--o3"></div><!-- outermost subtle ring -->
-          <div class="vr vr--o2">
+          <div class="vr vr-o3"></div>
+          <div class="vr vr-o2">
             <div class="vr-dot" style="--a:0deg"></div>
             <div class="vr-dot" style="--a:60deg"></div>
             <div class="vr-dot" style="--a:120deg"></div>
@@ -157,92 +149,42 @@
             <div class="vr-dot" style="--a:240deg"></div>
             <div class="vr-dot" style="--a:300deg"></div>
           </div>
-          <div class="vr vr--o1"></div>
-
-          <!-- Center core -->
+          <div class="vr vr-o1"></div>
           <div class="vr-core">
             <div class="vr-core-num" data-target="500">0</div>
-            <div class="vr-core-unit">+</div>
+            <div class="vr-core-suf">+</div>
             <div class="vr-core-sub">Properties</div>
           </div>
-
-          <!-- Orbiting dots -->
-          <div class="orb-track orb-track--1">
-            <div class="orb-dot orb-dot--green"></div>
-          </div>
-          <div class="orb-track orb-track--2">
-            <div class="orb-dot orb-dot--coral"></div>
-          </div>
-          <div class="orb-track orb-track--3">
-            <div class="orb-dot orb-dot--amber"></div>
-          </div>
+          <div class="orb-wrap orb-w1"><div class="orb-dot orb-green"></div></div>
+          <div class="orb-wrap orb-w2"><div class="orb-dot orb-coral"></div></div>
+          <div class="orb-wrap orb-w3"><div class="orb-dot orb-amber"></div></div>
         </div>
 
-        <!-- Floating stat cards -->
-        <div class="fcard fcard--tl float-a">
-          <span class="fcard-icon fcard-icon--green">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-          </span>
-          <div class="fcard-body">
-            <strong>Hunza Valley</strong>
-            <span>48 Properties</span>
-          </div>
+        <!-- Floating cards -->
+        <div class="fcard fcard-tl">
+          <span class="fc-icon fc-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div class="fc-body"><strong>Hunza Valley</strong><span>48 Properties</span></div>
+        </div>
+        <div class="fcard fcard-tr">
+          <span class="fc-icon fc-amber"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+          <div class="fc-body"><strong>4.97 Rating</strong><span>142 reviews</span></div>
+        </div>
+        <div class="fcard fcard-bl">
+          <span class="fc-icon fc-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <div class="fc-body"><strong>Verified Hosts</strong><span>200+ trusted</span></div>
+        </div>
+        <div class="fcard fcard-br">
+          <span class="fc-icon fc-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+          <div class="fc-body"><strong>24 / 7</strong><span>Concierge</span></div>
         </div>
 
-        <div class="fcard fcard--tr float-b">
-          <span class="fcard-icon fcard-icon--amber">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          </span>
-          <div class="fcard-body">
-            <strong>4.97 Rating</strong>
-            <span>142 reviews</span>
-          </div>
-        </div>
-
-        <div class="fcard fcard--bl float-b">
-          <span class="fcard-icon fcard-icon--coral">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-          </span>
-          <div class="fcard-body">
-            <strong>Verified Hosts</strong>
-            <span>200+ trusted</span>
-          </div>
-        </div>
-
-        <div class="fcard fcard--br float-a">
-          <span class="fcard-icon fcard-icon--green">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-          </span>
-          <div class="fcard-body">
-            <strong>24 / 7</strong>
-            <span>Concierge</span>
-          </div>
-        </div>
-
-        <!-- Connector lines SVG -->
         <svg class="vis-lines" viewBox="0 0 460 460" fill="none">
-          <line x1="230" y1="230" x2="72" y2="110" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6"
-            opacity="0.7" />
-          <line x1="230" y1="230" x2="388" y2="95" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6"
-            opacity="0.7" />
-          <line x1="230" y1="230" x2="72" y2="350" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6"
-            opacity="0.7" />
-          <line x1="230" y1="230" x2="388" y2="365" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6"
-            opacity="0.7" />
+          <line x1="230" y1="230" x2="72"  y2="108" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6" opacity=".65"/>
+          <line x1="230" y1="230" x2="390" y2="93"  stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6" opacity=".65"/>
+          <line x1="230" y1="230" x2="72"  y2="352" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6" opacity=".65"/>
+          <line x1="230" y1="230" x2="390" y2="367" stroke="var(--green-200)" stroke-width="1" stroke-dasharray="4 6" opacity=".65"/>
         </svg>
 
-        <!-- Live pill -->
         <div class="vis-live">
           <span class="vis-live-dot"></span>
           Live availability
@@ -251,366 +193,244 @@
     </div>
 
     <!-- Scroll cue -->
-    <div class="scroll-cue page-anim" data-anim-delay="700">
-      <div class="scroll-mouse">
-        <div class="scroll-thumb"></div>
-      </div>
+    <div class="scroll-cue" id="scroll-cue">
+      <div class="scroll-mouse"><div class="scroll-thumb"></div></div>
       <span class="scroll-label">Scroll</span>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       STICKY STACKING SECTIONS
-       Each .stack-frame wraps a .stack-panel.
-       The panel is position:sticky and scales down as the next panel arrives.
-       ══════════════════════════════════════════════════════════════ -->
-
-  <!-- FRAME 1 — Stats (dark) -->
-  <div class="stack-frame" id="frame-stats">
-    <section class="stack-panel sp-dark" id="stats">
-      <div class="container">
-        <div class="sp-header">
-          <span class="section-tag section-tag--light">By the numbers</span>
-          <h2 class="sp-title">Trusted by thousands of <em>discerning travellers</em></h2>
+  <!-- ══════════════════════════════════════
+       SECTION 2 — STATS (100vh, dark)
+  ═══════════════════════════════════════ -->
+  <section class="section stats-section" id="stats">
+    <div class="container">
+      <div class="section-label" data-gsap="fade-up">By the Numbers</div>
+      <h2 class="section-title stats-title" data-gsap="fade-up" data-gsap-delay="0.1">
+        Trusted by thousands of <em>discerning travellers</em>
+      </h2>
+      <div class="stats-grid">
+        <div class="stat-card" data-gsap="fade-up" data-gsap-delay="0.0">
+          <div class="stat-val"><span class="stat-num" data-target="500">0</span><span class="stat-suf">+</span></div>
+          <div class="stat-name">Luxury Properties</div>
+          <div class="stat-hint">Verified &amp; handpicked</div>
         </div>
-        <div class="stats-grid">
-          <div class="stat-item reveal-fade-up">
-            <div class="stat-wrap">
-              <span class="stat-number" data-target="500">0</span><span class="stat-suf">+</span>
-            </div>
-            <span class="stat-label">Luxury Properties</span>
-            <span class="stat-sub">Verified &amp; handpicked</span>
-          </div>
-          <div class="stat-item reveal-fade-up" style="--delay:.1s">
-            <div class="stat-wrap">
-              <span class="stat-number" data-target="12">0</span><span class="stat-suf">K</span>
-            </div>
-            <span class="stat-label">Happy Guests</span>
-            <span class="stat-sub">And counting</span>
-          </div>
-          <div class="stat-item reveal-fade-up" style="--delay:.2s">
-            <div class="stat-wrap">
-              <span class="stat-number" data-target="28">0</span>
-            </div>
-            <span class="stat-label">Destinations</span>
-            <span class="stat-sub">Across Pakistan</span>
-          </div>
-          <div class="stat-item reveal-fade-up" style="--delay:.3s">
-            <div class="stat-wrap">
-              <span class="stat-number stat-decimal" data-target="49">0</span><span class="stat-suf">★</span>
-            </div>
-            <span class="stat-label">Average Rating</span>
-            <span class="stat-sub">Guest satisfaction</span>
-          </div>
+        <div class="stat-card" data-gsap="fade-up" data-gsap-delay="0.12">
+          <div class="stat-val"><span class="stat-num" data-target="12">0</span><span class="stat-suf">K</span></div>
+          <div class="stat-name">Happy Guests</div>
+          <div class="stat-hint">And counting</div>
+        </div>
+        <div class="stat-card" data-gsap="fade-up" data-gsap-delay="0.24">
+          <div class="stat-val"><span class="stat-num" data-target="28">0</span></div>
+          <div class="stat-name">Destinations</div>
+          <div class="stat-hint">Across Pakistan</div>
+        </div>
+        <div class="stat-card" data-gsap="fade-up" data-gsap-delay="0.36">
+          <div class="stat-val"><span class="stat-num stat-dec" data-target="49">0</span><span class="stat-suf">★</span></div>
+          <div class="stat-name">Average Rating</div>
+          <div class="stat-hint">Guest satisfaction</div>
         </div>
       </div>
-      <div class="panel-push-badge">
-        <span>Destinations ↓</span>
-      </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- FRAME 2 — Destinations (light) -->
-  <div class="stack-frame" id="frame-destinations">
-    <section class="stack-panel sp-light" id="destinations">
-      <div class="container">
-        <div class="section-header reveal-fade-up">
-          <span class="section-tag">Where to Go</span>
-          <h2 class="section-title">Top <em>Destinations</em></h2>
-          <p class="section-desc">From the peaks of Karakoram to the rolling hills of Murree — every stay is a story.
-          </p>
+  <!-- ══════════════════════════════════════
+       SECTION 3 — DESTINATIONS (100vh)
+  ═══════════════════════════════════════ -->
+  <section class="section dest-section" id="destinations">
+    <div class="container">
+      <div class="sh-wrap">
+        <span class="section-tag" data-gsap="fade-up">Where to Go</span>
+        <h2 class="section-title" data-gsap="fade-up" data-gsap-delay="0.08">Top <em>Destinations</em></h2>
+        <p class="section-desc" data-gsap="fade-up" data-gsap-delay="0.16">From the peaks of Karakoram to the rolling hills of Murree.</p>
+      </div>
+      <div class="dest-grid">
+        <div class="dest-card dest-tall" data-gsap="scale-in" data-gsap-delay="0.0">
+          <img src="images/hunza_valley_chalet.png" alt="Hunza Valley" loading="lazy"/>
+          <div class="dest-overlay"></div>
+          <div class="dest-info"><h3>Hunza Valley</h3><span>48 properties</span></div>
+          <a href="Guest/guest-dashboard.html" class="dest-link" tabindex="-1"></a>
         </div>
-        <div class="destinations-grid">
-          <div class="dest-card dest-card--tall reveal-fade-up" style="--delay:0s">
-            <img src="images/hunza_valley_chalet.png" alt="Hunza Valley" class="dest-card-img" loading="lazy" />
-            <div class="dest-card-overlay"></div>
-            <div class="dest-card-body">
-              <h3 class="dest-card-name">Hunza Valley</h3>
-              <span class="dest-card-count">48 properties</span>
-            </div>
-            <a href="Guest/guest-dashboard.html" class="dest-card-link" tabindex="-1" aria-hidden="true"></a>
-          </div>
-          <div class="dest-card reveal-fade-up" style="--delay:.1s">
-            <img src="images/skardu_lake_villa.png" alt="Skardu" class="dest-card-img" loading="lazy" />
-            <div class="dest-card-overlay"></div>
-            <div class="dest-card-body">
-              <h3 class="dest-card-name">Skardu</h3><span class="dest-card-count">36 properties</span>
-            </div>
-            <a href="Guest/guest-dashboard.html" class="dest-card-link" tabindex="-1" aria-hidden="true"></a>
-          </div>
-          <div class="dest-card reveal-fade-up" style="--delay:.2s">
-            <img src="images/destination_murree.png" alt="Murree" class="dest-card-img" loading="lazy" />
-            <div class="dest-card-overlay"></div>
-            <div class="dest-card-body">
-              <h3 class="dest-card-name">Murree</h3><span class="dest-card-count">29 properties</span>
-            </div>
-            <a href="Guest/guest-dashboard.html" class="dest-card-link" tabindex="-1" aria-hidden="true"></a>
-          </div>
-          <div class="dest-card reveal-fade-up" style="--delay:.3s">
-            <img src="images/destination_nathia_gali.png" alt="Nathia Gali" class="dest-card-img" loading="lazy" />
-            <div class="dest-card-overlay"></div>
-            <div class="dest-card-body">
-              <h3 class="dest-card-name">Nathia Gali</h3><span class="dest-card-count">22 properties</span>
-            </div>
-            <a href="Guest/guest-dashboard.html" class="dest-card-link" tabindex="-1" aria-hidden="true"></a>
-          </div>
+        <div class="dest-card" data-gsap="scale-in" data-gsap-delay="0.1">
+          <img src="images/skardu_lake_villa.png" alt="Skardu" loading="lazy"/>
+          <div class="dest-overlay"></div>
+          <div class="dest-info"><h3>Skardu</h3><span>36 properties</span></div>
+          <a href="Guest/guest-dashboard.html" class="dest-link" tabindex="-1"></a>
+        </div>
+        <div class="dest-card" data-gsap="scale-in" data-gsap-delay="0.2">
+          <img src="images/destination_murree.png" alt="Murree" loading="lazy"/>
+          <div class="dest-overlay"></div>
+          <div class="dest-info"><h3>Murree</h3><span>29 properties</span></div>
+          <a href="Guest/guest-dashboard.html" class="dest-link" tabindex="-1"></a>
+        </div>
+        <div class="dest-card" data-gsap="scale-in" data-gsap-delay="0.3">
+          <img src="images/destination_nathia_gali.png" alt="Nathia Gali" loading="lazy"/>
+          <div class="dest-overlay"></div>
+          <div class="dest-info"><h3>Nathia Gali</h3><span>22 properties</span></div>
+          <a href="Guest/guest-dashboard.html" class="dest-link" tabindex="-1"></a>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- FRAME 3 — Properties (off-white) -->
-  <div class="stack-frame" id="frame-properties">
-    <section class="stack-panel sp-cream" id="properties">
-      <div class="container">
-        <div class="section-header reveal-fade-up">
-          <span class="section-tag">Handpicked</span>
-          <h2 class="section-title">Featured <em>Properties</em></h2>
-          <p class="section-desc">Each property is vetted for quality, comfort, and extraordinary views.</p>
-        </div>
-        <div class="properties-grid">
-
-          <article class="prop-card reveal-fade-up" style="--delay:0s">
-            <div class="prop-card-img-wrap">
-              <img src="images/hunza_valley_chalet.png" alt="Alpine Chalet" class="prop-card-img" loading="lazy" />
-              <span class="prop-card-tag">Mountain View</span>
-              <button class="prop-card-save" aria-label="Save">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-              </button>
-            </div>
-            <div class="prop-card-body">
-              <div class="prop-card-meta">
-                <span class="prop-card-location">Karimabad, Hunza</span>
-                <span class="prop-card-rating"><svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11">
-                    <path
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg> 4.97</span>
-              </div>
-              <h3 class="prop-card-name">Alpine Chalet with Panoramic Views</h3>
-              <div class="prop-card-specs"><span>4 beds</span><span class="prop-dot">·</span><span>3 baths</span><span
-                  class="prop-dot">·</span><span>8 guests</span></div>
-              <div class="prop-card-footer">
-                <div class="prop-card-price"><span class="price-num">$320</span><span class="price-unit">/ night</span>
-                </div>
-                <a href="Guest/guest-dashboard.html" class="btn-book-card">Book Now</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="prop-card reveal-fade-up" style="--delay:.12s">
-            <div class="prop-card-img-wrap">
-              <img src="images/skardu_lake_villa.png" alt="Lake Villa" class="prop-card-img" loading="lazy" />
-              <span class="prop-card-tag prop-card-tag--blue">Lake Front</span>
-              <button class="prop-card-save" aria-label="Save">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-              </button>
-            </div>
-            <div class="prop-card-body">
-              <div class="prop-card-meta">
-                <span class="prop-card-location">Upper Kachura, Skardu</span>
-                <span class="prop-card-rating"><svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11">
-                    <path
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg> 4.93</span>
-              </div>
-              <h3 class="prop-card-name">Lakefront Villa with Private Dock</h3>
-              <div class="prop-card-specs"><span>5 beds</span><span class="prop-dot">·</span><span>4 baths</span><span
-                  class="prop-dot">·</span><span>10 guests</span></div>
-              <div class="prop-card-footer">
-                <div class="prop-card-price"><span class="price-num">$450</span><span class="price-unit">/ night</span>
-                </div>
-                <a href="Guest/guest-dashboard.html" class="btn-book-card">Book Now</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="prop-card reveal-fade-up" style="--delay:.24s">
-            <div class="prop-card-img-wrap">
-              <img src="images/luxury_mountain_cabin.png" alt="Cabin" class="prop-card-img" loading="lazy" />
-              <span class="prop-card-tag prop-card-tag--gold">Luxury</span>
-              <button class="prop-card-save" aria-label="Save">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-              </button>
-            </div>
-            <div class="prop-card-body">
-              <div class="prop-card-meta">
-                <span class="prop-card-location">Murree Hills</span>
-                <span class="prop-card-rating"><svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11">
-                    <path
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg> 4.88</span>
-              </div>
-              <h3 class="prop-card-name">Forest Luxury Cabin, Private Trail</h3>
-              <div class="prop-card-specs"><span>3 beds</span><span class="prop-dot">·</span><span>2 baths</span><span
-                  class="prop-dot">·</span><span>6 guests</span></div>
-              <div class="prop-card-footer">
-                <div class="prop-card-price"><span class="price-num">$210</span><span class="price-unit">/ night</span>
-                </div>
-                <a href="Guest/guest-dashboard.html" class="btn-book-card">Book Now</a>
-              </div>
-            </div>
-          </article>
-
-        </div>
-        <div class="section-cta reveal-fade-up">
-          <a href="Guest/guest-dashboard.html" class="btn-outline">View All Properties</a>
-        </div>
+  <!-- ══════════════════════════════════════
+       SECTION 4 — PROPERTIES (100vh)
+  ═══════════════════════════════════════ -->
+  <section class="section props-section" id="properties">
+    <div class="container">
+      <div class="sh-wrap">
+        <span class="section-tag" data-gsap="fade-up">Handpicked</span>
+        <h2 class="section-title" data-gsap="fade-up" data-gsap-delay="0.08">Featured <em>Properties</em></h2>
+        <p class="section-desc" data-gsap="fade-up" data-gsap-delay="0.16">Each property is vetted for quality, comfort, and extraordinary views.</p>
       </div>
-    </section>
-  </div>
+      <div class="props-grid">
 
-  <!-- FRAME 4 — Why (white) -->
-  <div class="stack-frame" id="frame-why">
-    <section class="stack-panel sp-white" id="why">
-      <div class="container">
-        <div class="why-inner">
-          <div class="why-text reveal-slide-right">
-            <span class="section-tag">Why Choose Us</span>
-            <h2 class="section-title">Luxury that feels <em>effortless</em></h2>
-            <p class="section-desc">We go beyond a booking platform. Every property is hand-verified, every host is
-              trusted, every experience designed to exceed expectations.</p>
-            <ul class="why-list">
-              <li class="why-item reveal-fade-up" style="--delay:.1s">
-                <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg></span>
-                <div><strong>Verified Hosts &amp; Properties</strong>
-                  <p>Every listing is in-person verified by our curation team.</p>
-                </div>
-              </li>
-              <li class="why-item reveal-fade-up" style="--delay:.2s">
-                <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  </svg></span>
-                <div><strong>Secure Booking &amp; Payments</strong>
-                  <p>Bank-grade encryption protects every transaction.</p>
-                </div>
-              </li>
-              <li class="why-item reveal-fade-up" style="--delay:.3s">
-                <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  </svg></span>
-                <div><strong>24/7 Concierge Support</strong>
-                  <p>Our team is always ready to make your stay seamless.</p>
-                </div>
-              </li>
-            </ul>
-            <a href="auth.html" class="btn-primary reveal-fade-up" style="--delay:.4s">Start Exploring</a>
+        <article class="prop-card" data-gsap="slide-up" data-gsap-delay="0.0">
+          <div class="prop-img-wrap">
+            <img src="images/hunza_valley_chalet.png" alt="Alpine Chalet" loading="lazy"/>
+            <span class="prop-tag">Mountain View</span>
+            <button class="prop-save" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           </div>
-          <div class="why-visual reveal-slide-left">
-            <div class="why-img-wrap">
-              <img src="images/islamabad_penthouse.png" alt="Premium penthouse" class="why-img" loading="lazy" />
-              <div class="why-img-badge">
-                <span class="badge-icon">★</span>
-                <div><strong>Premium Verified</strong><span>Top 5% of Listings</span></div>
-              </div>
+          <div class="prop-body">
+            <div class="prop-meta"><span class="prop-loc">Karimabad, Hunza</span><span class="prop-rating"><svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 4.97</span></div>
+            <h3 class="prop-name">Alpine Chalet with Panoramic Views</h3>
+            <div class="prop-specs"><span>4 beds</span><span class="dot">·</span><span>3 baths</span><span class="dot">·</span><span>8 guests</span></div>
+            <div class="prop-footer">
+              <div class="prop-price"><span class="p-num">$320</span><span class="p-unit">/ night</span></div>
+              <a href="Guest/guest-dashboard.html" class="btn-book">Book Now</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prop-card" data-gsap="slide-up" data-gsap-delay="0.12">
+          <div class="prop-img-wrap">
+            <img src="images/skardu_lake_villa.png" alt="Lake Villa" loading="lazy"/>
+            <span class="prop-tag tag-blue">Lake Front</span>
+            <button class="prop-save" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="prop-body">
+            <div class="prop-meta"><span class="prop-loc">Upper Kachura, Skardu</span><span class="prop-rating"><svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 4.93</span></div>
+            <h3 class="prop-name">Lakefront Villa with Private Dock</h3>
+            <div class="prop-specs"><span>5 beds</span><span class="dot">·</span><span>4 baths</span><span class="dot">·</span><span>10 guests</span></div>
+            <div class="prop-footer">
+              <div class="prop-price"><span class="p-num">$450</span><span class="p-unit">/ night</span></div>
+              <a href="Guest/guest-dashboard.html" class="btn-book">Book Now</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prop-card" data-gsap="slide-up" data-gsap-delay="0.24">
+          <div class="prop-img-wrap">
+            <img src="images/luxury_mountain_cabin.png" alt="Cabin" loading="lazy"/>
+            <span class="prop-tag tag-gold">Luxury</span>
+            <button class="prop-save" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="prop-body">
+            <div class="prop-meta"><span class="prop-loc">Murree Hills</span><span class="prop-rating"><svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 4.88</span></div>
+            <h3 class="prop-name">Forest Luxury Cabin, Private Trail</h3>
+            <div class="prop-specs"><span>3 beds</span><span class="dot">·</span><span>2 baths</span><span class="dot">·</span><span>6 guests</span></div>
+            <div class="prop-footer">
+              <div class="prop-price"><span class="p-num">$210</span><span class="p-unit">/ night</span></div>
+              <a href="Guest/guest-dashboard.html" class="btn-book">Book Now</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+      <div class="view-all" data-gsap="fade-up" data-gsap-delay="0.3">
+        <a href="Guest/guest-dashboard.html" class="btn-outline">View All Properties</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 5 — WHY VEYRA (100vh)
+  ═══════════════════════════════════════ -->
+  <section class="section why-section" id="why">
+    <div class="container">
+      <div class="why-grid">
+        <div class="why-text">
+          <span class="section-tag" data-gsap="fade-left">Why Choose Us</span>
+          <h2 class="section-title" data-gsap="fade-left" data-gsap-delay="0.1">Luxury that feels <em>effortless</em></h2>
+          <p class="section-desc" data-gsap="fade-left" data-gsap-delay="0.18">Every property hand-verified, every host trusted, every experience designed to exceed expectations.</p>
+          <ul class="why-list">
+            <li class="why-item" data-gsap="fade-left" data-gsap-delay="0.24">
+              <span class="wi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+              <div><strong>Verified Hosts &amp; Properties</strong><p>Every listing is in-person verified by our team.</p></div>
+            </li>
+            <li class="why-item" data-gsap="fade-left" data-gsap-delay="0.32">
+              <span class="wi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+              <div><strong>Secure Booking &amp; Payments</strong><p>Bank-grade encryption on every transaction.</p></div>
+            </li>
+            <li class="why-item" data-gsap="fade-left" data-gsap-delay="0.40">
+              <span class="wi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+              <div><strong>24/7 Concierge Support</strong><p>Our team makes every stay seamless.</p></div>
+            </li>
+          </ul>
+          <a href="auth.html" class="btn-primary" data-gsap="fade-left" data-gsap-delay="0.48">Start Exploring</a>
+        </div>
+        <div class="why-img-col" data-gsap="fade-right">
+          <div class="why-img-wrap">
+            <img src="images/islamabad_penthouse.png" alt="Premium penthouse" loading="lazy"/>
+            <div class="why-badge">
+              <span class="wb-star">★</span>
+              <div><strong>Premium Verified</strong><span>Top 5% of Listings</span></div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- FRAME 5 — CTA (dark) -->
-  <div class="stack-frame stack-frame--last" id="frame-cta">
-    <section class="stack-panel sp-cta" id="cta">
-      <div class="cta-inner">
-        <div class="cta-orb cta-orb--1" aria-hidden="true"></div>
-        <div class="cta-orb cta-orb--2" aria-hidden="true"></div>
-        <div class="container" style="position:relative;z-index:1">
-          <div class="cta-content reveal-fade-up">
-            <span class="section-tag section-tag--light">List with us</span>
-            <h2 class="cta-title">Own a property in<br><em>Pakistan's finest locations?</em></h2>
-            <p class="cta-desc">Join 200+ verified hosts and start earning from your property today.</p>
-            <div class="cta-actions">
-              <a href="auth.html" class="btn-cta-primary">Become a Host</a>
-              <a href="#" class="btn-cta-outline">Learn More →</a>
-            </div>
-          </div>
+  <!-- ══════════════════════════════════════
+       SECTION 6 — CTA (100vh, dark)
+  ═══════════════════════════════════════ -->
+  <section class="section cta-section" id="cta">
+    <div class="cta-orb cta-o1" aria-hidden="true"></div>
+    <div class="cta-orb cta-o2" aria-hidden="true"></div>
+    <div class="container">
+      <div class="cta-content">
+        <span class="section-tag tag-light" data-gsap="fade-up">List with us</span>
+        <h2 class="cta-title" data-gsap="fade-up" data-gsap-delay="0.1">
+          Own a property in<br><em>Pakistan's finest locations?</em>
+        </h2>
+        <p class="cta-desc" data-gsap="fade-up" data-gsap-delay="0.2">
+          Join 200+ verified hosts and start earning from your property today.
+        </p>
+        <div class="cta-btns" data-gsap="fade-up" data-gsap-delay="0.3">
+          <a href="auth.html" class="btn-cta-primary">Become a Host</a>
+          <a href="#"         class="btn-cta-ghost">Learn More →</a>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- ══════════════ FOOTER (normal flow, below stacks) ══════════════ -->
+  <!-- ══════════════ FOOTER ══════════════ -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand">
           <a href="#" class="nav-logo" style="color:var(--white)">
-            <span class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg></span>
+            <span class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
             <span class="nav-logo-text">veyra</span>
           </a>
           <p class="footer-tagline">Pakistan's premier luxury property platform.</p>
           <div class="footer-socials">
-            <a href="#" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="2" width="20" height="20" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></a>
-            <a href="#" class="footer-social" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8">
-                <path
-                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z" />
-                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none" />
-              </svg></a>
-            <a href="#" class="footer-social" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-              </svg></a>
+            <a href="#" class="fsoc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" class="fsoc" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" class="fsoc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
           </div>
         </div>
-        <div class="footer-nav-group">
-          <h4 class="footer-nav-title">Explore</h4>
-          <ul class="footer-nav-list">
-            <li><a href="#">Destinations</a></li>
-            <li><a href="#">Properties</a></li>
-            <li><a href="#">Luxury Chalets</a></li>
-            <li><a href="#">Lakefront Villas</a></li>
-          </ul>
-        </div>
-        <div class="footer-nav-group">
-          <h4 class="footer-nav-title">Company</h4>
-          <ul class="footer-nav-list">
-            <li><a href="#">About VEYRA</a></li>
-            <li><a href="#">Become a Host</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Press</a></li>
-          </ul>
-        </div>
-        <div class="footer-nav-group">
-          <h4 class="footer-nav-title">Support</h4>
-          <ul class="footer-nav-list">
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Cancellation Policy</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-          </ul>
-        </div>
+        <div class="fnav"><h4 class="fnav-title">Explore</h4><ul><li><a href="#">Destinations</a></li><li><a href="#">Properties</a></li><li><a href="#">Luxury Chalets</a></li><li><a href="#">Lakefront Villas</a></li></ul></div>
+        <div class="fnav"><h4 class="fnav-title">Company</h4><ul><li><a href="#">About VEYRA</a></li><li><a href="#">Become a Host</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+        <div class="fnav"><h4 class="fnav-title">Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Cancellation Policy</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 VEYRA Property. All rights reserved.</span>
-        <span class="footer-bottom-right">Built with care in Pakistan 🇵🇰</span>
+        <span>Built with care in Pakistan 🇵🇰</span>
       </div>
     </div>
   </footer>
 
   <script src="landing.js"></script>
 </body>
-
 </html>
