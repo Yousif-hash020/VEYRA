@@ -154,8 +154,8 @@ function initScrollAnimations() {
 
     ScrollTrigger.create({
       trigger: el,
-      start:   'top 88%',
-      end:     'top 8%',
+      start:   'top 84%',
+      end:     'top 16%',
 
       /* ── Scroll DOWN: enter from below ── */
       onEnter() {
@@ -183,6 +183,16 @@ function initScrollAnimations() {
         gsap.to(el, { ...exitDown(type), duration: EXIT_DUR, ease: EXIT_EASE, overwrite: true });
       },
     });
+  });
+}
+
+function initScrollRefresh() {
+  const refresh = () => requestAnimationFrame(() => ScrollTrigger.refresh());
+
+  window.addEventListener('load', refresh, { once: true });
+
+  document.querySelectorAll('img').forEach((img) => {
+    if (!img.complete) img.addEventListener('load', refresh, { once: true });
   });
 }
 
@@ -361,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroAnimations();
 
   // All scroll-driven animations
+  initScrollRefresh();
   initScrollAnimations();
   initCounters();
   initNavPill();
